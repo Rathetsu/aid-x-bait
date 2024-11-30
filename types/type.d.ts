@@ -20,3 +20,19 @@ declare interface InputFieldProps extends TextInputProps {
 	className?: string;
 	lowercase?: boolean;
 }
+
+declare interface GoogleInputProps {
+	icon?: string;
+	initialLocation?: string;
+	containerStyle?: string;
+	textInputBackgroundColor?: string;
+	handlePress: ({
+		latitude,
+		longitude,
+		address,
+	}: {
+		latitude: number;
+		longitude: number;
+		address: string;
+	}) => void;
+}

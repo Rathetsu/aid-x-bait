@@ -1,12 +1,12 @@
 import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Home = () => {
+const Appointments = () => {
 	return (
 		<SafeAreaView>
-			<Text>Home</Text>
+			<Text>Appointments</Text>
 		</SafeAreaView>
 	);
 };
 
-export default Home;
+export default Appointments;
