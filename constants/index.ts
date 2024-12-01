@@ -78,23 +78,23 @@ export const icons = {
 export const onboarding = [
 	{
 		id: 1,
-		title: "The perfect ride is just a tap away!",
+		title: "Your recovery journey starts here!",
 		description:
-			"Your journey begins with EzzRide. Find your ideal ride effortlessly.",
+			"Experience personalized care and guidance for a stronger, healthier you.",
 		image: images.onboarding1,
 	},
 	{
 		id: 2,
-		title: "Best car in your hands with EzzRide",
+		title: "Expert care at your fingertips",
 		description:
-			"Discover the convenience of finding your perfect ride with EzzRide",
+			"Access tailored physical therapy programs designed to meet your unique needs.",
 		image: images.onboarding2,
 	},
 	{
 		id: 3,
-		title: "Your ride, your way. Let's go!",
+		title: "Move better, feel better, live better",
 		description:
-			"Enter your destination, sit back, and let us take care of the rest.",
+			"Track your progress, follow your routines, and achieve your wellness goals.",
 		image: images.onboarding3,
 	},
 ];

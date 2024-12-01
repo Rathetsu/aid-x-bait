@@ -16,6 +16,7 @@ const SignUp = () => {
 
 	const [form, setForm] = useState({
 		name: "",
+		phone: "",
 		email: "",
 		password: "",
 	});
@@ -30,6 +31,7 @@ const SignUp = () => {
 		if (!isLoaded) return;
 		try {
 			await signUp.create({
+				phoneNumber: form.phone,
 				emailAddress: form.email.toLowerCase(),
 				password: form.password,
 			});
@@ -101,6 +103,15 @@ const SignUp = () => {
 						onChangeText={(value) => setForm({ ...form, name: value })}
 					/>
 					<InputField
+						label="Phone"
+						placeholder="Enter phone"
+						icon={icons.email}
+						textContentType="telephoneNumber"
+						keyboardType="phone-pad"
+						value={form.phone}
+						onChangeText={(value) => setForm({ ...form, phone: value })}
+					/>
+					<InputField
 						label="Email"
 						placeholder="Enter email"
 						icon={icons.email}
@@ -119,7 +130,7 @@ const SignUp = () => {
 						onChangeText={(value) => setForm({ ...form, password: value })}
 					/>
 					<CustomButton
-						title="Sign Up"
+						title="Create an Account"
 						onPress={onSignUpPress}
 						className="mt-6"
 					/>
@@ -129,7 +140,7 @@ const SignUp = () => {
 						className="text-lg text-center text-general-200 mt-10"
 					>
 						Already have an account?{" "}
-						<Text className="text-primary-500">Log In</Text>
+						<Text className="text-primary-500">Login</Text>
 					</Link>
 				</View>
 				<ReactNativeModal
