@@ -7,14 +7,14 @@ import Swiper from "react-native-swiper";
 import CustomButton from "@/components/CustomButton";
 import { onboarding } from "@/constants";
 
-const Home = () => {
+const Onboarding = () => {
 	const swiperRef = useRef<Swiper>(null);
 	const [activeIndex, setActiveIndex] = useState(0);
 
 	const isLastSlide = activeIndex === onboarding.length - 1;
 
 	return (
-		<SafeAreaView className="flex h-full items-center justify-between bg-red-500">
+		<SafeAreaView className="flex h-full items-center justify-between bg-white">
 			<TouchableOpacity
 				onPress={() => {
 					router.replace("/(auth)/sign-up");
@@ -67,4 +67,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default Onboarding;
