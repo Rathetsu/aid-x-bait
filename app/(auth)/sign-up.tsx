@@ -31,12 +31,13 @@ const SignUp = () => {
 		if (!isLoaded) return;
 		try {
 			await signUp.create({
-				phoneNumber: form.phone,
+				// phoneNumber: "+12015550100", // testing phone number - code: 424242
+				phoneNumber: `+2${form.phone}`, // +2 for Egypt
 				emailAddress: form.email.toLowerCase(),
 				password: form.password,
 			});
-			await signUp.prepareEmailAddressVerification({
-				strategy: "email_code",
+			await signUp.preparePhoneNumberVerification({
+				strategy: "phone_code",
 			});
 			setVerification({
 				...verification,
@@ -51,24 +52,26 @@ const SignUp = () => {
 	const onPressVerify = async () => {
 		if (!isLoaded) return;
 		try {
-			const completeSignUp = await signUp.attemptEmailAddressVerification({
+			const completeSignUp = await signUp.attemptPhoneNumberVerification({
 				code: verification.code,
 			});
 			if (completeSignUp.status === "complete") {
-				await fetchAPI("/(api)/user", {
-					method: "POST",
-					body: JSON.stringify({
-						name: form.name,
-						email: form.email.toLowerCase(),
-						clerkId: completeSignUp.createdUserId,
-						password: form.password,
-					}),
-				});
+				// TODO: Add user to database
+				// await fetchAPI("/(api)/user", {
+				// 	method: "POST",
+				// 	body: JSON.stringify({
+				// 		name: form.name,
+				// 		email: form.email.toLowerCase(),
+				// 		clerkId: completeSignUp.createdUserId,
+				// 		password: form.password,
+				// 	}),
+				// });
 				await setActive({ session: completeSignUp.createdSessionId });
 				setVerification({
 					...verification,
 					state: "success",
 				});
+				setShowSuccessModal(true);
 			} else {
 				setVerification({
 					...verification,
@@ -106,7 +109,7 @@ const SignUp = () => {
 					/>
 					<InputField
 						label="Phone"
-						placeholder="Enter phone"
+						placeholder="011 2345 6789"
 						icon={icons.email}
 						textContentType="telephoneNumber"
 						keyboardType="phone-pad"
@@ -146,22 +149,16 @@ const SignUp = () => {
 					</Link>
 				</View>
 				<ReactNativeModal
-					isVisible={verification.state === "pending"}
-					// onBackdropPress={() =>
-					//   setVerification({ ...verification, state: "default" })
-					// }
-					onModalHide={() => {
-						if (verification.state === "success") {
-							setShowSuccessModal(true);
-						}
-					}}
+					isVisible={
+						verification.state === "pending" || verification.state === "failed"
+					}
 				>
 					<View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
 						<Text className="font-JakartaExtraBold text-2xl mb-2">
 							Verification
 						</Text>
 						<Text className="font-Jakarta mb-5">
-							We've sent a verification code to {form.email.toLowerCase()}.
+							We've sent a verification code to +2{form.phone}.
 						</Text>
 						<InputField
 							label={"Code"}
@@ -179,7 +176,7 @@ const SignUp = () => {
 							</Text>
 						)}
 						<CustomButton
-							title="Verify Email"
+							title="Verify Phone number"
 							onPress={onPressVerify}
 							className="mt-5 bg-success-500"
 						/>
