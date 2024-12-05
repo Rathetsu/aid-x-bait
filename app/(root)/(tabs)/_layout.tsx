@@ -10,7 +10,7 @@ const TabIcon = ({
 	focused: boolean;
 	source: ImageSourcePropType;
 }) => (
-	<View className="flex justify-center items-center">
+	<View className="flex justify-center items-center mb-4">
 		<Image
 			source={source}
 			tintColor={focused ? "#49869F" : "#888"}
@@ -59,7 +59,7 @@ const Layout = () => {
 					title: "Videos",
 					headerShown: false,
 					tabBarIcon: ({ focused }) => (
-						<TabIcon focused={focused} source={icons.profile} />
+						<TabIcon focused={focused} source={icons.videos} />
 					),
 				}}
 			/>
@@ -69,7 +69,7 @@ const Layout = () => {
 					title: "Appointments",
 					headerShown: false,
 					tabBarIcon: ({ focused }) => (
-						<TabIcon focused={focused} source={icons.profile} />
+						<TabIcon focused={focused} source={icons.appointments} />
 					),
 				}}
 			/>
@@ -79,7 +79,7 @@ const Layout = () => {
 					title: "More",
 					headerShown: false,
 					tabBarIcon: ({ focused }) => (
-						<TabIcon focused={focused} source={icons.profile} />
+						<TabIcon focused={focused} source={icons.more} />
 					),
 				}}
 			/>

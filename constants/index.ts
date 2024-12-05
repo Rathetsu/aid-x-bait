@@ -1,3 +1,4 @@
+import appointments from "@/assets/icons/appointments.png";
 import arrowDown from "@/assets/icons/arrow-down.png";
 import arrowUp from "@/assets/icons/arrow-up.png";
 import backArrow from "@/assets/icons/back-arrow.png";
@@ -14,6 +15,7 @@ import list from "@/assets/icons/list.png";
 import lock from "@/assets/icons/lock.png";
 import map from "@/assets/icons/map.png";
 import marker from "@/assets/icons/marker.png";
+import more from "@/assets/icons/more.png";
 import out from "@/assets/icons/out.png";
 import person from "@/assets/icons/person.png";
 import pin from "@/assets/icons/pin.png";
@@ -24,6 +26,7 @@ import selectedMarker from "@/assets/icons/selected-marker.png";
 import star from "@/assets/icons/star.png";
 import target from "@/assets/icons/target.png";
 import to from "@/assets/icons/to.png";
+import videos from "@/assets/icons/videos.png";
 import xpin from "@/assets/icons/xpin.png";
 import check from "@/assets/images/check.png";
 import getStarted from "@/assets/images/get-started.png";
@@ -58,6 +61,9 @@ export const icons = {
 	eyeOpen,
 	google,
 	home,
+	videos,
+	appointments,
+	more,
 	list,
 	lock,
 	map,
