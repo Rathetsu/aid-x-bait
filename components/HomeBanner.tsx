@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	Image,
+	FlatList,
+	TouchableOpacity,
+	NativeSyntheticEvent,
+	NativeScrollEvent,
+} from "react-native";
 
 const HomeBanner = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,7 +34,7 @@ const HomeBanner = () => {
 		},
 	];
 
-	const handleScroll = (event) => {
+	const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const contentOffsetX = event.nativeEvent.contentOffset.x;
 		const index = Math.round(contentOffsetX / 300); // Assuming each item is 300px wide
 		setCurrentIndex(index);
