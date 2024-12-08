@@ -2,6 +2,8 @@ import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import HomeBanner from "@/components/HomeBanner";
+import ServiceStack from "@/components/ServiceStack";
+import { images } from "@/constants";
 
 const Home = () => {
 	return (
@@ -24,31 +26,9 @@ const Home = () => {
 					</TouchableOpacity>
 				</View>
 
-				{/* Banner */}
 				<HomeBanner />
 
-				{/* Services */}
-				<View className="mt-8">
-					<Text className="text-lg font-bold mb-4">Our Services</Text>
-					<View className="grid grid-cols-2 gap-4">
-						{[
-							{ name: "Home Visit", desc: "Book an appointment" },
-							{ name: "Video Consultation", desc: "Get Consultation Online" },
-							{ name: "Medical Store", desc: "Order Medicines" },
-							{ name: "Exercise Programs", desc: "Book an appointment" },
-						].map((service, index) => (
-							<TouchableOpacity
-								key={index}
-								className="bg-blue-50 p-4 rounded-lg"
-							>
-								<Text className="font-semibold text-blue-800">
-									{service.name}
-								</Text>
-								<Text className="text-sm text-blue-600">{service.desc}</Text>
-							</TouchableOpacity>
-						))}
-					</View>
-				</View>
+				<ServiceStack />
 
 				{/* Top Doctors */}
 				{/* <View className="mt-8">

@@ -50,7 +50,7 @@ const HomeBanner = () => {
 				onScroll={handleScroll}
 				keyExtractor={(item, index) => index.toString()}
 				renderItem={({ item }) => (
-					<View className="w-72 bg-blue-100 p-4 rounded-lg mr-4">
+					<View className="w-[91vw] bg-blue-100 p-4 rounded-lg mr-4">
 						<Text className="text-lg font-semibold text-blue-800">
 							{item.title}
 						</Text>
