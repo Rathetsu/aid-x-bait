@@ -19,7 +19,7 @@ import map from "@/assets/icons/map.png";
 import marker from "@/assets/icons/marker.png";
 import medicalStore from "@/assets/icons/medical-store.png";
 import more from "@/assets/icons/more.png";
-import onlineConsultation from "@/assets/icons/online-consultation.png";
+import onlineConsultation from "@/assets/icons/online-consultations.png";
 import out from "@/assets/icons/out.png";
 import person from "@/assets/icons/person.png";
 import pin from "@/assets/icons/pin.png";
