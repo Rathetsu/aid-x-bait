@@ -7,15 +7,19 @@ import checkmark from "@/assets/icons/check.png";
 import close from "@/assets/icons/close.png";
 import dollar from "@/assets/icons/dollar.png";
 import email from "@/assets/icons/email.png";
+import exerciseProgram from "@/assets/icons/exercise-programs.png";
 import eyeClosed from "@/assets/icons/eye-closed.png";
 import eyeOpen from "@/assets/icons/eye-open.png";
 import google from "@/assets/icons/google.png";
+import homeVisit from "@/assets/icons/home-visits.png";
 import home from "@/assets/icons/home.png";
 import list from "@/assets/icons/list.png";
 import lock from "@/assets/icons/lock.png";
 import map from "@/assets/icons/map.png";
 import marker from "@/assets/icons/marker.png";
+import medicalStore from "@/assets/icons/medical-store.png";
 import more from "@/assets/icons/more.png";
+import onlineConsultation from "@/assets/icons/online-consultation.png";
 import out from "@/assets/icons/out.png";
 import person from "@/assets/icons/person.png";
 import pin from "@/assets/icons/pin.png";
@@ -85,6 +89,10 @@ export const icons = {
 	target,
 	to,
 	xpin,
+	homeVisit,
+	onlineConsultation,
+	medicalStore,
+	exerciseProgram,
 };
 
 export const onboarding = [
