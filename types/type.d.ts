@@ -1,4 +1,8 @@
-import { TextInputProps, TouchableOpacityProps } from "react-native";
+import {
+	ImageSourcePropType,
+	TextInputProps,
+	TouchableOpacityProps,
+} from "react-native";
 
 declare interface ButtonProps extends TouchableOpacityProps {
 	title: string;
@@ -35,4 +39,18 @@ declare interface GoogleInputProps {
 		longitude: number;
 		address: string;
 	}) => void;
+}
+
+declare type ServicePath =
+	| "/(root)/home-visits"
+	| "/(root)/online-consultations"
+	| "/(root)/aidxbait-store"
+	| "/(root)/exercise-programs";
+
+declare interface Service {
+	name: string;
+	icon: ImageSourcePropType;
+	desc: string;
+	bg: ImageSourcePropType;
+	path: ServicePath;
 }

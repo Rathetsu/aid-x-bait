@@ -9,35 +9,36 @@ import {
 } from "react-native";
 
 import { images, icons } from "@/constants";
+import { Service } from "@/types/type";
 
 const ServiceStack = () => {
-	const services = [
+	const services: Service[] = [
 		{
 			name: "Home Visit",
 			icon: icons.homeVisit,
 			desc: "Book an appointment",
-			background: images.texturedCardBlue,
+			bg: images.texturedCardBlue,
 			path: "/(root)/home-visits",
 		},
 		{
 			name: "Online Consultation",
 			icon: icons.onlineConsultation,
 			desc: "Get Consultation Online",
-			background: images.texturedCardGreen,
+			bg: images.texturedCardGreen,
 			path: "/(root)/online-consultations",
 		},
 		{
-			name: "AidXBait Store",
+			name: "Our Store",
 			icon: icons.medicalStore,
-			desc: "Order Medical Equipment & Supplies",
-			background: images.texturedCardBlue,
+			desc: "Order Medical Supplies",
+			bg: images.texturedCardGreen,
 			path: "/(root)/aidxbait-store",
 		},
 		{
 			name: "Exercise Programs",
 			icon: icons.exerciseProgram,
 			desc: "Book an appointment",
-			background: images.texturedCardGreen,
+			bg: images.texturedCardBlue,
 			path: "/(root)/exercise-programs",
 		},
 	];
@@ -55,7 +56,7 @@ const ServiceStack = () => {
 					>
 						<View className="rounded-lg overflow-hidden shadow-md relative h-32">
 							<ImageBackground
-								source={service.background}
+								source={service.bg}
 								className="h-full w-full"
 								style={StyleSheet.absoluteFill}
 								resizeMode="cover"
