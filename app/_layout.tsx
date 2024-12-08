@@ -6,8 +6,10 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import { LogBox } from "react-native";
 import "../global.css";
+import { Provider } from "react-redux";
 
 import { tokenCache } from "@/lib/auth";
+import store from "@/store";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -43,15 +45,17 @@ export default function RootLayout() {
 	}
 
 	return (
-		<ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
-			<ClerkLoaded>
-				<Stack>
-					<Stack.Screen name="index" options={{ headerShown: false }} />
-					<Stack.Screen name="(auth)" options={{ headerShown: false }} />
-					<Stack.Screen name="(root)" options={{ headerShown: false }} />
-					<Stack.Screen name="+not-found" />
-				</Stack>
-			</ClerkLoaded>
-		</ClerkProvider>
+		<Provider store={store}>
+			<ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
+				<ClerkLoaded>
+					<Stack>
+						<Stack.Screen name="index" options={{ headerShown: false }} />
+						<Stack.Screen name="(auth)" options={{ headerShown: false }} />
+						<Stack.Screen name="(root)" options={{ headerShown: false }} />
+						<Stack.Screen name="+not-found" />
+					</Stack>
+				</ClerkLoaded>
+			</ClerkProvider>
+		</Provider>
 	);
 }

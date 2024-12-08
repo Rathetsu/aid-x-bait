@@ -24,8 +24,8 @@ const Header = ({ title }: { title: string }) => {
 	return (
 		<SafeAreaView className="flex-row items-center justify-between px-4 pt-3 bg-white border-b border-gray-200 h-auto">
 			{/* Back Button */}
-			<TouchableOpacity onPress={() => router.back()} className="p-2">
-				<Ionicons name="arrow-back" size={24} color="black" />
+			<TouchableOpacity onPress={() => router.back()} className="py-2 pr-2">
+				<Ionicons name="chevron-back" size={24} color="black" />
 			</TouchableOpacity>
 			{/* Title */}
 			<Text className="text-lg font-bold text-black flex-1 text-center">
