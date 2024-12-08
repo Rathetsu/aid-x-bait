@@ -1,26 +1,36 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {
+	View,
+	Text,
+	ImageBackground,
+	TouchableOpacity,
+	StyleSheet,
+} from "react-native";
 
-import { images } from "@/constants";
+import { images, icons } from "@/constants";
 
 const ServiceStack = () => {
 	const services = [
 		{
 			name: "Home Visit",
+			icon: icons.homeVisit,
 			desc: "Book an appointment",
 			background: images.texturedCardBlue,
 		},
 		{
 			name: "Video Consultation",
+			icon: icons.videoConsultation,
 			desc: "Get Consultation Online",
 			background: images.texturedCardGreen,
 		},
 		{
 			name: "Medical Store",
+			icon: icons.medicalStore,
 			desc: "Order Medicines",
 			background: images.texturedCardBlue,
 		},
 		{
 			name: "Exercise Programs",
+			icon: icons.exerciseProgram,
 			desc: "Book an appointment",
 			background: images.texturedCardGreen,
 		},
@@ -36,20 +46,20 @@ const ServiceStack = () => {
 						className="w-1/2 px-2 mb-4"
 						activeOpacity={0.8}
 					>
-						<View className="rounded-lg overflow-hidden shadow-lg relative h-36">
-							{/* Background Image */}
-							<Image
+						<View className="rounded-lg overflow-hidden shadow-md relative h-32">
+							<ImageBackground
 								source={service.background}
-								style={StyleSheet.absoluteFillObject}
+								className="h-full w-full"
+								style={StyleSheet.absoluteFill}
 								resizeMode="cover"
-							/>
-							{/* Text Overlay */}
-							<View className="absolute inset-0 p-4 justify-end bg-black/20">
-								<Text className="font-bold text-white text-base">
-									{service.name}
-								</Text>
-								<Text className="text-white text-sm mt-1">{service.desc}</Text>
-							</View>
+							>
+								<View className="absolute inset-0 p-4 flex justify-end bg-black/10">
+									<Text className="font-semibold text-white text-base">
+										{service.name}
+									</Text>
+									<Text className="text-white text-sm">{service.desc}</Text>
+								</View>
+							</ImageBackground>
 						</View>
 					</TouchableOpacity>
 				))}
