@@ -1,4 +1,5 @@
 import { useSignUp } from "@clerk/clerk-expo";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { Link, router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
@@ -113,7 +114,7 @@ const SignUp = () => {
 						<InputField
 							label="Phone"
 							placeholder="011 2345 6789"
-							icon={icons.email}
+							icon={icons.phone}
 							textContentType="telephoneNumber"
 							keyboardType="phone-pad"
 							value={form.phone}

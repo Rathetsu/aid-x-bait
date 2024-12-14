@@ -12,7 +12,7 @@ const SignIn = () => {
 	const { signIn, setActive, isLoaded } = useSignIn();
 
 	const [form, setForm] = useState({
-		email: "",
+		phone: "",
 		password: "",
 	});
 
@@ -21,7 +21,7 @@ const SignIn = () => {
 
 		try {
 			const signInAttempt = await signIn.create({
-				identifier: form.email,
+				identifier: `+2${form.phone}`,
 				password: form.password,
 			});
 
@@ -42,21 +42,24 @@ const SignIn = () => {
 		<ScrollView className="flex-1 bg-white">
 			<View className="flex-1 bg-white">
 				<View className="relative w-full h-[250px]">
-					<Image source={images.signUpCar} className="z-0 w-full h-[250px]" />
-					<Text className="text-2xl text-black font-JakartaSemiBold absolute bottom-5 left-5">
+					<Image
+						source={images.texturedBackground}
+						className="z-0 w-full h-[250px]"
+					/>
+					<Text className="text-2xl text-white font-JakartaSemiBold absolute bottom-5 left-5">
 						Welcome 👋
 					</Text>
 				</View>
 
 				<View className="p-5">
 					<InputField
-						label="Email"
-						placeholder="Enter email"
-						icon={icons.email}
-						textContentType="emailAddress"
+						label="Phone"
+						placeholder="Enter your phone numebr"
+						icon={icons.phone}
+						textContentType="telephoneNumber"
 						lowercase={true}
-						value={form.email}
-						onChangeText={(value) => setForm({ ...form, email: value })}
+						value={form.phone}
+						onChangeText={(value) => setForm({ ...form, phone: value })}
 					/>
 
 					<InputField
