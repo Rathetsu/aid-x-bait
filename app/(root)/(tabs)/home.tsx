@@ -1,18 +1,20 @@
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 
 import HomeBanner from "@/components/HomeBanner";
 import ServiceStack from "@/components/ServiceStack";
-import { images } from "@/constants";
 
 const Home = () => {
+	const user = useSelector((state: any) => state.user.user);
+	console.log(user);
 	return (
 		<SafeAreaView className="flex-1 bg-white">
 			<ScrollView className="px-4">
 				{/* Header */}
 				<View className="flex-row justify-between items-center mt-4">
 					<View>
-						<Text className="text-lg font-bold">Hi, Yosra Mohamed 👋</Text>
+						<Text className="text-lg font-bold">Hi, {user.firstName} 👋</Text>
 						<Text className="text-sm text-gray-500">How is your health?</Text>
 					</View>
 					<TouchableOpacity className="relative">

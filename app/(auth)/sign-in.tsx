@@ -2,11 +2,13 @@ import { useSignIn } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
 
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
+import { setUser } from "@/store/slices/userSlice";
 
 const SignIn = () => {
 	const { signIn, setActive, isLoaded } = useSignIn();
@@ -15,6 +17,8 @@ const SignIn = () => {
 		phone: "",
 		password: "",
 	});
+
+	const dispatch = useDispatch();
 
 	const onSignInPress = useCallback(async () => {
 		if (!isLoaded) return;
@@ -26,6 +30,16 @@ const SignIn = () => {
 			});
 
 			if (signInAttempt.status === "complete") {
+				console.log("firstName", signInAttempt.userData.firstName);
+				console.log("lastName", signInAttempt.userData.lastName);
+				const userData = {
+					firstName: signInAttempt.userData.firstName,
+					lastName: signInAttempt.userData.lastName,
+					imageUrl: signInAttempt.userData.imageUrl,
+					phone: signInAttempt.identifier,
+					sessionId: signInAttempt.createdSessionId,
+				};
+				dispatch(setUser(userData));
 				await setActive({ session: signInAttempt.createdSessionId });
 				router.replace("/(root)/(tabs)/home");
 			} else {
@@ -36,7 +50,7 @@ const SignIn = () => {
 			console.log(JSON.stringify(err, null, 2));
 			Alert.alert("Error", err.errors[0].longMessage);
 		}
-	}, [isLoaded, form, signIn, setActive]);
+	}, [isLoaded, form, signIn, setActive, dispatch]);
 
 	return (
 		<ScrollView className="flex-1 bg-white">
