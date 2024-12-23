@@ -1,6 +1,6 @@
-import { useSignIn } from "@clerk/clerk-expo";
+import { useSignIn, useUser } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { useDispatch } from "react-redux";
 
@@ -12,12 +12,14 @@ import { setUser } from "@/store/slices/userSlice";
 
 const SignIn = () => {
 	const { signIn, setActive, isLoaded } = useSignIn();
+	const { user, isLoaded: isUserLoaded } = useUser();
 
 	const [form, setForm] = useState({
 		phone: "",
 		password: "",
 	});
 
+	const [signInComplete, setSignInComplete] = useState(false);
 	const dispatch = useDispatch();
 
 	const onSignInPress = useCallback(async () => {
@@ -30,18 +32,8 @@ const SignIn = () => {
 			});
 
 			if (signInAttempt.status === "complete") {
-				console.log("firstName", signInAttempt.userData.firstName);
-				console.log("lastName", signInAttempt.userData.lastName);
-				const userData = {
-					firstName: signInAttempt.userData.firstName,
-					lastName: signInAttempt.userData.lastName,
-					imageUrl: signInAttempt.userData.imageUrl,
-					phone: signInAttempt.identifier,
-					sessionId: signInAttempt.createdSessionId,
-				};
-				dispatch(setUser(userData));
 				await setActive({ session: signInAttempt.createdSessionId });
-				router.replace("/(root)/(tabs)/home");
+				setSignInComplete(true);
 			} else {
 				console.log(JSON.stringify(signInAttempt, null, 2));
 				Alert.alert("Error", "Log in failed. Please try again.");
@@ -50,7 +42,22 @@ const SignIn = () => {
 			console.log(JSON.stringify(err, null, 2));
 			Alert.alert("Error", err.errors[0].longMessage);
 		}
-	}, [isLoaded, form, signIn, setActive, dispatch]);
+	}, [isLoaded, signIn, form.phone, form.password, setActive]);
+
+	useEffect(() => {
+		if (signInComplete && isUserLoaded && user) {
+			const userData = {
+				firstName: user.firstName,
+				lastName: user.lastName,
+				email: user.emailAddresses[0].emailAddress,
+				imageUrl: user.imageUrl,
+				phone: user.primaryPhoneNumber?.phoneNumber,
+			};
+
+			dispatch(setUser(userData));
+			router.replace("/(root)/(tabs)/home");
+		}
+	}, [signInComplete, isUserLoaded, user, dispatch]);
 
 	return (
 		<ScrollView className="flex-1 bg-white">

@@ -1,18 +1,21 @@
-import { useSignUp } from "@clerk/clerk-expo";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import { useSignUp, useUser } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { ReactNativeModal } from "react-native-modal";
+import { useDispatch } from "react-redux";
 
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
-import { fetchAPI } from "@/lib/fetch";
+// import { fetchAPI } from "@/lib/fetch";
+import { setUser } from "@/store/slices/userSlice";
 
 const SignUp = () => {
 	const { isLoaded, signUp, setActive } = useSignUp();
+	const { user, isLoaded: isUserLoaded } = useUser();
+	const [signUpComplete, setSignUpComplete] = useState(false);
 	const [showSuccessModal, setShowSuccessModal] = useState(false);
 
 	const [form, setForm] = useState({
@@ -27,6 +30,8 @@ const SignUp = () => {
 		error: "",
 		code: "",
 	});
+
+	const dispatch = useDispatch();
 
 	const onSignUpPress = async () => {
 		if (!isLoaded) return;
@@ -72,6 +77,7 @@ const SignUp = () => {
 					...verification,
 					state: "success",
 				});
+				setSignUpComplete(true);
 			} else {
 				setVerification({
 					...verification,
@@ -87,6 +93,21 @@ const SignUp = () => {
 			});
 		}
 	};
+
+	useEffect(() => {
+		if (signUpComplete && isUserLoaded && user) {
+			const userData = {
+				firstName: user.firstName,
+				lastName: user.lastName,
+				email: user.emailAddresses[0].emailAddress,
+				imageUrl: user.imageUrl,
+				phone: user.primaryPhoneNumber?.phoneNumber,
+			};
+
+			dispatch(setUser(userData));
+			router.replace("/(root)/(tabs)/home");
+		}
+	}, [signUpComplete, isUserLoaded, user, dispatch]);
 
 	return (
 		<>
