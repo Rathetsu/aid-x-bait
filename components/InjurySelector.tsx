@@ -17,7 +17,7 @@ const InjurySelector = () => {
 			{/* Header */}
 			<View className="flex-row justify-between items-center mb-4">
 				<View className="flex-row items-center">
-					<View className="w-1.5 h-5 bg-orange-500 mr-2" />
+					<View className="w-1 h-7 bg-orange-500 mr-2" />
 					<Text className="text-lg font-semibold text-gray-800">
 						Browse by injury
 					</Text>

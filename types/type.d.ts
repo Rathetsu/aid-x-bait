@@ -54,3 +54,20 @@ declare interface Service {
 	bg: ImageSourcePropType;
 	path: ServicePath;
 }
+
+export interface Product {
+	id: number;
+	title: string;
+	price: string;
+	image: string;
+	isBestSeller?: boolean;
+}
+
+export interface ProductGridProps {
+	title: string;
+	products: Product[];
+}
+
+export interface ProductCardProps {
+	product: Product;
+}
