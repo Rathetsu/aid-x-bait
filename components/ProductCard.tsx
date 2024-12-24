@@ -3,9 +3,16 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { ProductCardProps } from "@/types/type";
 
-const ProductCard = ({ product, isForRent, isWide }: ProductCardProps) => {
+const ProductCard = ({
+	product,
+	isForRent,
+	isWide,
+	onClick,
+}: ProductCardProps & { onClick?: () => void }) => {
 	return (
-		<View
+		<TouchableOpacity
+			onPress={onClick}
+			activeOpacity={0.8}
 			className={`${
 				isWide ? "w-[60vw]" : "w-[44vw]"
 			} bg-white rounded-lg shadow-md overflow-hidden mb-4`}
@@ -83,7 +90,7 @@ const ProductCard = ({ product, isForRent, isWide }: ProductCardProps) => {
 					</View>
 				)}
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 };
 

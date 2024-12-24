@@ -58,10 +58,18 @@ declare interface Service {
 export interface Product {
 	id: number;
 	title: string;
-	price: string;
+	originalPrice: string;
+	discountedPrice: string;
 	image: string;
+	images: string[];
 	isBestSeller?: boolean;
+	rating: {
+		value: number;
+		count: number;
+	};
+	description: string;
 	duration?: string;
+	tags: string[];
 }
 
 export interface ProductGridProps {

@@ -10,34 +10,70 @@ const productArray = [
 	{
 		id: 1,
 		title: "Adjustable Knee Brace",
-		price: "150 L.E",
+		originalPrice: "250",
+		discountedPrice: "200",
 		image: images.kneebrace,
+		images: [images.kneebrace],
 		isBestSeller: false,
-		duration: "1 Week",
+		rating: {
+			value: 4.3,
+			count: 3,
+		},
+		description:
+			"This is a high-quality knee brace designed for superior support during physical therapy.",
+		duration: "3 Months",
+		tags: ["Knee", "Brace", "Adjustable"],
 	},
 	{
 		id: 2,
 		title: "Compression Shoulder Brace",
-		price: "180 L.E",
+		originalPrice: "200 L.E",
+		discountedPrice: "180 L.E",
 		image: images.shoulderbrace,
+		images: [images.shoulderbrace],
 		isBestSeller: false,
+		rating: {
+			value: 4.8,
+			count: 5,
+		},
+		description:
+			"Designed to provide support and stability for shoulder injuries and pain.",
 		duration: "Per day",
+		tags: ["Shoulder", "Brace", "Compression"],
 	},
 	{
 		id: 3,
 		title: "Lumbar Support Belt",
-		price: "150 L.E",
+		originalPrice: "300 L.E",
+		discountedPrice: "250 L.E",
 		image: images.lumbarbelt,
+		images: [images.lumbarbelt],
 		isBestSeller: true,
+		rating: {
+			value: 4.5,
+			count: 2,
+		},
+		description:
+			"High-quality lumbar support belt designed to provide relief for lower back pain.",
 		duration: "1 Month",
+		tags: ["Lumbar", "Support", "Belt"],
 	},
 	{
 		id: 4,
 		title: "Therapeutic Wrist Wrap",
-		price: "180 L.E",
+		originalPrice: "200 L.E",
+		discountedPrice: "180 L.E",
 		image: images.wristwrap,
+		images: [images.wristwrap],
 		isBestSeller: false,
+		rating: {
+			value: 4.2,
+			count: 3,
+		},
+		description:
+			"Designed to provide support and relief for wrist injuries and pain.",
 		duration: "Per day",
+		tags: ["Wrist", "Wrap", "Therapeutic"],
 	},
 ];
 
