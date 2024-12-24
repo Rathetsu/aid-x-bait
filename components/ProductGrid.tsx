@@ -6,7 +6,7 @@ import ProductCard from "./ProductCard";
 
 const ProductGrid = ({ title, products }: ProductGridProps) => {
 	return (
-		<View className="px-4 py-6 mt-4 bg-slate-200">
+		<View className="px-4 py-6 mt-4">
 			{/* Header */}
 			<View className="flex-row justify-between items-center mb-4">
 				<View className="flex-row items-center">
@@ -25,7 +25,7 @@ const ProductGrid = ({ title, products }: ProductGridProps) => {
 				keyExtractor={(item) => item.id.toString()}
 				numColumns={2}
 				columnWrapperStyle={{ justifyContent: "space-between" }}
-				contentContainerStyle={{ paddingBottom: 30 }}
+				nestedScrollEnabled
 			/>
 		</View>
 	);

@@ -61,6 +61,7 @@ export interface Product {
 	price: string;
 	image: string;
 	isBestSeller?: boolean;
+	duration?: string;
 }
 
 export interface ProductGridProps {
@@ -70,4 +71,6 @@ export interface ProductGridProps {
 
 export interface ProductCardProps {
 	product: Product;
+	isForRent?: boolean;
+	isWide?: boolean;
 }
