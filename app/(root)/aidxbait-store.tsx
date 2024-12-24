@@ -1,6 +1,15 @@
-import { Button, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
 
-const AidxbaitStore = () => {};
+import InjurySelector from "@/components/InjurySelector";
+import ScrollableBanner from "@/components/ScrollableBanner";
+
+const AidxbaitStore = () => {
+	return (
+		<View className="flex-1">
+			<ScrollableBanner />
+			<InjurySelector />
+		</View>
+	);
+};
 
 export default AidxbaitStore;

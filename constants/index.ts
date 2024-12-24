@@ -6,13 +6,17 @@ import chat from "@/assets/icons/chat.png";
 import checkmark from "@/assets/icons/check.png";
 import close from "@/assets/icons/close.png";
 import dollar from "@/assets/icons/dollar.png";
+import elbow from "@/assets/icons/elbow.png";
 import email from "@/assets/icons/email.png";
 import exerciseProgram from "@/assets/icons/exercise-programs.png";
 import eyeClosed from "@/assets/icons/eye-closed.png";
 import eyeOpen from "@/assets/icons/eye-open.png";
 import google from "@/assets/icons/google.png";
+import hip from "@/assets/icons/hip.png";
 import homeVisit from "@/assets/icons/home-visits.png";
 import home from "@/assets/icons/home.png";
+import knee from "@/assets/icons/knee.png";
+import leg from "@/assets/icons/leg.png";
 import list from "@/assets/icons/list.png";
 import lock from "@/assets/icons/lock.png";
 import map from "@/assets/icons/map.png";
@@ -28,6 +32,8 @@ import point from "@/assets/icons/point.png";
 import profile from "@/assets/icons/profile.png";
 import search from "@/assets/icons/search.png";
 import selectedMarker from "@/assets/icons/selected-marker.png";
+import shoulder from "@/assets/icons/shoulder.png";
+import spine from "@/assets/icons/spine.png";
 import star from "@/assets/icons/star.png";
 import target from "@/assets/icons/target.png";
 import to from "@/assets/icons/to.png";
@@ -95,6 +101,12 @@ export const icons = {
 	onlineConsultation,
 	medicalStore,
 	exerciseProgram,
+	knee,
+	leg,
+	hip,
+	shoulder,
+	elbow,
+	spine,
 };
 
 export const onboarding = [

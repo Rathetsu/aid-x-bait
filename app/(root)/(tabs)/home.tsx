@@ -2,7 +2,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 
-import HomeBanner from "@/components/HomeBanner";
+import ScrollableBanner from "@/components/ScrollableBanner";
 import ServiceStack from "@/components/ServiceStack";
 
 const Home = () => {
@@ -27,7 +27,7 @@ const Home = () => {
 					</TouchableOpacity>
 				</View>
 				{/* Banner */}
-				<HomeBanner />
+				<ScrollableBanner />
 				{/* Services */}
 				<ServiceStack />
 			</ScrollView>

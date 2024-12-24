@@ -9,7 +9,7 @@ import {
 	NativeScrollEvent,
 } from "react-native";
 
-const HomeBanner = () => {
+const ScrollableBanner = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const banners = [
@@ -80,4 +80,4 @@ const HomeBanner = () => {
 	);
 };
 
-export default HomeBanner;
+export default ScrollableBanner;
