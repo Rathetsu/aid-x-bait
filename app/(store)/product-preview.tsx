@@ -14,7 +14,7 @@ const ProductPreviewPage = () => {
 
 	return (
 		<>
-			{false ? (
+			{product ? (
 				<ProductPreview
 					product={product}
 					forRent={forRent}

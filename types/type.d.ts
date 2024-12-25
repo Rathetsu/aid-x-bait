@@ -61,6 +61,7 @@ declare interface Product {
 	description: string;
 	price: number;
 	discountedPrice?: number;
+	currency: string;
 	stock: number;
 	image: ImageSourcePropType;
 	images: ImageSourcePropType[];

@@ -59,13 +59,15 @@ const ProductCard = ({ product, isForRent, isWide }: ProductCardProps) => {
 							{product.discountedPrice !== product.price ? (
 								<>
 									<Text className="line-through text-gray-400">
-										{product.price}
+										{product.price} {product.currency}
 									</Text>
 									{"    "}
-									<Text>{product.discountedPrice}</Text>
+									<Text>
+										{product.discountedPrice} {product.currency}
+									</Text>
 								</>
 							) : (
-								product.price
+								product.price + " " + product.currency
 							)}
 						</Text>
 					</View>
@@ -102,13 +104,15 @@ const ProductCard = ({ product, isForRent, isWide }: ProductCardProps) => {
 							{product.discountedPrice !== product.price ? (
 								<>
 									<Text className="line-through text-gray-400">
-										{product.price}
+										{product.price} {product.currency}
 									</Text>
 									{"    "}
-									<Text>{product.discountedPrice}</Text>
+									<Text>
+										{product.discountedPrice} {product.currency}
+									</Text>
 								</>
 							) : (
-								product.price
+								product.price + " " + product.currency
 							)}
 						</Text>
 						<TouchableOpacity className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">

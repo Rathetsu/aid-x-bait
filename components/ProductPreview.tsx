@@ -10,6 +10,7 @@ import Carousel from "react-native-reanimated-carousel";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import HorizontalProductList from "@/components/HorizontalProductList";
+import { images as importedImages } from "@/constants";
 import { ProductPreviewProps } from "@/types/type";
 
 const ProductPreview = ({
@@ -17,7 +18,7 @@ const ProductPreview = ({
 	forRent,
 	freeShipping,
 }: ProductPreviewProps) => {
-	const { images, name, discountedPrice, price, rentTerm } = product;
+	const { images, name, discountedPrice, price, currency, rentTerm } = product;
 
 	// TODO: Get the calculated rating from the backend
 	const rating = { value: 4.5, count: 100 };
@@ -27,63 +28,95 @@ const ProductPreview = ({
 		const products = [
 			{
 				id: 1,
-				name: "Product 1",
-				description: "Product 1 description",
-				price: 100,
-				discountedPrice: 80,
-				stock: 10,
-				image: { uri: "https://picsum.photos/200" },
-				images: [{ uri: "https://picsum.photos/200" }],
+				name: "Adjustable Knee Brace",
+				description:
+					"This is a high-quality knee brace designed for superior support during physical therapy.",
+				price: 250,
+				discountedPrice: 200,
+				currency: "L.E",
+				stock: 15,
+				image: importedImages.kneebrace,
+				images: [importedImages.kneebrace, importedImages.shoulderbrace],
 				categoryId: 1,
-				isBestSeller: true,
+				isBestSeller: false,
 				isFeatured: false,
 				isAvailable: true,
-				isForRent: false,
-				rentTerm: "",
+				isForRent: true,
+				rentTerm: "3 Months",
 				isFreeShipping: true,
-				tags: ["knee", "belt"],
+				tags: ["knee", "brace", "adjustable"],
 			},
 			{
 				id: 2,
-				name: "Product 2",
-				description: "Product 2 description",
+				name: "Compression Shoulder Brace",
+				description:
+					"Designed to provide support and stability for shoulder injuries and pain.",
 				price: 200,
 				discountedPrice: 180,
-				stock: 5,
-				image: { uri: "https://picsum.photos/200" },
-				images: [{ uri: "https://picsum.photos/200" }],
+				currency: "L.E",
+				stock: 20,
+				image: importedImages.shoulderbrace,
+				images: [importedImages.shoulderbrace],
 				categoryId: 2,
 				isBestSeller: false,
 				isFeatured: true,
 				isAvailable: true,
 				isForRent: true,
-				rentTerm: "1 month",
+				rentTerm: "Per day",
 				isFreeShipping: false,
-				tags: ["leg", "elbow"],
+				tags: ["shoulder", "brace", "compression"],
 			},
 			{
 				id: 3,
-				name: "Product 3",
-				description: "Product 3 description",
+				name: "Lumbar Support Belt",
+				description:
+					"High-quality lumbar support belt designed to provide relief for lower back pain.",
 				price: 300,
-				discountedPrice: 280,
-				stock: 20,
-				image: { uri: "https://picsum.photos/200" },
-				images: [{ uri: "https://picsum.photos/200" }],
+				discountedPrice: 250,
+				currency: "L.E",
+				stock: 10,
+				image: importedImages.lumbarbelt,
+				images: [importedImages.lumbarbelt],
 				categoryId: 3,
-				isBestSeller: false,
+				isBestSeller: true,
 				isFeatured: false,
-				isAvailable: false,
-				isForRent: false,
-				rentTerm: "",
+				isAvailable: true,
+				isForRent: true,
+				rentTerm: "1 Month",
 				isFreeShipping: true,
-				tags: ["spine", "back"],
+				tags: ["lumbar", "support", "belt"],
+			},
+			{
+				id: 4,
+				name: "Therapeutic Wrist Wrap",
+				description:
+					"Designed to provide support and relief for wrist injuries and pain.",
+				price: 200,
+				discountedPrice: 180,
+				currency: "L.E",
+				stock: 25,
+				image: importedImages.wristwrap,
+				images: [importedImages.wristwrap],
+				categoryId: 4,
+				isBestSeller: false,
+				isFeatured: true,
+				isAvailable: true,
+				isForRent: true,
+				rentTerm: "Per day",
+				isFreeShipping: false,
+				tags: ["wrist", "wrap", "therapeutic"],
 			},
 		];
 
-		// return the products with at least one matching tag
-		const similarProducts = tags.flatMap((tag) =>
-			products.filter((product) => product.tags.includes(tag))
+		// return the products with at least one matching tag (excluding the current product)
+		const similarProducts = tags.reduce(
+			(acc, tag) => {
+				const similar = products.filter(
+					(p) => p.id !== product.id && p.tags.includes(tag)
+				);
+				return [...acc, ...similar];
+			},
+			[] as typeof products
 		);
 
 		return Array.from(new Set(similarProducts));
@@ -93,6 +126,11 @@ const ProductPreview = ({
 
 	return (
 		<ScrollView className="flex-1 bg-white">
+			{/* Back Button */}
+			<TouchableOpacity className="px-4 py-2 mt-4">
+				<Icon name="arrow-back-ios" size={24} color="#4A4A4A" />
+			</TouchableOpacity>
+
 			{/* Image Carousel */}
 			<Carousel
 				loop
@@ -102,13 +140,9 @@ const ProductPreview = ({
 				height={240}
 				data={images}
 				mode="parallax"
-				renderItem={({ item, animationValue }) => (
+				renderItem={({ item }) => (
 					<Image
-						source={
-							typeof product.image === "string"
-								? { uri: product.image }
-								: product.image
-						}
+						source={typeof item === "string" ? { uri: item } : item}
 						className="w-full h-64"
 						resizeMode="cover"
 					/>
@@ -132,11 +166,11 @@ const ProductPreview = ({
 			<View className="px-4 flex-row items-center justify-between mt-4">
 				<View>
 					<Text className="text-2xl font-bold text-orange-500">
-						{discountedPrice} L.E
+						{discountedPrice} {currency}
 					</Text>
 					{discountedPrice !== price && (
 						<Text className="text-sm text-gray-400 line-through">
-							{price} L.E
+							{price} {currency}
 						</Text>
 					)}
 				</View>
