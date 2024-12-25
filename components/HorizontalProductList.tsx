@@ -1,14 +1,10 @@
-import React from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 
 import { ProductGridProps } from "@/types/type";
 
 import ProductCard from "./ProductCard";
 
-const HorizontalProductList: React.FC<ProductGridProps> = ({
-	title,
-	products,
-}) => {
+const HorizontalProductList = ({ title, products }: ProductGridProps) => {
 	return (
 		<View className="px-4 mt-4">
 			{/* Header */}

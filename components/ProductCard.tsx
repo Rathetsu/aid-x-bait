@@ -1,20 +1,27 @@
+import { useRouter } from "expo-router";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { ProductCardProps } from "@/types/type";
 
-const ProductCard = ({
-	product,
-	isForRent,
-	isWide,
-	onClick,
-}: ProductCardProps & { onClick?: () => void }) => {
+const ProductCard = ({ product, isForRent, isWide }: ProductCardProps) => {
+	const router = useRouter();
+
+	const onProductCardClick = () => {
+		router.replace({
+			pathname: "/(store)/product-preview",
+			params: {
+				product: JSON.stringify(product),
+			},
+		});
+	};
+
 	return (
 		<TouchableOpacity
-			onPress={onClick}
+			onPress={onProductCardClick}
 			activeOpacity={0.8}
 			className={`${
-				isWide ? "w-[60vw]" : "w-[44vw]"
+				isWide ? "w-[65vw] h-64" : "w-[44vw]"
 			} bg-white rounded-lg shadow-md overflow-hidden mb-4`}
 		>
 			{/* Image Section */}
@@ -42,24 +49,34 @@ const ProductCard = ({
 
 			{/* Details Section */}
 			<View className="p-2">
-				{/* Title and Price Row (for isWide) */}
+				{/* Product Name and Price Row (for isWide) */}
 				{isWide ? (
-					<View className="flex-row items-center justify-between">
-						<Text className="text-sm font-semibold text-gray-800 flex-1">
-							{product.title}
+					<View className="flex-row items-center justify-between mb-4 gap-1">
+						<Text className="text-sm font-JakartaSemiBold text-gray-800 flex-1">
+							{product.name}
 						</Text>
-						<Text className="text-lg text-orange-500 font-medium">
-							{product.price}
+						<Text className="text-md text-orange-500 font-JakartaMedium">
+							{product.discountedPrice !== product.price ? (
+								<>
+									<Text className="line-through text-gray-400">
+										{product.price}
+									</Text>
+									{"    "}
+									<Text>{product.discountedPrice}</Text>
+								</>
+							) : (
+								product.price
+							)}
 						</Text>
 					</View>
 				) : (
-					// Title Only (standard layout)
+					// Product Name only (standard layout)
 					<Text className="text-sm font-semibold text-gray-800">
-						{product.title}
+						{product.name}
 					</Text>
 				)}
 
-				{/* Duration and Cart Row */}
+				{/* rent-term and Cart Row */}
 				{isForRent && (
 					<View
 						className={`flex-row items-center justify-between ${
@@ -69,7 +86,7 @@ const ProductCard = ({
 						<View className="flex-row items-center">
 							<Icon name="event" size={16} color="#4A4A4A" />
 							<Text className="ml-1 text-xs text-gray-600">
-								Duration: {product.duration}
+								Duration: {product.rentTerm}
 							</Text>
 						</View>
 						<TouchableOpacity className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -81,8 +98,18 @@ const ProductCard = ({
 				{/* Price and Cart Row for Standard Layout */}
 				{!isWide && (
 					<View className="flex-row items-center justify-between mt-1">
-						<Text className="text-lg text-orange-500 font-medium">
-							{product.price}
+						<Text className="text-md text-orange-500 font-JakartaMedium">
+							{product.discountedPrice !== product.price ? (
+								<>
+									<Text className="line-through text-gray-400">
+										{product.price}
+									</Text>
+									{"    "}
+									<Text>{product.discountedPrice}</Text>
+								</>
+							) : (
+								product.price
+							)}
 						</Text>
 						<TouchableOpacity className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
 							<Icon name="shopping-cart" size={16} color="#007AFF" />

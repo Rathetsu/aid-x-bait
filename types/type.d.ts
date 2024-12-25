@@ -55,30 +55,38 @@ declare interface Service {
 	path: ServicePath;
 }
 
-export interface Product {
+declare interface Product {
 	id: number;
-	title: string;
-	originalPrice: string;
-	discountedPrice: string;
-	image: string;
-	images: string[];
-	isBestSeller?: boolean;
-	rating: {
-		value: number;
-		count: number;
-	};
+	name: string;
 	description: string;
-	duration?: string;
+	price: number;
+	discountedPrice?: number;
+	stock: number;
+	image: ImageSourcePropType;
+	images: ImageSourcePropType[];
+	categoryId: number;
+	isBestSeller: boolean;
+	isFeatured: boolean;
+	isAvailable: boolean;
+	isForRent: boolean;
+	rentTerm: string;
+	isFreeShipping: boolean;
 	tags: string[];
 }
 
-export interface ProductGridProps {
+declare interface ProductGridProps {
 	title: string;
 	products: Product[];
 }
 
-export interface ProductCardProps {
+declare interface ProductCardProps {
 	product: Product;
 	isForRent?: boolean;
 	isWide?: boolean;
+}
+
+declare interface ProductPreviewProps {
+	product: Product;
+	forRent?: boolean;
+	freeShipping?: boolean;
 }
