@@ -45,7 +45,7 @@ const ServiceStack = () => {
 
 	return (
 		<View className="mt-8 px-4">
-			<Text className="text-lg font-bold mb-4">Our Services</Text>
+			<Text className="text-lg font-JakartaBold mb-4">Our Services</Text>
 			<View className="flex-row flex-wrap -mx-2">
 				{services.map((service, index) => (
 					<TouchableOpacity
@@ -68,7 +68,7 @@ const ServiceStack = () => {
 										resizeMode="contain"
 									/>
 									<View>
-										<Text className="font-semibold text-white text-base">
+										<Text className="font-JakartaSemiBold text-white text-base">
 											{service.name}
 										</Text>
 										<Text className="text-white text-sm">{service.desc}</Text>

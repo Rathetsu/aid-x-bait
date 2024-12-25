@@ -4,6 +4,7 @@ const Layout = () => {
 	return (
 		<Stack>
 			<Stack.Screen name="product-preview" options={{ headerShown: false }} />
+			<Stack.Screen name="cart" options={{ headerShown: false }} />
 		</Stack>
 	);
 };

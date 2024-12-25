@@ -28,7 +28,7 @@ const Header = ({ title }: { title: string }) => {
 				<Ionicons name="chevron-back" size={24} color="black" />
 			</TouchableOpacity>
 			{/* Title */}
-			<Text className="text-lg font-bold text-black flex-1 text-center">
+			<Text className="text-lg font-JakartaBold text-black flex-1 text-center">
 				{title}
 			</Text>
 			{/* Cart and Search Icons */}

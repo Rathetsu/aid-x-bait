@@ -73,7 +73,7 @@ const ProductCard = ({ product, isForRent, isWide }: ProductCardProps) => {
 					</View>
 				) : (
 					// Product Name only (standard layout)
-					<Text className="text-sm font-semibold text-gray-800">
+					<Text className="text-sm font-JakartaSemiBold text-gray-800">
 						{product.name}
 					</Text>
 				)}

@@ -11,10 +11,14 @@ const HorizontalProductList = ({ title, products }: ProductGridProps) => {
 			<View className="flex-row justify-between items-center mb-4">
 				<View className="flex-row items-center">
 					<View className="w-1 h-7 bg-orange-500 mr-2" />
-					<Text className="text-lg font-semibold text-gray-800">{title}</Text>
+					<Text className="text-lg font-JakartaSemiBold text-gray-800">
+						{title}
+					</Text>
 				</View>
 				<TouchableOpacity>
-					<Text className="text-orange-500 text-sm font-medium">See More</Text>
+					<Text className="text-orange-500 text-sm font-JakartaMedium">
+						See More
+					</Text>
 				</TouchableOpacity>
 			</View>
 

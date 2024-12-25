@@ -51,12 +51,14 @@ const ScrollableBanner = () => {
 				keyExtractor={(item, index) => index.toString()}
 				renderItem={({ item }) => (
 					<View className="w-[91vw] bg-blue-100 p-4 rounded-lg mr-4 h-36">
-						<Text className="text-lg font-semibold text-blue-800">
+						<Text className="text-lg font-JakartaSemiBold text-blue-800">
 							{item.title}
 						</Text>
 						<Text className="text-sm text-blue-600">{item.description}</Text>
 						<TouchableOpacity className="w-[30vw] items-center mt-3 bg-blue-600 px-4 py-2 rounded-lg">
-							<Text className="text-white font-medium">{item.buttonText}</Text>
+							<Text className="text-white font-JakartaMedium">
+								{item.buttonText}
+							</Text>
 						</TouchableOpacity>
 						<Image
 							source={{ uri: item.image }}

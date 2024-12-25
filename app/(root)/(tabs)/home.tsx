@@ -13,7 +13,9 @@ const Home = () => {
 				{/* Header */}
 				<View className="flex-row justify-between items-center mt-4">
 					<View>
-						<Text className="text-lg font-bold">Hi, {user?.firstName} 👋</Text>
+						<Text className="text-lg font-JakartaBold">
+							Hi, {user?.firstName} 👋
+						</Text>
 						<Text className="text-sm text-gray-500">How is your health?</Text>
 					</View>
 					<TouchableOpacity className="relative">
