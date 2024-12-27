@@ -94,8 +94,10 @@ declare interface ProductPreviewProps {
 
 declare interface CartItem {
 	id: number;
+	product_id: number;
 	name: string;
 	price: number;
+	currency: string;
 	quantity: number;
 }
 

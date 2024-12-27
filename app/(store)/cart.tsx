@@ -38,7 +38,9 @@ const Cart: FC = () => {
 		<View className="flex-row justify-between items-center border-b border-gray-200 py-2">
 			<View>
 				<Text className="text-lg font-medium">{item.name}</Text>
-				<Text className="text-gray-500">{item.price} E.L</Text>
+				<Text className="text-gray-500">
+					{item.price} {item.currency}
+				</Text>
 			</View>
 			<View className="flex-row items-center space-x-2">
 				<TouchableOpacity
