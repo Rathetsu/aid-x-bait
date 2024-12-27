@@ -91,3 +91,17 @@ declare interface ProductPreviewProps {
 	forRent?: boolean;
 	freeShipping?: boolean;
 }
+
+declare interface CartItem {
+	id: number;
+	name: string;
+	price: number;
+	quantity: number;
+}
+
+declare interface CartState {
+	items: CartItem[];
+	discountCode: string;
+	discountAmount: number;
+	deliveryFee: number;
+}

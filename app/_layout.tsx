@@ -9,7 +9,7 @@ import "../global.css";
 import { Provider } from "react-redux";
 
 import { tokenCache } from "@/lib/auth";
-import store from "@/store";
+import { store } from "@/store";
 
 SplashScreen.preventAutoHideAsync();
 

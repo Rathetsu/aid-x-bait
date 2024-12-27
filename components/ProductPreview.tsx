@@ -230,14 +230,14 @@ const ProductPreview = ({
 				{/* Rent Term & Free Shipping */}
 				<View className="flex-row gap-x-3 mt-4">
 					{/* Duration */}
-					{true && (
+					{forRent && (
 						<View className="flex-row items-center bg-gray-100 px-4 py-2 rounded-md">
 							<MaterialIcons name="event" size={16} color="#4A4A4A" />
 							<Text className="ml-2 text-sm text-gray-700">{`Duration: ${rentTerm}`}</Text>
 						</View>
 					)}
 					{/* Free Shipping */}
-					{true && (
+					{freeShipping && (
 						<View className="flex-row items-center bg-orange-100 px-4 py-2 rounded-md">
 							<MaterialIcons name="local-shipping" size={16} color="#F97316" />
 							<Text className="ml-2 text-sm text-orange-600">
