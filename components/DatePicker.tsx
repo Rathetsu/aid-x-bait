@@ -1,11 +1,21 @@
-import { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+	View,
+	Text,
+	ScrollView,
+	TouchableOpacity,
+	Modal,
+	Button,
+} from "react-native";
+import CalendarPicker from "react-native-calendar-picker";
 
 import { DatePickerDate } from "@/types/type";
 
 const DatePicker = () => {
 	const [selectedDate, setSelectedDate] = useState<string | null>(null);
 	const [dates, setDates] = useState<DatePickerDate[]>([]);
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [manualDate, setManualDate] = useState<Date | null>(null);
 
 	// Next 15 days starting from tomorrow
 	const generateDates = (): DatePickerDate[] => {
@@ -30,9 +40,30 @@ const DatePicker = () => {
 		setDates(generateDates());
 	}, []);
 
+	const handleDateChange = (date: Date) => {
+		if (date) {
+			setManualDate(date);
+			setSelectedDate(
+				`${date.getFullYear()}-${(date.getMonth() + 1)
+					.toString()
+					.padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`
+			);
+		}
+		setIsModalVisible(false);
+	};
+
 	return (
 		<View className="mb-6">
-			<Text className="text-lg font-bold text-black">Select Date</Text>
+			<View className="flex-row justify-between">
+				<Text className="text-lg font-JakartaBold text-black">Select Date</Text>
+				<TouchableOpacity
+					onPress={() => setIsModalVisible(true)}
+					className="self-end"
+				>
+					<Text className="text-orange-500 font-JakartaBold">Set Manually</Text>
+				</TouchableOpacity>
+			</View>
+
 			<ScrollView horizontal className="mt-2">
 				{dates.map((date) => (
 					<TouchableOpacity
@@ -56,6 +87,31 @@ const DatePicker = () => {
 					</TouchableOpacity>
 				))}
 			</ScrollView>
+
+			{/* Date Picker Modal */}
+			<Modal
+				animationType="fade"
+				// transparent
+				visible={isModalVisible}
+				onRequestClose={() => setIsModalVisible(false)}
+			>
+				<View className="flex-1 justify-center items-center">
+					<View className="m-5 bg-white rounded-2xl p-9 items-center shadow-lg shadow-black/25">
+						<Text className="text-lg font-JakartaBold mb-4">Pick a Date</Text>
+						<CalendarPicker
+							value={manualDate || new Date()}
+							minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
+							onDateChange={handleDateChange}
+							showDayStragglers
+						/>
+						<Button
+							title="Close"
+							onPress={() => setIsModalVisible(false)}
+							color="#FF5722"
+						/>
+					</View>
+				</View>
+			</Modal>
 		</View>
 	);
 };
