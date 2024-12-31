@@ -6,7 +6,6 @@ import {
 	TextInput,
 	FlatList,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import {
@@ -35,12 +34,14 @@ const Cart: FC = () => {
 		[subtotal, discountAmount, deliveryFee]
 	);
 
+	const currency = items[0]?.currency;
+
 	const renderItem = ({ item }: { item: CartItem }) => (
 		<View className="flex-row justify-between items-center border-b border-gray-200 py-2">
 			<View>
 				<Text className="text-lg font-medium">{item.name}</Text>
 				<Text className="text-gray-500">
-					{item.price} {item.currency}
+					{item.price} {currency}
 				</Text>
 			</View>
 			<View className="flex-row items-center gap-x-2">
@@ -65,14 +66,14 @@ const Cart: FC = () => {
 	);
 
 	return (
-		<SafeAreaView className="flex-1 p-4 bg-white">
-			{/* Header */}
-			<View className="flex-row justify-between items-center">
-				<Text className="text-xl font-semibold">Cart</Text>
-				<Text className="text-blue-500">{items.length} Items</Text>
-			</View>
-
+		<View className="flex-1 p-4 bg-white">
 			{/* Product List */}
+			<View className="flex-row items-center">
+				<View className="w-1 h-7 bg-orange-500 mr-2" />
+				<Text className="text-lg font-JakartaSemiBold text-gray-800">
+					Products
+				</Text>
+			</View>
 			<FlatList
 				data={items}
 				keyExtractor={(item: CartItem) => item.id.toString()}
@@ -110,20 +111,26 @@ const Cart: FC = () => {
 				<Text className="text-lg font-medium">Payment Summary</Text>
 				<View className="flex-row justify-between mt-2">
 					<Text className="text-gray-500">Subtotal</Text>
-					<Text>{subtotal} E.L</Text>
+					<Text>
+						{subtotal} {currency}
+					</Text>
 				</View>
 				<View className="flex-row justify-between mt-2">
 					<Text className="text-gray-500">Coupon Discount</Text>
-					<Text>{discountAmount} E.L</Text>
+					<Text>
+						{discountAmount} {currency}
+					</Text>
 				</View>
 				<View className="flex-row justify-between mt-2">
 					<Text className="text-gray-500">Delivery Fee</Text>
-					<Text>{deliveryFee} E.L</Text>
+					<Text>
+						{deliveryFee} {currency}
+					</Text>
 				</View>
 				<View className="flex-row justify-between mt-4">
 					<Text className="text-lg font-semibold">Total Amount</Text>
 					<Text className="text-blue-500 text-lg font-semibold">
-						{totalAmount} E.L
+						{totalAmount} {currency}
 					</Text>
 				</View>
 			</View>
@@ -132,7 +139,7 @@ const Cart: FC = () => {
 			<TouchableOpacity className="bg-blue-500 mt-4 py-3 rounded flex-row justify-center">
 				<Text className="text-white text-lg font-medium">Check Out</Text>
 			</TouchableOpacity>
-		</SafeAreaView>
+		</View>
 	);
 };
 
