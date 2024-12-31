@@ -1,12 +1,7 @@
-import { Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import BookingModule from "@/components/BookingModule";
 
 const HomeVisits = () => {
-	return (
-		<SafeAreaView>
-			<Text>HomeVisits</Text>
-		</SafeAreaView>
-	);
+	return <BookingModule />;
 };
 
 export default HomeVisits;
