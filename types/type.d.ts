@@ -107,3 +107,8 @@ declare interface CartState {
 	discountAmount: number;
 	deliveryFee: number;
 }
+
+declare interface DatePickerDate {
+	day: string;
+	date: string;
+}

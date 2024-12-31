@@ -10,52 +10,14 @@ import {
 } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
-const dates = [
-	{ day: "Sun", date: "05" },
-	{ day: "Mon", date: "06" },
-	{ day: "Tue", date: "07" },
-	{ day: "Wed", date: "08" },
-	{ day: "Thu", date: "09" },
-	{ day: "Fri", date: "10" },
-	{ day: "Sat", date: "11" },
-];
+import DatePicker from "./DatePicker";
 
 const BookingModule: React.FC = () => {
-	const [selectedDate, setSelectedDate] = useState<string>("Wed 08");
 	const [selectedSpeciality, setSelectedSpeciality] = useState<string>("Ortho");
 	const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("8-12AM");
 	const [isDropdownInFocus, setIsDropdownInFocus] = useState<boolean>(false);
 	const [specialist, setSpecialist] = useState<string>("Male");
 	const [note, setNote] = useState<string>("");
-
-	const DatePicker = () => {
-		return (
-			<View className="mb-6">
-				<Text className="text-lg font-bold text-black">Select Date</Text>
-				<ScrollView horizontal className="mt-2">
-					{dates.map((date) => (
-						<TouchableOpacity
-							key={date.date}
-							className={`px-4 py-2 mx-2 my-4 rounded-lg ${
-								selectedDate === date.date
-									? "bg-primary-400 text-white"
-									: "bg-gray-200"
-							}`}
-							onPress={() => setSelectedDate(date.date)}
-						>
-							<Text
-								className={`text-sm ${
-									selectedDate === date.date ? "text-white" : "text-gray-600"
-								}`}
-							>
-								{date.day} {date.date}
-							</Text>
-						</TouchableOpacity>
-					))}
-				</ScrollView>
-			</View>
-		);
-	};
 
 	const specialities = ["Ortho", "General", "Neuro"];
 	const timeSlots = ["8-12AM", "1-6PM", "7-11PM"];
