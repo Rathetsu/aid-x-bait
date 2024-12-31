@@ -4,8 +4,22 @@ import { CartState } from "@/types/type";
 
 const initialState: CartState = {
 	items: [
-		{ id: 1, name: "Medical Product", price: 200, quantity: 1 },
-		{ id: 2, name: "Medical Product", price: 200, quantity: 1 },
+		{
+			id: 1,
+			product_id: 1,
+			name: "Medical Product 1",
+			price: 200,
+			quantity: 1,
+			currency: "L.E",
+		},
+		{
+			id: 2,
+			product_id: 2,
+			name: "Medical Product 2",
+			price: 200,
+			quantity: 1,
+			currency: "L.E",
+		},
 	],
 	discountCode: "",
 	discountAmount: 45,

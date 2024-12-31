@@ -32,14 +32,24 @@ const Header = ({ title }: { title: string }) => {
 				{title}
 			</Text>
 			{/* Cart and Search Icons */}
-			<View className="flex-row space-x-4">
-				<TouchableOpacity className="p-2">
-					<Ionicons name="cart" size={24} color="black" />
-				</TouchableOpacity>
-				<TouchableOpacity className="p-2">
-					<Ionicons name="search" size={24} color="black" />
-				</TouchableOpacity>
-			</View>
+			{title === "AidxBait Store" ? (
+				<View className="flex-row space-x-4">
+					<TouchableOpacity
+						className="p-2"
+						onPress={() => router.push("/cart")}
+					>
+						<Ionicons name="cart" size={24} color="black" />
+					</TouchableOpacity>
+					<TouchableOpacity className="p-2">
+						<Ionicons
+							name="search"
+							size={24}
+							color="black"
+							onPress={() => router.push("/product-search")}
+						/>
+					</TouchableOpacity>
+				</View>
+			) : null}
 		</SafeAreaView>
 	);
 };

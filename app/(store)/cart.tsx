@@ -6,6 +6,7 @@ import {
 	TextInput,
 	FlatList,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import {
@@ -42,7 +43,7 @@ const Cart: FC = () => {
 					{item.price} {item.currency}
 				</Text>
 			</View>
-			<View className="flex-row items-center space-x-2">
+			<View className="flex-row items-center gap-x-2">
 				<TouchableOpacity
 					className="bg-blue-200 rounded-full px-2 py-1"
 					onPress={() => dispatch(decrementQuantity(item.id))}
@@ -64,7 +65,7 @@ const Cart: FC = () => {
 	);
 
 	return (
-		<View className="flex-1 p-4 bg-white">
+		<SafeAreaView className="flex-1 p-4 bg-white">
 			{/* Header */}
 			<View className="flex-row justify-between items-center">
 				<Text className="text-xl font-semibold">Cart</Text>
@@ -81,7 +82,7 @@ const Cart: FC = () => {
 
 			{/* Discount Code */}
 			<View className="mt-4 p-4 border border-dashed border-gray-300 rounded">
-				<Text className="text-lg font-medium">Do You Have Discount Code?!</Text>
+				<Text className="text-lg font-medium">Do You Have Discount Code?</Text>
 				<View className="flex-row items-center mt-2 space-x-2">
 					<TextInput
 						className="flex-1 border rounded px-3 py-2 border-gray-300"
@@ -131,7 +132,7 @@ const Cart: FC = () => {
 			<TouchableOpacity className="bg-blue-500 mt-4 py-3 rounded flex-row justify-center">
 				<Text className="text-white text-lg font-medium">Check Out</Text>
 			</TouchableOpacity>
-		</View>
+		</SafeAreaView>
 	);
 };
 
