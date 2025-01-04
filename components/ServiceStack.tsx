@@ -14,7 +14,7 @@ import { Service } from "@/types/type";
 const ServiceStack = () => {
 	const services: Service[] = [
 		{
-			name: "Home Visit",
+			name: "Home Visits",
 			icon: icons.homeVisit,
 			desc: "Book an appointment",
 			bg: images.texturedCardBlue,

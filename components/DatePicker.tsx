@@ -11,8 +11,10 @@ import CalendarPicker from "react-native-calendar-picker";
 
 import { DatePickerDate } from "@/types/type";
 
-const DatePicker = () => {
-	const [selectedDate, setSelectedDate] = useState<string | null>(null);
+const DatePicker = (
+	selectedDate: string | null,
+	setSelectedDate: (date: string | null) => void
+) => {
 	const [dates, setDates] = useState<DatePickerDate[]>([]);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [manualDate, setManualDate] = useState<Date | null>(null);
@@ -64,11 +66,12 @@ const DatePicker = () => {
 				</TouchableOpacity>
 			</View>
 
+			{/* Horizontal Days Scroll View */}
 			<ScrollView horizontal className="mt-2">
 				{dates.map((date) => (
 					<TouchableOpacity
 						key={date.date}
-						className={`px-4 py-2 mx-2 my-4 rounded-lg ${
+						className={`px-3 py-[10px] mx-2 my-4 rounded-lg ${
 							selectedDate === date.date
 								? "bg-primary-400 text-white"
 								: "bg-gray-200"
@@ -99,7 +102,12 @@ const DatePicker = () => {
 					<View className="m-5 bg-white rounded-2xl p-9 items-center shadow-lg shadow-black/25">
 						<Text className="text-lg font-JakartaBold mb-4">Pick a Date</Text>
 						<CalendarPicker
-							value={manualDate || new Date()}
+							selectedStartDate={
+								manualDate ||
+								new Date(new Date().setDate(new Date().getDate() + 1))
+							}
+							nextTitleStyle={{ color: "#FF5722" }}
+							previousTitleStyle={{ color: "#FF5722" }}
 							minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
 							onDateChange={handleDateChange}
 							showDayStragglers

@@ -18,6 +18,7 @@ import home from "@/assets/icons/home.png";
 import knee from "@/assets/icons/knee.png";
 import leg from "@/assets/icons/leg.png";
 import list from "@/assets/icons/list.png";
+import location from "@/assets/icons/location.png";
 import lock from "@/assets/icons/lock.png";
 import map from "@/assets/icons/map.png";
 import marker from "@/assets/icons/marker.png";
@@ -96,6 +97,7 @@ export const icons = {
 	marker,
 	out,
 	person,
+	location,
 	pin,
 	point,
 	profile,

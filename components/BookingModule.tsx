@@ -1,18 +1,22 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
 	View,
 	Text,
 	TouchableOpacity,
 	TextInput,
 	ScrollView,
+	Image,
 	StyleSheet,
 } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+import { icons } from "@/constants";
+
 import DatePicker from "./DatePicker";
 
 const BookingModule: React.FC = () => {
+	const [selectedDate, setSelectedDate] = useState<string | null>(null);
 	const [selectedSpeciality, setSelectedSpeciality] = useState<string>("Ortho");
 	const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("8-12AM");
 	const [isDropdownInFocus, setIsDropdownInFocus] = useState<boolean>(false);
@@ -24,21 +28,37 @@ const BookingModule: React.FC = () => {
 
 	return (
 		<ScrollView className="flex-1 bg-white p-4">
-			{/* Address Location */}
-			<View className="mb-6">
-				<Text className="text-lg font-bold text-black">Address Location</Text>
-				<View className="flex-row justify-between items-center mt-2">
-					<Text className="text-gray-600 flex-1">
-						El-Abour Bldgs 11 6th Floor.
-					</Text>
-					<TouchableOpacity>
-						<Text className="text-blue-500">Change</Text>
-					</TouchableOpacity>
+			{/* Address */}
+			<View className="gap-2 mb-6">
+				<View className="flex-row justify-between">
+					<View>
+						<Text className="text-lg font-JakartaSemiBold text-black mb-2">
+							Address
+						</Text>
+						<View className="flex flex-row items-center">
+							<Text className="text-gray-600">
+								El-Abour Bldgs 11 6th Floor.
+							</Text>
+							<TouchableOpacity>
+								<Text className="text-blue-500 ml-3">Change</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+
+					<Image
+						source={icons.location}
+						className="w-12 h-12"
+						resizeMode="contain"
+					/>
 				</View>
+				<View className="border-b border-gray-300 mb-6"></View>
 			</View>
 
 			{/* Select Date */}
-			<DatePicker />
+			<DatePicker
+				selectedDate={selectedDate}
+				setSelectedDate={setSelectedDate}
+			/>
 
 			{/* Booking Information */}
 			<View className="mb-6">

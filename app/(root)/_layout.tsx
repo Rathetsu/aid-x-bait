@@ -10,7 +10,7 @@ const getHeaderTitle = (name: string) => {
 		case "exercise-programs":
 			return "Exercise Programs";
 		case "home-visits":
-			return "Home Visits";
+			return "Book a visitation";
 		case "online-consultations":
 			return "Online Consultations";
 		default:
