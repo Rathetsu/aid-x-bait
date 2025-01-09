@@ -117,3 +117,15 @@ declare interface DatePickerProps {
 	selectedDate: string | null;
 	setSelectedDate: (date: string | null) => void;
 }
+
+declare interface LocationState {
+	userLatitude: number | null;
+	userLongitude: number | null;
+	userAddress: string | null;
+}
+
+declare interface LocationPayload {
+	latitude: number;
+	longitude: number;
+	address: string;
+}

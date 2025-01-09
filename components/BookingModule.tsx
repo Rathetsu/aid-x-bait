@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { useState } from "react";
 import {
 	View,
@@ -39,7 +40,7 @@ const BookingModule: React.FC = () => {
 							<Text className="text-gray-600">
 								El-Abour Bldgs 11 6th Floor.
 							</Text>
-							<TouchableOpacity>
+							<TouchableOpacity onPress={() => router.push("/(self)/address")}>
 								<Text className="text-blue-500 ml-3">Change</Text>
 							</TouchableOpacity>
 						</View>
