@@ -112,3 +112,8 @@ declare interface DatePickerDate {
 	day: string;
 	date: string;
 }
+
+declare interface DatePickerProps {
+	selectedDate: string | null;
+	setSelectedDate: (date: string | null) => void;
+}

@@ -9,12 +9,9 @@ import {
 } from "react-native";
 import CalendarPicker from "react-native-calendar-picker";
 
-import { DatePickerDate } from "@/types/type";
+import { DatePickerDate, DatePickerProps } from "@/types/type";
 
-const DatePicker = (
-	selectedDate: string | null,
-	setSelectedDate: (date: string | null) => void
-) => {
+const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
 	const [dates, setDates] = useState<DatePickerDate[]>([]);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [manualDate, setManualDate] = useState<Date | null>(null);
