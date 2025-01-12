@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "aidxbait.app"
-               BlueprintName = "aidxbait"
-               ReferencedContainer = "container:aidxbait.xcodeproj">
+               BuildableName = "AidXBait.app"
+               BlueprintName = "AidXBait"
+               ReferencedContainer = "container:AidXBait.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "aidxbaitTests.xctest"
-               BlueprintName = "aidxbaitTests"
-               ReferencedContainer = "container:aidxbait.xcodeproj">
+               BuildableName = "AidXBaitTests.xctest"
+               BlueprintName = "AidXBaitTests"
+               ReferencedContainer = "container:AidXBait.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "aidxbait.app"
-            BlueprintName = "aidxbait"
-            ReferencedContainer = "container:aidxbait.xcodeproj">
+            BuildableName = "AidXBait.app"
+            BlueprintName = "AidXBait"
+            ReferencedContainer = "container:AidXBait.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "aidxbait.app"
-            BlueprintName = "aidxbait"
-            ReferencedContainer = "container:aidxbait.xcodeproj">
+            BuildableName = "AidXBait.app"
+            BlueprintName = "AidXBait"
+            ReferencedContainer = "container:AidXBait.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

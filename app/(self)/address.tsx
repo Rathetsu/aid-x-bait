@@ -6,7 +6,7 @@ import Map from "@/components/Map";
 const address = () => {
 	return (
 		<SafeAreaView>
-			<Text>Address</Text>
+			<Text className="text-2xl font-bold text-center mt-4">Address</Text>
 			<Map />
 		</SafeAreaView>
 	);
