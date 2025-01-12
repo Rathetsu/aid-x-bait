@@ -1,12 +1,11 @@
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Map from "@/components/Map";
 
 const address = () => {
 	return (
-		<SafeAreaView>
-			<Text className="text-2xl font-bold text-center mt-4">Address</Text>
+		<SafeAreaView className="flex-1">
 			<Map />
 		</SafeAreaView>
 	);

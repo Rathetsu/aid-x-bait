@@ -1,8 +1,9 @@
 import * as Location from "expo-location";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
-import MapView, { PROVIDER_DEFAULT } from "react-native-maps";
+import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 
+import { icons } from "@/constants";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectLocation, setUserLocation } from "@/store/slices/locationSlice";
 
@@ -12,66 +13,52 @@ const Map = () => {
 	const [hasLocationPermission, setHasLocationPermission] = useState(false);
 
 	const dispatch = useAppDispatch();
-	const { userLatitude, userLongitude, userAddress } =
-		useAppSelector(selectLocation);
-
-	// useEffect(() => {
-	// 	const requestLocationPermission = async () => {
-	// 		try {
-	// 			// Request location permissions
-	// 			const { status } = await Location.requestForegroundPermissionsAsync();
-	// 			if (status !== "granted") {
-	// 				console.log("Status:", status);
-	// 				setHasLocationPermission(false);
-	// 				setError("Location permission denied");
-	// 				setLoading(false);
-	// 				return;
-	// 			}
-
-	// 			setHasLocationPermission(true);
-
-	// 			// Get current location
-	// 			const location = await Location.getCurrentPositionAsync();
-
-	// 			// Reverse geocode to get address
-	// 			const address = await Location.reverseGeocodeAsync({
-	// 				latitude: location.coords.latitude,
-	// 				longitude: location.coords.longitude,
-	// 			});
-
-	// 			// Update Redux store
-	// 			dispatch(
-	// 				setUserLocation({
-	// 					latitude: location.coords.latitude,
-	// 					longitude: location.coords.longitude,
-	// 					address:
-	// 						address?.[0]?.name && address?.[0]?.region
-	// 							? `${address[0].name}, ${address[0].region}`
-	// 							: "Unknown location",
-	// 				})
-	// 			);
-	// 		} catch (err: any) {
-	// 			setError(err.message || "Failed to fetch location");
-	// 		} finally {
-	// 			setLoading(false);
-	// 		}
-	// 	};
-
-	// 	requestLocationPermission();
-	// }, [dispatch]);
-
-	const checkPermissions = async () => {
-		const { status } = await Location.getForegroundPermissionsAsync();
-		console.log("Foreground Permissions:", status);
-
-		const { status: askStatus } =
-			await Location.requestForegroundPermissionsAsync();
-		console.log("Request Foreground Permissions:", askStatus);
-	};
+	const { userLatitude, userLongitude } = useAppSelector(selectLocation);
 
 	useEffect(() => {
-		checkPermissions();
-	}, []);
+		const requestLocationPermission = async () => {
+			try {
+				// Request location permissions
+				const { status } = await Location.requestForegroundPermissionsAsync();
+				if (status !== "granted") {
+					console.log("Status:", status);
+					setHasLocationPermission(false);
+					setError("Location permission denied");
+					setLoading(false);
+					return;
+				}
+
+				setHasLocationPermission(true);
+
+				// Get current location
+				const location = await Location.getCurrentPositionAsync();
+
+				// Reverse geocode to get address
+				const address = await Location.reverseGeocodeAsync({
+					latitude: location.coords.latitude,
+					longitude: location.coords.longitude,
+				});
+
+				// Update Redux store
+				dispatch(
+					setUserLocation({
+						latitude: location.coords.latitude,
+						longitude: location.coords.longitude,
+						address:
+							address?.[0]?.name && address?.[0]?.region
+								? `${address[0].name}, ${address[0].region}`
+								: "Unknown location",
+					})
+				);
+			} catch (err: any) {
+				setError(err.message || "Failed to fetch location");
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		requestLocationPermission();
+	}, [dispatch]);
 
 	const region = {
 		latitude: userLatitude || 0,
@@ -108,7 +95,7 @@ const Map = () => {
 	}
 
 	return (
-		<View style={{ flex: 1 }}>
+		<View className="flex-1">
 			<MapView
 				provider={PROVIDER_DEFAULT}
 				style={{ width: "100%", height: "100%", borderRadius: 20 }}
@@ -118,24 +105,26 @@ const Map = () => {
 				initialRegion={region}
 				showsUserLocation={true}
 				userInterfaceStyle="light"
-			></MapView>
-			{/* Display user address */}
-			{userAddress && (
-				<View
-					style={{
-						position: "absolute",
-						bottom: 20,
-						width: "100%",
-						alignItems: "center",
+				rotateEnabled={false}
+				toolbarEnabled={false}
+				loadingEnabled={true}
+				loadingIndicatorColor="#666666"
+				minZoomLevel={10}
+				maxZoomLevel={20}
+				cameraZoomRange={{
+					minCenterCoordinateDistance: 50,
+					maxCenterCoordinateDistance: 1000,
+				}}
+			>
+				<Marker
+					coordinate={{
+						latitude: userLatitude || 0,
+						longitude: userLongitude || 0,
 					}}
-				>
-					<Text
-						style={{ backgroundColor: "#fff", padding: 10, borderRadius: 8 }}
-					>
-						Address: {userAddress}
-					</Text>
-				</View>
-			)}
+					title="You are here"
+					image={icons.pin}
+				/>
+			</MapView>
 		</View>
 	);
 };
