@@ -1,16 +1,29 @@
+// Map.tsx
 import * as Location from "expo-location";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
-import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
+import MapView, {
+	Marker,
+	PROVIDER_DEFAULT,
+	MapPressEvent,
+} from "react-native-maps";
 
 import { icons } from "@/constants";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectLocation, setUserLocation } from "@/store/slices/locationSlice";
 
-const Map = () => {
+type MapProps = {
+	onMapPress: (latitude: number, longitude: number, address: string) => void;
+};
+
+const Map: React.FC<MapProps> = ({ onMapPress }) => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [hasLocationPermission, setHasLocationPermission] = useState(false);
+	const [markerLocation, setMarkerLocation] = useState<{
+		latitude: number;
+		longitude: number;
+	} | null>(null);
 
 	const dispatch = useAppDispatch();
 	const { userLatitude, userLongitude } = useAppSelector(selectLocation);
@@ -21,7 +34,6 @@ const Map = () => {
 				// Request location permissions
 				const { status } = await Location.requestForegroundPermissionsAsync();
 				if (status !== "granted") {
-					console.log("Status:", status);
 					setHasLocationPermission(false);
 					setError("Location permission denied");
 					setLoading(false);
@@ -50,6 +62,12 @@ const Map = () => {
 								: "Unknown location",
 					})
 				);
+
+				// Set the initial marker location
+				setMarkerLocation({
+					latitude: location.coords.latitude,
+					longitude: location.coords.longitude,
+				});
 			} catch (err: any) {
 				setError(err.message || "Failed to fetch location");
 			} finally {
@@ -59,6 +77,28 @@ const Map = () => {
 
 		requestLocationPermission();
 	}, [dispatch]);
+
+	const handlePress = async (event: MapPressEvent) => {
+		try {
+			const { latitude, longitude } = event.nativeEvent.coordinate;
+
+			// Reverse geocode to get the address
+			const address = await Location.reverseGeocodeAsync({
+				latitude,
+				longitude,
+			});
+
+			const formattedAddress =
+				address?.[0]?.name && address?.[0]?.region
+					? `${address[0].name}, ${address[0].region}`
+					: "Unknown location";
+
+			onMapPress(latitude, longitude, formattedAddress);
+			setMarkerLocation({ latitude, longitude });
+		} catch (err: any) {
+			console.error("Error during reverse geocoding:", err.message);
+		}
+	};
 
 	const region = {
 		latitude: userLatitude || 0,
@@ -78,7 +118,7 @@ const Map = () => {
 	if (error) {
 		return (
 			<View className="flex justify-center items-center w-full h-full">
-				<Text>Error z: {error}</Text>
+				<Text>Error: {error}</Text>
 			</View>
 		);
 	}
@@ -99,31 +139,19 @@ const Map = () => {
 			<MapView
 				provider={PROVIDER_DEFAULT}
 				style={{ width: "100%", height: "100%", borderRadius: 20 }}
-				tintColor="black"
-				mapType="mutedStandard"
-				showsPointsOfInterest={false}
 				initialRegion={region}
 				showsUserLocation={true}
-				userInterfaceStyle="light"
 				rotateEnabled={false}
-				toolbarEnabled={false}
-				loadingEnabled={true}
-				loadingIndicatorColor="#666666"
-				minZoomLevel={10}
-				maxZoomLevel={20}
-				cameraZoomRange={{
-					minCenterCoordinateDistance: 50,
-					maxCenterCoordinateDistance: 1000,
-				}}
+				onPress={handlePress} // Handle map taps
 			>
-				<Marker
-					coordinate={{
-						latitude: userLatitude || 0,
-						longitude: userLongitude || 0,
-					}}
-					title="You are here"
-					image={icons.pin}
-				/>
+				{/* Dynamically Render the Marker */}
+				{markerLocation && (
+					<Marker
+						coordinate={markerLocation}
+						title="Selected Location"
+						image={icons.pin}
+					/>
+				)}
 			</MapView>
 		</View>
 	);
