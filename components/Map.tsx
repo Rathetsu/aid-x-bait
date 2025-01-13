@@ -1,4 +1,3 @@
-// Map.tsx
 import * as Location from "expo-location";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
@@ -9,25 +8,22 @@ import MapView, {
 } from "react-native-maps";
 
 import { icons } from "@/constants";
-import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { selectLocation, setUserLocation } from "@/store/slices/locationSlice";
+import { useAppDispatch } from "@/store/hooks";
+import { setUserLocation } from "@/store/slices/locationSlice";
+import { MapProps } from "@/types/type";
 
-type MapProps = {
-	onMapPress: (latitude: number, longitude: number, address: string) => void;
-};
-
-const Map: React.FC<MapProps> = ({ onMapPress }) => {
+const Map: React.FC<MapProps> = ({ onMapPress, markerLocation }) => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [hasLocationPermission, setHasLocationPermission] = useState(false);
-	const [markerLocation, setMarkerLocation] = useState<{
+	const [startLocation, setStartLocation] = useState<{
 		latitude: number;
 		longitude: number;
 	} | null>(null);
 
 	const dispatch = useAppDispatch();
-	const { userLatitude, userLongitude } = useAppSelector(selectLocation);
 
+	// Request permissions and fetch user's current location
 	useEffect(() => {
 		const requestLocationPermission = async () => {
 			try {
@@ -42,10 +38,10 @@ const Map: React.FC<MapProps> = ({ onMapPress }) => {
 
 				setHasLocationPermission(true);
 
-				// Get current location
+				// Get the current location
 				const location = await Location.getCurrentPositionAsync();
 
-				// Reverse geocode to get address
+				// Reverse geocode to get the address
 				const address = await Location.reverseGeocodeAsync({
 					latitude: location.coords.latitude,
 					longitude: location.coords.longitude,
@@ -63,8 +59,8 @@ const Map: React.FC<MapProps> = ({ onMapPress }) => {
 					})
 				);
 
-				// Set the initial marker location
-				setMarkerLocation({
+				// Set the initial location
+				setStartLocation({
 					latitude: location.coords.latitude,
 					longitude: location.coords.longitude,
 				});
@@ -77,6 +73,16 @@ const Map: React.FC<MapProps> = ({ onMapPress }) => {
 
 		requestLocationPermission();
 	}, [dispatch]);
+
+	// Update `startLocation` whenever `markerLocation` changes
+	useEffect(() => {
+		if (markerLocation.latitude && markerLocation.longitude) {
+			setStartLocation({
+				latitude: markerLocation.latitude,
+				longitude: markerLocation.longitude,
+			});
+		}
+	}, [markerLocation]);
 
 	const handlePress = async (event: MapPressEvent) => {
 		try {
@@ -94,15 +100,15 @@ const Map: React.FC<MapProps> = ({ onMapPress }) => {
 					: "Unknown location";
 
 			onMapPress(latitude, longitude, formattedAddress);
-			setMarkerLocation({ latitude, longitude });
 		} catch (err: any) {
 			console.error("Error during reverse geocoding:", err.message);
 		}
 	};
 
+	// Set the region to `startLocation` or default if not available
 	const region = {
-		latitude: userLatitude || 0,
-		longitude: userLongitude || 0,
+		latitude: startLocation?.latitude || 0,
+		longitude: startLocation?.longitude || 0,
 		latitudeDelta: 0.01,
 		longitudeDelta: 0.01,
 	};
@@ -127,8 +133,8 @@ const Map: React.FC<MapProps> = ({ onMapPress }) => {
 		return (
 			<View className="flex justify-center items-center w-full h-full">
 				<Text>
-					AidXBait does not have permission to access your location. Please
-					enable location services from your device settings.
+					Location access is denied. Please enable location services from your
+					device settings.
 				</Text>
 			</View>
 		);
@@ -139,15 +145,18 @@ const Map: React.FC<MapProps> = ({ onMapPress }) => {
 			<MapView
 				provider={PROVIDER_DEFAULT}
 				style={{ width: "100%", height: "100%", borderRadius: 20 }}
-				initialRegion={region}
+				region={region} // Dynamically update the map region
 				showsUserLocation={true}
 				rotateEnabled={false}
-				onPress={handlePress} // Handle map taps
+				onPress={handlePress}
 			>
-				{/* Dynamically Render the Marker */}
-				{markerLocation && (
+				{/* Render the marker dynamically */}
+				{startLocation && (
 					<Marker
-						coordinate={markerLocation}
+						coordinate={{
+							latitude: startLocation.latitude,
+							longitude: startLocation.longitude,
+						}}
 						title="Selected Location"
 						image={icons.pin}
 					/>

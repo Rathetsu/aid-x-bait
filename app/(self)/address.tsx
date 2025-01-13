@@ -27,6 +27,10 @@ const Address = () => {
 	const [area, setArea] = useState(
 		userAddress ?? "Choose a location by tapping on the map"
 	);
+	const [markerLocation, setMarkerLocation] = useState({
+		latitude: 0,
+		longitude: 0,
+	});
 	const [buildingName, setBuildingName] = useState("");
 	const [apartmentNo, setApartmentNo] = useState("");
 	const [floor, setFloor] = useState("");
@@ -43,6 +47,20 @@ const Address = () => {
 		address: string
 	) => {
 		setArea(address);
+		setMarkerLocation({ latitude, longitude });
+	};
+
+	// Function to handle location from search input
+	const handleLocationSearch = (location: {
+		latitude: number;
+		longitude: number;
+		address: string;
+	}) => {
+		setArea(location.address);
+		setMarkerLocation({
+			latitude: location.latitude,
+			longitude: location.longitude,
+		});
 	};
 
 	return (
@@ -70,13 +88,13 @@ const Address = () => {
 					initialLocation={userAddress ?? "Choose your location"}
 					containerStyle="bg-neutral-100"
 					textInputBackgroundColor="#f5f5f5"
-					handlePress={(location) => setUserLocation(location)}
+					handlePress={handleLocationSearch}
 				/>
 			</View>
 
 			{/* Map Section */}
 			<View className="h-64">
-				<Map onMapPress={handleMapPress} />
+				<Map onMapPress={handleMapPress} markerLocation={markerLocation} />
 			</View>
 
 			{/* Form Section */}

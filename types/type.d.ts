@@ -129,3 +129,8 @@ declare interface LocationPayload {
 	longitude: number;
 	address: string;
 }
+
+declare interface MapProps {
+	onMapPress: (latitude: number, longitude: number, address: string) => void;
+	markerLocation: { latitude: number; longitude: number };
+}
