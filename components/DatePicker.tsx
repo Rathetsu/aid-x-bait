@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
@@ -15,19 +15,24 @@ const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
 	const [dates, setDates] = useState<DatePickerDate[]>([]);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [manualDate, setManualDate] = useState<Date | null>(null);
+	const scrollViewRef = useRef<ScrollView>(null);
 
-	// Next 15 days starting from tomorrow
-	const generateDates = (): DatePickerDate[] => {
-		const today = new Date();
+	// Generate dates dynamically based on a starting date
+	const generateDates = (
+		startDate: Date,
+		daysToGenerate: number
+	): DatePickerDate[] => {
 		const days = [];
 		const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-		for (let i = 1; i <= 15; i++) {
-			const nextDate = new Date(today);
-			nextDate.setDate(today.getDate() + i);
+		for (let i = 0; i < daysToGenerate; i++) {
+			const nextDate = new Date(startDate);
+			nextDate.setDate(startDate.getDate() + i);
 
 			const dayName = dayNames[nextDate.getDay()];
-			const date = nextDate.getDate().toString().padStart(2, "0");
+			const date = `${nextDate.getFullYear()}-${(nextDate.getMonth() + 1)
+				.toString()
+				.padStart(2, "0")}-${nextDate.getDate().toString().padStart(2, "0")}`;
 
 			days.push({ day: dayName, date });
 		}
@@ -36,19 +41,79 @@ const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
 	};
 
 	useEffect(() => {
-		setDates(generateDates());
+		const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
+		const initialDates = generateDates(tomorrow, 15); // Generate next 15 days
+		setDates(initialDates);
 	}, []);
+
+	// Ensure the selected date is in the horizontal scroll view range
+	const ensureDateInRange = (date: string) => {
+		const dateObj = new Date(date);
+		const firstDate = new Date(dates[0].date);
+		const lastDate = new Date(dates[dates.length - 1].date);
+
+		// Ensure Date objects are converted to numbers (milliseconds since epoch) for arithmetic operations
+		if (dateObj.getTime() < firstDate.getTime()) {
+			// Prepend dates if the selected date is before the current range
+			const daysToPrepend =
+				Math.ceil(
+					(firstDate.getTime() - dateObj.getTime()) / (1000 * 60 * 60 * 24)
+				) + 1;
+			const newDates = generateDates(dateObj, daysToPrepend);
+			setDates((prev) => [
+				...newDates,
+				...prev.filter((d) => !newDates.some((nd) => nd.date === d.date)),
+			]);
+		} else if (dateObj.getTime() > lastDate.getTime()) {
+			// Append dates if the selected date is after the current range
+			const daysToAdd =
+				Math.ceil(
+					(dateObj.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24)
+				) + 1;
+			const newDates = generateDates(lastDate, daysToAdd);
+			setDates((prev) => [
+				...prev,
+				...newDates.filter((nd) => !prev.some((pd) => pd.date === nd.date)),
+			]);
+		}
+	};
+
+	// Automatically scroll to center the selected date
+	const scrollToSelectedDate = (index: number) => {
+		if (scrollViewRef.current) {
+			scrollViewRef.current.scrollTo({
+				x: index * 80 - (200 - 40), // Center the selected date (80px width per item, 200px view width)
+				animated: true,
+			});
+		}
+	};
 
 	const handleDateChange = (date: Date) => {
 		if (date) {
+			const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1)
+				.toString()
+				.padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+
 			setManualDate(date);
-			setSelectedDate(
-				`${date.getFullYear()}-${(date.getMonth() + 1)
-					.toString()
-					.padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`
-			);
+			setSelectedDate(formattedDate);
+
+			// Ensure the date is in the scroll view and scroll to it
+			ensureDateInRange(formattedDate);
+			const index = dates.findIndex((d) => d.date === formattedDate);
+			if (index !== -1) {
+				scrollToSelectedDate(index);
+			}
 		}
 		setIsModalVisible(false);
+	};
+
+	const handleHorizontalDateSelect = (date: string, index: number) => {
+		setSelectedDate(date);
+
+		// Update manualDate to sync with the calendar
+		setManualDate(new Date(date));
+
+		scrollToSelectedDate(index);
 	};
 
 	return (
@@ -64,16 +129,19 @@ const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
 			</View>
 
 			{/* Horizontal Days Scroll View */}
-			<ScrollView horizontal className="mt-2">
-				{dates.map((date) => (
+			<ScrollView
+				ref={scrollViewRef}
+				horizontal
+				showsHorizontalScrollIndicator={false}
+				className="mt-2"
+			>
+				{dates.map((date, index) => (
 					<TouchableOpacity
 						key={date.date}
 						className={`px-4 py-[8px] mx-2 my-4 rounded-lg ${
-							selectedDate === date.date
-								? "bg-primary-400 text-white"
-								: "bg-gray-200"
+							selectedDate === date.date ? "bg-primary-400" : "bg-gray-200"
 						}`}
-						onPress={() => setSelectedDate(date.date)}
+						onPress={() => handleHorizontalDateSelect(date.date, index)}
 					>
 						<Text
 							className={`text-sm text-center ${
@@ -82,7 +150,7 @@ const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
 						>
 							{date.day}
 							{`\n`}
-							{date.date}
+							{date.date.split("-")[2]}
 						</Text>
 					</TouchableOpacity>
 				))}
@@ -91,7 +159,6 @@ const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
 			{/* Date Picker Modal */}
 			<Modal
 				animationType="fade"
-				// transparent
 				visible={isModalVisible}
 				onRequestClose={() => setIsModalVisible(false)}
 			>
@@ -101,7 +168,7 @@ const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
 						<CalendarPicker
 							selectedStartDate={
 								manualDate ||
-								new Date(new Date().setDate(new Date().getDate() + 1))
+								new Date(new Date().setDate(new Date().getDate() + 1)) // Default to tomorrow if manualDate is null
 							}
 							nextTitleStyle={{ color: "#FF5722" }}
 							previousTitleStyle={{ color: "#FF5722" }}
