@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -23,9 +24,24 @@ const BookingModule: React.FC = () => {
 	const [isDropdownInFocus, setIsDropdownInFocus] = useState<boolean>(false);
 	const [specialist, setSpecialist] = useState<string>("Male");
 	const [note, setNote] = useState<string>("");
+	const [frontID, setFrontID] = useState<string | null>(null);
+	const [backID, setBackID] = useState<string | null>(null);
+	const [photoWithID, setPhotoWithID] = useState<string | null>(null);
 
 	const specialities = ["Ortho", "General", "Neuro"];
 	const timeSlots = ["(8-12) AM", "(1-6) PM", "(7-11) PM"];
+
+	const pickImage = async (setImage: (uri: string | null) => void) => {
+		const result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ["images"],
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		});
+		if (!result.canceled) {
+			setImage(result.assets[0].uri);
+		}
+	};
 
 	return (
 		<ScrollView className="flex-1 bg-white p-4">
@@ -153,37 +169,67 @@ const BookingModule: React.FC = () => {
 					{specialist === "Female" && (
 						<View className="mt-4">
 							<Text className="text-base text-black mb-2">
-								Add Your Identification
+								Take a photo with the camera or upload your identification
 							</Text>
 							<View className="flex-row justify-between">
 								<View className="flex-1 mr-2">
 									<Text className="text-sm text-gray-600 mb-1">
 										Front Identification
 									</Text>
-									<TouchableOpacity className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center">
-										<Text className="text-sm text-gray-500">
-											Drag and Drop or Choose File
-										</Text>
+									<TouchableOpacity
+										className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center"
+										onPress={() => pickImage(setFrontID)}
+									>
+										{frontID ? (
+											<Image
+												source={{ uri: frontID }}
+												className="w-full h-full rounded-lg"
+											/>
+										) : (
+											<Text className="text-sm text-gray-500">
+												Take or Upload Photo
+											</Text>
+										)}
 									</TouchableOpacity>
 								</View>
 								<View className="flex-1 mr-2">
 									<Text className="text-sm text-gray-600 mb-1">
 										Back Identification
 									</Text>
-									<TouchableOpacity className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center">
-										<Text className="text-sm text-gray-500">
-											Drag and Drop or Choose File
-										</Text>
+									<TouchableOpacity
+										className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center"
+										onPress={() => pickImage(setBackID)}
+									>
+										{backID ? (
+											<Image
+												source={{ uri: backID }}
+												className="w-full h-full rounded-lg"
+											/>
+										) : (
+											<Text className="text-sm text-gray-500">
+												Take or Upload Photo
+											</Text>
+										)}
 									</TouchableOpacity>
 								</View>
 								<View className="flex-1">
 									<Text className="text-sm text-gray-600 mb-1">
 										Photo with ID
 									</Text>
-									<TouchableOpacity className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center">
-										<Text className="text-sm text-gray-500">
-											Drag and Drop or Choose File
-										</Text>
+									<TouchableOpacity
+										className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center"
+										onPress={() => pickImage(setPhotoWithID)}
+									>
+										{photoWithID ? (
+											<Image
+												source={{ uri: photoWithID }}
+												className="w-full h-full rounded-lg"
+											/>
+										) : (
+											<Text className="text-sm text-gray-500">
+												Take or Upload Photo
+											</Text>
+										)}
 									</TouchableOpacity>
 								</View>
 							</View>
