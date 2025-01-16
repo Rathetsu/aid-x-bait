@@ -68,7 +68,7 @@ const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
 				{dates.map((date) => (
 					<TouchableOpacity
 						key={date.date}
-						className={`px-3 py-[10px] mx-2 my-4 rounded-lg ${
+						className={`px-4 py-[8px] mx-2 my-4 rounded-lg ${
 							selectedDate === date.date
 								? "bg-primary-400 text-white"
 								: "bg-gray-200"

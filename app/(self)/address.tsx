@@ -14,7 +14,7 @@ import GoogleTextInput from "@/components/GoogleTextInput";
 import Map from "@/components/Map";
 import { icons } from "@/constants";
 import { useAppSelector } from "@/store/hooks";
-import { selectLocation, setUserLocation } from "@/store/slices/locationSlice";
+import { selectLocation } from "@/store/slices/locationSlice";
 import { selectUser } from "@/store/slices/userSlice";
 
 const Address = () => {
@@ -93,7 +93,7 @@ const Address = () => {
 			</View>
 
 			{/* Map Section */}
-			<View className="h-64">
+			<View className="h-64 mb-2 mx-3">
 				<Map onMapPress={handleMapPress} markerLocation={markerLocation} />
 			</View>
 
@@ -152,6 +152,7 @@ const Address = () => {
 						{/* Building Name */}
 						<TextInput
 							placeholder="Building name"
+							placeholderTextColor="#9CA3AF"
 							value={buildingName}
 							onChangeText={setBuildingName}
 							className="border border-gray-300 rounded-lg p-3 mb-4"
@@ -161,12 +162,14 @@ const Address = () => {
 						<View className="flex-row gap-x-3">
 							<TextInput
 								placeholder="Apt. no."
+								placeholderTextColor="#9CA3AF"
 								value={apartmentNo}
 								onChangeText={setApartmentNo}
 								className="flex-1 border border-gray-300 rounded-lg p-3 mb-4"
 							/>
 							<TextInput
-								placeholder="Floor (optional)"
+								placeholder="Floor"
+								placeholderTextColor="#9CA3AF"
 								value={floor}
 								onChangeText={setFloor}
 								className="flex-1 border border-gray-300 rounded-lg p-3 mb-4"
@@ -180,7 +183,8 @@ const Address = () => {
 					<>
 						{/* Building Name */}
 						<TextInput
-							placeholder="House name"
+							placeholder="House"
+							placeholderTextColor="#9CA3AF"
 							value={buildingName}
 							onChangeText={setBuildingName}
 							className="border border-gray-300 rounded-lg p-3 mb-4"
@@ -188,6 +192,7 @@ const Address = () => {
 						{/* Street */}
 						<TextInput
 							placeholder="Street"
+							placeholderTextColor="#9CA3AF"
 							value={street}
 							onChangeText={setStreet}
 							className="border border-gray-300 rounded-lg p-3 mb-4"
@@ -199,6 +204,7 @@ const Address = () => {
 				{/* Additional Directions */}
 				<TextInput
 					placeholder="Additional directions (optional)"
+					placeholderTextColor="#9CA3AF"
 					value={additionalDirections}
 					onChangeText={setAdditionalDirections}
 					className="border border-gray-300 rounded-lg p-3 mb-4"
@@ -207,6 +213,7 @@ const Address = () => {
 				{/* Phone Number */}
 				<TextInput
 					placeholder="Phone number"
+					placeholderTextColor="#9CA3AF"
 					value={phoneNumber}
 					onChangeText={setPhoneNumber}
 					className="border border-gray-300 rounded-lg p-3 mb-4"
@@ -215,6 +222,7 @@ const Address = () => {
 				{/* Address Label */}
 				<TextInput
 					placeholder="Address label (optional)"
+					placeholderTextColor="#9CA3AF"
 					value={label}
 					onChangeText={setLabel}
 					className="border border-gray-300 rounded-lg p-3 mb-4"

@@ -30,7 +30,7 @@ const BookingModule: React.FC = () => {
 	return (
 		<ScrollView className="flex-1 bg-white p-4">
 			{/* Address */}
-			<View className="gap-2 mb-6">
+			<View className="gap-2">
 				<View className="flex-row justify-between">
 					<View>
 						<Text className="text-lg font-JakartaSemiBold text-black mb-2">
@@ -52,7 +52,7 @@ const BookingModule: React.FC = () => {
 						resizeMode="contain"
 					/>
 				</View>
-				<View className="border-b border-gray-300 mb-6"></View>
+				<View className="border-b border-gray-300 my-6"></View>
 			</View>
 
 			{/* Select Date */}
