@@ -19,13 +19,13 @@ import DatePicker from "./DatePicker";
 const BookingModule: React.FC = () => {
 	const [selectedDate, setSelectedDate] = useState<string | null>(null);
 	const [selectedSpeciality, setSelectedSpeciality] = useState<string>("Ortho");
-	const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("8-12AM");
+	const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("(8-12) AM");
 	const [isDropdownInFocus, setIsDropdownInFocus] = useState<boolean>(false);
 	const [specialist, setSpecialist] = useState<string>("Male");
 	const [note, setNote] = useState<string>("");
 
 	const specialities = ["Ortho", "General", "Neuro"];
-	const timeSlots = ["8-12AM", "1-6PM", "7-11PM"];
+	const timeSlots = ["(8-12) AM", "(1-6) PM", "(7-11) PM"];
 
 	return (
 		<ScrollView className="flex-1 bg-white p-4">
@@ -149,6 +149,47 @@ const BookingModule: React.FC = () => {
 						/>
 					</View>
 
+					{/* Conditional Rendering for Female */}
+					{specialist === "Female" && (
+						<View className="mt-4">
+							<Text className="text-base text-black mb-2">
+								Add Your Identification
+							</Text>
+							<View className="flex-row justify-between">
+								<View className="flex-1 mr-2">
+									<Text className="text-sm text-gray-600 mb-1">
+										Front Identification
+									</Text>
+									<TouchableOpacity className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center">
+										<Text className="text-sm text-gray-500">
+											Drag and Drop or Choose File
+										</Text>
+									</TouchableOpacity>
+								</View>
+								<View className="flex-1 mr-2">
+									<Text className="text-sm text-gray-600 mb-1">
+										Back Identification
+									</Text>
+									<TouchableOpacity className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center">
+										<Text className="text-sm text-gray-500">
+											Drag and Drop or Choose File
+										</Text>
+									</TouchableOpacity>
+								</View>
+								<View className="flex-1">
+									<Text className="text-sm text-gray-600 mb-1">
+										Photo with ID
+									</Text>
+									<TouchableOpacity className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center">
+										<Text className="text-sm text-gray-500">
+											Drag and Drop or Choose File
+										</Text>
+									</TouchableOpacity>
+								</View>
+							</View>
+						</View>
+					)}
+
 					{/* Note */}
 					<Text className="text-base text-black mb-2 mt-4">Note</Text>
 					<TextInput
@@ -179,10 +220,6 @@ const BookingModule: React.FC = () => {
 export default BookingModule;
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor: "white",
-		padding: 16,
-	},
 	dropdown: {
 		height: 50,
 		borderColor: "gray",
@@ -190,30 +227,18 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		paddingHorizontal: 8,
 	},
-	icon: {
-		marginRight: 5,
-	},
-	label: {
-		position: "absolute",
-		backgroundColor: "white",
-		left: 22,
-		top: 8,
-		zIndex: 999,
-		paddingHorizontal: 8,
-		fontSize: 14,
-	},
 	placeholderStyle: {
 		fontSize: 16,
 	},
 	selectedTextStyle: {
 		fontSize: 16,
 	},
-	iconStyle: {
-		width: 20,
-		height: 20,
-	},
 	inputSearchStyle: {
 		height: 40,
 		fontSize: 16,
+	},
+	iconStyle: {
+		width: 20,
+		height: 20,
 	},
 });
