@@ -55,6 +55,19 @@ declare interface Service {
 	path: ServicePath;
 }
 
+declare interface User {
+	firstName: string;
+	lastName: string;
+	email: string;
+	imageUrl: string;
+	phone: string;
+}
+
+declare interface UserState {
+	user: User | null;
+	isLoggedIn: boolean;
+}
+
 declare interface Product {
 	id: number;
 	name: string;
@@ -133,4 +146,25 @@ declare interface LocationPayload {
 declare interface MapProps {
 	onMapPress: (latitude: number, longitude: number, address: string) => void;
 	markerLocation: { latitude: number; longitude: number };
+}
+
+declare interface CreateUserData {
+	phoneNumber: string;
+	email: string;
+	clerkId: string;
+	firstName?: string;
+	lastName?: string;
+	userType: string;
+}
+
+declare interface CreateUserResponse {
+	id: number;
+	phoneNumber: string;
+	email: string;
+	clerkId: string;
+	firstName?: string;
+	lastName?: string;
+	userType: string;
+	createdAt: string;
+	updatedAt: string;
 }

@@ -1,12 +1,13 @@
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
 
 import ScrollableBanner from "@/components/ScrollableBanner";
 import ServiceStack from "@/components/ServiceStack";
+import { useAppSelector } from "@/store/hooks";
 
 const Home = () => {
-	const user = useSelector((state: any) => state.user.user);
+	const user = useAppSelector((state) => state.user.user);
+	console.log("User:", user);
 	return (
 		<SafeAreaView className="flex-1 bg-white">
 			<ScrollView className="px-4">
@@ -21,7 +22,7 @@ const Home = () => {
 					<TouchableOpacity className="relative">
 						<Image
 							source={{
-								uri: "https://randomuser.me/api/portraits/women/44.jpg",
+								uri: user?.imageUrl,
 							}}
 							className="h-10 w-10 rounded-full"
 						/>

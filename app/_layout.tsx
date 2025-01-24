@@ -10,12 +10,13 @@ import { Provider } from "react-redux";
 
 import { tokenCache } from "@/lib/auth";
 import { store } from "@/store";
+import { loadUserFromStorage } from "@/store/slices/userSlice";
 
 SplashScreen.preventAutoHideAsync();
 
-const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+const clerkPublishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
-if (!publishableKey) {
+if (!clerkPublishableKey) {
 	throw new Error(
 		"Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env"
 	);
@@ -34,6 +35,11 @@ export default function RootLayout() {
 		"Jakarta-SemiBold": require("../assets/fonts/PlusJakartaSans-SemiBold.ttf"),
 	});
 
+	// Load user data from AsyncStorage on app startup
+	useEffect(() => {
+		store.dispatch(loadUserFromStorage());
+	}, []);
+
 	useEffect(() => {
 		if (loaded) {
 			SplashScreen.hideAsync();
@@ -46,7 +52,10 @@ export default function RootLayout() {
 
 	return (
 		<Provider store={store}>
-			<ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
+			<ClerkProvider
+				tokenCache={tokenCache}
+				publishableKey={clerkPublishableKey}
+			>
 				<ClerkLoaded>
 					<Stack>
 						<Stack.Screen name="index" options={{ headerShown: false }} />
