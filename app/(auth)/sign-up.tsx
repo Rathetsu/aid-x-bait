@@ -1,20 +1,22 @@
-import { useSignUp, useUser } from "@clerk/clerk-expo";
+import { useAuth, useSignUp, useUser } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 import { useState, useEffect } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { ReactNativeModal } from "react-native-modal";
-import { useDispatch } from "react-redux";
 
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
-// import { fetchAPI } from "@/lib/fetch";
+import { fetchAPI } from "@/lib/fetch";
+import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 
 const SignUp = () => {
 	const { isLoaded, signUp, setActive } = useSignUp();
 	const { user, isLoaded: isUserLoaded } = useUser();
+	const { getToken } = useAuth();
+
 	const [signUpComplete, setSignUpComplete] = useState(false);
 	const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -31,7 +33,7 @@ const SignUp = () => {
 		code: "",
 	});
 
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const onSignUpPress = async () => {
 		if (!isLoaded) return;
@@ -62,17 +64,24 @@ const SignUp = () => {
 				code: verification.code,
 			});
 			if (completeSignUp.status === "complete") {
-				// TODO: Add user to database
-				// await fetchAPI("/(api)/user", {
-				// 	method: "POST",
-				// 	body: JSON.stringify({
-				// 		name: form.name,
-				// 		email: form.email.toLowerCase(),
-				// 		clerkId: completeSignUp.createdUserId,
-				// 		password: form.password,
-				// 	}),
-				// });
+				// Activate the user session
 				await setActive({ session: completeSignUp.createdSessionId });
+				// Add the user to the database
+				const token = await getToken();
+				await fetchAPI(`${process.env.EXPO_PUBLIC_BACKEND_URL}/users/create`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify({
+						name: form.name,
+						email: form.email.toLowerCase(),
+						clerkId: completeSignUp.createdUserId,
+						phoneNumber: `+2${form.phone}`,
+						userType: "patient",
+					}),
+				});
 				setVerification({
 					...verification,
 					state: "success",
@@ -97,13 +106,13 @@ const SignUp = () => {
 	useEffect(() => {
 		if (signUpComplete && isUserLoaded && user) {
 			const userData = {
-				firstName: user.firstName,
-				lastName: user.lastName,
-				email: user.emailAddresses[0].emailAddress,
-				imageUrl: user.imageUrl,
-				phone: user.primaryPhoneNumber?.phoneNumber,
+				firstName: user.firstName ?? "",
+				lastName: user.lastName ?? "",
+				email: user.emailAddresses[0].emailAddress ?? "",
+				imageUrl: user.imageUrl ?? "",
+				phone: user.primaryPhoneNumber?.phoneNumber!,
 			};
-
+			// Save the user data to the Redux store and the local storage
 			dispatch(setUser(userData));
 			router.replace("/(root)/(tabs)/home");
 		}
