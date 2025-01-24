@@ -1,5 +1,3 @@
-import { useAuth } from "@clerk/clerk-expo";
-import { useEffect } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -9,15 +7,7 @@ import { useAppSelector } from "@/store/hooks";
 
 const Home = () => {
 	const user = useAppSelector((state) => state.user.user);
-	const { getToken } = useAuth();
-
-	useEffect(() => {
-		const fetchToken = async () => {
-			const token = await getToken();
-			console.log("token: ", token);
-		};
-		fetchToken();
-	}, [getToken]);
+	console.log("User", user);
 
 	return (
 		<SafeAreaView className="flex-1 bg-white">
