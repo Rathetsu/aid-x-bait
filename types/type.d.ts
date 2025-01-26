@@ -148,6 +148,21 @@ declare interface MapProps {
 	markerLocation: { latitude: number; longitude: number };
 }
 
+declare interface AppointmentCardProps {
+	status: string;
+	doctorName: string;
+	specialty: string;
+	date: string;
+	time: string;
+	buttonLabel: string;
+	onPress: () => void;
+}
+
+declare interface TabsProps {
+	activeTab: string;
+	onChangeTab: (tab: string) => void;
+}
+
 declare interface CreateUserData {
 	phoneNumber: string;
 	email: string;

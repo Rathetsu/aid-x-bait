@@ -1,5 +1,14 @@
-import { Tabs } from "expo-router";
-import { Image, ImageSourcePropType, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { router, Tabs } from "expo-router";
+import React from "react";
+import {
+	Image,
+	ImageSourcePropType,
+	View,
+	Text,
+	TouchableOpacity,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { icons } from "@/constants";
 
@@ -67,7 +76,24 @@ const BottomNavbar = ({ initialRouteName }: { initialRouteName: string }) => {
 				name="appointments"
 				options={{
 					title: "Appointments",
-					headerShown: false,
+					headerShown: true,
+					header: () => (
+						<SafeAreaView className="px-6 pt-2 pb-[-10] bg-white shadow-md flex-row items-center justify-between">
+							<Text className="text-xl font-JakartaBold text-gray-800">
+								My Appointments
+							</Text>
+							<TouchableOpacity className="p-2">
+								<Ionicons
+									name="search"
+									size={24}
+									color="black"
+									onPress={() =>
+										router.push("/(consultations)/appointment-search")
+									}
+								/>
+							</TouchableOpacity>
+						</SafeAreaView>
+					),
 					tabBarIcon: ({ focused }) => (
 						<TabIcon focused={focused} source={icons.appointments} />
 					),
