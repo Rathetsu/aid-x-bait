@@ -21,7 +21,8 @@ const SignUp = () => {
 	const [showSuccessModal, setShowSuccessModal] = useState(false);
 
 	const [form, setForm] = useState({
-		name: "",
+		firstName: "",
+		lastName: "",
 		phone: "",
 		email: "",
 		password: "",
@@ -39,8 +40,10 @@ const SignUp = () => {
 		if (!isLoaded) return;
 		try {
 			await signUp.create({
-				// phoneNumber: "+12015550100", // testing phone number - code: 424242
-				phoneNumber: `+2${form.phone}`, // +2 for Egypt
+				phoneNumber: "+12015550100", // testing phone number - code: 424242
+				// phoneNumber: `+2${form.phone}`, // +2 for Egypt
+				firstName: form.firstName,
+				lastName: form.lastName,
 				emailAddress: form.email.toLowerCase(),
 				password: form.password,
 			});
@@ -75,7 +78,8 @@ const SignUp = () => {
 						Authorization: `Bearer ${token}`,
 					},
 					body: JSON.stringify({
-						name: form.name,
+						firstName: form.firstName,
+						lastName: form.lastName,
 						email: form.email.toLowerCase(),
 						clerkId: completeSignUp.createdUserId,
 						phoneNumber: `+2${form.phone}`,
@@ -134,13 +138,30 @@ const SignUp = () => {
 						</View>
 					</View>
 					<View className="p-5">
-						<InputField
-							label="Name"
-							placeholder="Enter name"
-							icon={icons.person}
-							value={form.name}
-							onChangeText={(value) => setForm({ ...form, name: value })}
-						/>
+						<View className="flex-row">
+							<View className="flex-1 mr-2">
+								<InputField
+									label="First Name"
+									placeholder="Enter first name"
+									icon={icons.person}
+									value={form.firstName}
+									onChangeText={(value) =>
+										setForm({ ...form, firstName: value })
+									}
+								/>
+							</View>
+							<View className="flex-1 ml-2">
+								<InputField
+									label="Last Name"
+									placeholder="Enter last name"
+									icon={icons.person}
+									value={form.lastName}
+									onChangeText={(value) =>
+										setForm({ ...form, lastName: value })
+									}
+								/>
+							</View>
+						</View>
 						<InputField
 							label="Phone"
 							placeholder="011 2345 6789"

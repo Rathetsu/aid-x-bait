@@ -1,0 +1,10 @@
+curl -X POST "localhost:3000/users/create" \
+-H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18yb0liYkUzcnlsUXdoUkVLOTM4VG9KY3J5UkYiLCJ0eXAiOiJKV1QifQ.eyJleHAiOjE3Mzc4OTY0MDcsImZ2YSI6WzQsLTFdLCJpYXQiOjE3Mzc4OTYzNDcsImlzcyI6Imh0dHBzOi8vY2xldmVyLW94LTQ1LmNsZXJrLmFjY291bnRzLmRldiIsIm5iZiI6MTczNzg5NjMzNywic2lkIjoic2Vzc18yc0FRbFpiWTJ5VTNSMGZuN0daUFE3SXBQRmIiLCJzdWIiOiJ1c2VyXzJzQVFsVkhFQkRzajBjcTlVWDEzcHpCU2VMTiJ9.U09PcSp-lu4wI5sQ6bCPN2H1G4n6tMrn_MNbCAzE3nE3L0C7ZNbXRuC9iOsJ_ArAj_VDLofaHLcHh8RfswYmxz6W8iIrA-ejg4o3mLwlLErlZCoIrT0dQTlei1LzE3VVAAv3teuNQIgAtag2jWjWljKIc7zZM_fn1WC98jQimJRTfUa4RBoiptI7gI28W_xBvnRT3AhaJ_ZyAtf_cDlpRQfVUOKPgavxfgJLTiI0N-e2hlA0SZJvYKrZR_JOkW5_NNg-5u9iTOanb-RuuwrJqCQZI-OIhQjD_oh9cYbx6FV8UdYRcGC0PX-Ir_IWaFElcwiU36XJU6oP4OLErvnkcQ" \
+-H "Content-Type: application/json" \
+-d '{
+"firstName": "Test",
+"lastName": "Test",
+"email": "test@mail.com",
+"phone": "01000000000",
+"userType": "patient"
+}'
