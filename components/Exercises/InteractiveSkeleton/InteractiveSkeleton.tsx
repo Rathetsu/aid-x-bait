@@ -70,7 +70,6 @@ export default function InteractiveSkeleton() {
           height="100%"
           viewBox="0 0 736 1104"
         >
-          {}
           <SkeletonSvg onPathPress={handleAllPathsPress} />
         </AnimatedSvg>
       </GestureDetector>
