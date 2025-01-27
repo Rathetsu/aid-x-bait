@@ -1,33 +1,30 @@
-import { Ionicons } from "@expo/vector-icons";
-import { Stack, useRouter } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+	StreamVideo,
+	StreamVideoClient,
+	User,
+} from "@stream-io/video-react-native-sdk";
+import { Stack } from "expo-router";
 import { Provider } from "react-redux";
 
 import { store } from "@/store";
 
-const AppointmentSearchHeader = () => {
-	const router = useRouter();
-	return (
-		<SafeAreaView className="flex-row items-center justify-between px-4 pt-2 bg-white border-b border-gray-200 h-auto">
-			{/* Back Button */}
-			<TouchableOpacity onPress={() => router.back()} className="pr-2">
-				<Ionicons name="chevron-back" size={20} color="#636363" />
-			</TouchableOpacity>
-			{/* Search text input */}
-			<View className="flex-1">
-				<Text className="text-lg font-JakartaBold text-black flex-1 text-center capitalize">
-					Search
-				</Text>
-			</View>
-		</SafeAreaView>
-	);
-};
+// const streamApiKey = process.env.EXPO_PUBLIC_STREAM_PUBLIC_KEY;
+const streamApiKey = "mmhfdzb5evj2";
+const userId = "Kyp_Durron";
+// const tokenValidity = 24 * 60 * 60; // 24 hours
+const token =
+	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3Byb250by5nZXRzdHJlYW0uaW8iLCJzdWIiOiJ1c2VyL0t5cF9EdXJyb24iLCJ1c2VyX2lkIjoiS3lwX0R1cnJvbiIsInZhbGlkaXR5X2luX3NlY29uZHMiOjYwNDgwMCwiaWF0IjoxNzM3NjQyMzc2LCJleHAiOjE3MzgyNDcxNzZ9.WgdZCmmPg0UbrAUALuxdUYATXVDOsKLBzhBw85JmYEM";
+
+const user: User = { id: userId };
+
+export const streamClient = StreamVideoClient.getOrCreateInstance({
+	apiKey: streamApiKey,
+	token,
+	user,
+});
 
 const getHeader = (name: string) => {
 	switch (name) {
-		case "appointment-search":
-			return <AppointmentSearchHeader />;
 		default:
 			return null;
 	}
@@ -36,16 +33,19 @@ const getHeader = (name: string) => {
 const Layout = () => {
 	return (
 		<Provider store={store}>
-			<Stack
-				screenOptions={{
-					header: ({ route }) => getHeader(route.name),
-				}}
-			>
-				<Stack.Screen
-					name="appointment-search"
-					options={{ headerShown: false }}
-				/>
-			</Stack>
+			<StreamVideo client={streamClient}>
+				<Stack
+					screenOptions={{
+						header: ({ route }) => getHeader(route.name),
+					}}
+				>
+					<Stack.Screen
+						name="appointment-search"
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen name="video-call" options={{ headerShown: false }} />
+				</Stack>
+			</StreamVideo>
 		</Provider>
 	);
 };

@@ -1,4 +1,5 @@
 // import { useRouter } from "expo-router";
+import { router } from "expo-router";
 import { useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 
@@ -101,7 +102,7 @@ const AppointmentScreen = () => {
 						time={appointment.time}
 						status={appointment.status}
 						buttonLabel={appointment.buttonLabel}
-						onPress={() => console.log("Action pressed")}
+						onPress={() => router.replace("/(consultations)/video-call")}
 					/>
 				))}
 			</ScrollView>
