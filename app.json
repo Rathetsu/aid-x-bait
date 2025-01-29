@@ -10,7 +10,7 @@
 		"newArchEnabled": true,
 		"ios": {
 			"supportsTablet": true,
-			"bundleIdentifier": "com.aidxbaitezzat.aidxbait"
+			"bundleIdentifier": "com.aidxbait.aidxbait"
 		},
 		"android": {
 			"adaptiveIcon": {
@@ -23,7 +23,7 @@
 				"android.permission.ACCESS_COARSE_LOCATION",
 				"android.permission.ACCESS_FINE_LOCATION"
 			],
-			"package": "com.aidxbaitezzat.aidxbait"
+			"package": "com.aidxbait.aidxbait"
 		},
 		"web": {
 			"bundler": "metro",
