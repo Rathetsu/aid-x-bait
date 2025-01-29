@@ -1,22 +1,15 @@
-// InteractiveSkeleton.tsx
-
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Svg from 'react-native-svg';
-import { useNavigation } from '@react-navigation/native';
-
-import SkeletonSvg from '../../../assets/images/skeleton.svg'; // <-- import your skeleton with all its paths
-
-type NavigationProps = {
-  navigate: (screen: string, params?: { area?: string }) => void;
-};
+import { useRouter } from 'expo-router';
+import SkeletonSvg from '../../../assets/images/skeleton.svg'; // Ensure this import is correct
 
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
 export default function InteractiveSkeleton() {
-  const navigation = useNavigation<NavigationProps>();
+  const router = useRouter();
 
   const scale = useSharedValue(1);
   const savedScale = useSharedValue(1);
@@ -56,33 +49,53 @@ export default function InteractiveSkeleton() {
     ],
   }));
 
-  // Common handler for all paths
-  const handleAllPathsPress = () => {
-    navigation.navigate('Videos', { area: 'skull' });
+  // Navigation handlers
+  const handleSkullPress = () => {
+    router.push('/videos');
+  };
+
+  const handleNeckPress = () => {
+    router.push('/videos');
+  };
+
+  const handleTorsoPress = () => {
+    router.push('/videos');
+  };
+
+  const handleArmsPress = () => {
+    router.push('/videos');
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1">
       <GestureDetector gesture={Gesture.Simultaneous(pinchGesture, panGesture)}>
-        <AnimatedSvg
-          style={[styles.svg, animatedStyle]}
-          width="100%"
-          height="100%"
-          viewBox="0 0 736 1104"
-        >
-          <SkeletonSvg onPathPress={handleAllPathsPress} />
-        </AnimatedSvg>
+        <Animated.View style={[animatedStyle]} className="flex-1 relative bg-white">
+          <Svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 736 1104"
+          >
+            <SkeletonSvg />
+          </Svg>
+          {/* Define clickable areas */}
+          <TouchableOpacity
+            className="absolute top-50 left-300 w-100 h-100"
+            onPress={handleSkullPress}
+          />
+          <TouchableOpacity
+            className="absolute top-150 left-320 w-60 h-80"
+            onPress={handleNeckPress}
+          />
+          <TouchableOpacity
+            className="absolute top-230 left-280 w-160 h-200"
+            onPress={handleTorsoPress}
+          />
+          <TouchableOpacity
+            className="absolute top-250 left-180 w-320 h-100"
+            onPress={handleArmsPress}
+          />
+        </Animated.View>
       </GestureDetector>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  svg: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
