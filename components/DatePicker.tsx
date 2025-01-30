@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import CalendarPicker from "react-native-calendar-picker";
 
+
 import { DatePickerDate, DatePickerProps } from "@/types/type";
 
 const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
@@ -16,6 +17,7 @@ const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [manualDate, setManualDate] = useState<Date | null>(null);
 	const scrollViewRef = useRef<ScrollView>(null);
+	const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
 
 	// Generate dates dynamically based on a starting date
 	const generateDates = (
@@ -166,10 +168,8 @@ const DatePicker = ({ selectedDate, setSelectedDate }: DatePickerProps) => {
 					<View className="m-5 bg-white rounded-2xl p-9 items-center shadow-lg shadow-black/25">
 						<Text className="text-lg font-JakartaBold mb-4">Pick a Date</Text>
 						<CalendarPicker
-							selectedStartDate={
-								manualDate ||
-								new Date(new Date().setDate(new Date().getDate() + 1)) // Default to tomorrow if manualDate is null
-							}
+							initialDate={manualDate || tomorrow} 
+							selectedStartDate={manualDate || tomorrow}
 							nextTitleStyle={{ color: "#FF5722" }}
 							previousTitleStyle={{ color: "#FF5722" }}
 							minDate={new Date(new Date().setDate(new Date().getDate() + 1))}

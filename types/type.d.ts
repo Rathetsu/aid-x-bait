@@ -4,6 +4,8 @@ import {
 	TouchableOpacityProps,
 } from "react-native";
 
+export type Roles = "admin" | "patient" | "therapist" | "support";
+
 declare interface ButtonProps extends TouchableOpacityProps {
 	title: string;
 	bgVariant?: "primary" | "secondary" | "danger" | "outline" | "success";
