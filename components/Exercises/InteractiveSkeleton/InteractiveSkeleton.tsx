@@ -67,7 +67,7 @@ export default function InteractiveSkeleton() {
   };
 
   return (
-    <View className="flex-1">
+    <View className="w-screen h-screen">
       <GestureDetector gesture={Gesture.Simultaneous(pinchGesture, panGesture)}>
         <Animated.View style={[animatedStyle]} className="flex-1 relative bg-white">
           <Svg
