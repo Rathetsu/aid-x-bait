@@ -27,7 +27,8 @@ const SignIn = () => {
 
 		try {
 			const signInAttempt = await signIn.create({
-				identifier: `+2${form.phone}`, // "+12015550100"
+				identifier: "+12015550100", // for testing
+				// identifier: `+2${form.phone}`,
 				password: form.password,
 			});
 
