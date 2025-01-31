@@ -101,7 +101,7 @@ const VideoGallery = () => {
   );
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="w-screen h-screen bg-white">
       <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 10 }}>
         {videos.map(renderVideoCard)}
       </ScrollView>
