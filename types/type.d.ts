@@ -43,6 +43,10 @@ declare interface GoogleInputProps {
 	}) => void;
 }
 
+declare interface BookingModuleProps {
+	onPressBookVisit: () => void;
+}
+
 declare type ServicePath =
 	| "/(root)/home-visits"
 	| "/(root)/online-consultations"

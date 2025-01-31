@@ -14,10 +14,11 @@ import {
 import { Dropdown } from "react-native-element-dropdown";
 
 import { icons } from "@/constants";
+import { BookingModuleProps } from "@/types/type";
 
 import DatePicker from "./DatePicker";
 
-const BookingModule: React.FC = () => {
+const BookingModule = ({ onPressBookVisit }: BookingModuleProps) => {
 	const [selectedDate, setSelectedDate] = useState<string | null>(null);
 	const [selectedSpeciality, setSelectedSpeciality] = useState<string>("Ortho");
 	const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("(8-12) AM");
@@ -30,6 +31,12 @@ const BookingModule: React.FC = () => {
 
 	const specialities = ["Ortho", "General", "Neuro"];
 	const timeSlots = ["(8-12) AM", "(1-6) PM", "(7-11) PM"];
+
+	const isConfirmDisabled =
+		!selectedDate ||
+		!selectedSpeciality ||
+		!selectedTimeSlot ||
+		(specialist === "Female" && (!frontID || !backID || !photoWithID));
 
 	const pickImage = async (setImage: (uri: string | null) => void) => {
 		const result = await ImagePicker.launchImageLibraryAsync({
@@ -250,12 +257,22 @@ const BookingModule: React.FC = () => {
 			</View>
 
 			{/* Book a Visit Button */}
-			<TouchableOpacity className="bg-primary-400 py-4 rounded-lg flex-row items-center justify-center">
-				<Text className="text-white text-lg font-bold">Book a Visit</Text>
+			<TouchableOpacity
+				onPress={() => onPressBookVisit()}
+				disabled={isConfirmDisabled}
+				className={`py-4 rounded-lg flex-row items-center justify-center shadow-md 
+					${isConfirmDisabled ? "bg-gray-300 shadow-none" : "bg-blue-500 shadow-lg"}
+				`}
+			>
+				<Text
+					className={`text-lg font-bold ${isConfirmDisabled ? "text-gray-500" : "text-white"}`}
+				>
+					Book a Visit
+				</Text>
 				<Ionicons
 					name="arrow-forward"
 					size={20}
-					color="white"
+					color={isConfirmDisabled ? "#A0A0A0" : "white"}
 					className="ml-2"
 				/>
 			</TouchableOpacity>
