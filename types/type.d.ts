@@ -4,6 +4,8 @@ import {
 	TouchableOpacityProps,
 } from "react-native";
 
+export type Roles = "admin" | "patient" | "therapist" | "support";
+
 declare interface ButtonProps extends TouchableOpacityProps {
 	title: string;
 	bgVariant?: "primary" | "secondary" | "danger" | "outline" | "success";
@@ -41,6 +43,10 @@ declare interface GoogleInputProps {
 	}) => void;
 }
 
+declare interface BookingModuleProps {
+	onPressBookVisit: () => void;
+}
+
 declare type ServicePath =
 	| "/(root)/home-visits"
 	| "/(root)/online-consultations"
@@ -53,6 +59,19 @@ declare interface Service {
 	desc: string;
 	bg: ImageSourcePropType;
 	path: ServicePath;
+}
+
+declare interface User {
+	firstName: string;
+	lastName: string;
+	email: string;
+	imageUrl: string;
+	phone: string;
+}
+
+declare interface UserState {
+	user: User | null;
+	isLoggedIn: boolean;
 }
 
 declare interface Product {
@@ -133,4 +152,40 @@ declare interface LocationPayload {
 declare interface MapProps {
 	onMapPress: (latitude: number, longitude: number, address: string) => void;
 	markerLocation: { latitude: number; longitude: number };
+}
+
+declare interface AppointmentCardProps {
+	status: string;
+	doctorName: string;
+	specialty: string;
+	date: string;
+	time: string;
+	buttonLabel: string;
+	onPress: () => void;
+}
+
+declare interface TabsProps {
+	activeTab: string;
+	onChangeTab: (tab: string) => void;
+}
+
+declare interface CreateUserData {
+	phoneNumber: string;
+	email: string;
+	clerkId: string;
+	firstName?: string;
+	lastName?: string;
+	userType: string;
+}
+
+declare interface CreateUserResponse {
+	id: number;
+	phoneNumber: string;
+	email: string;
+	clerkId: string;
+	firstName?: string;
+	lastName?: string;
+	userType: string;
+	createdAt: string;
+	updatedAt: string;
 }
