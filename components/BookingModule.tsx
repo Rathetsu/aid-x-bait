@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -13,24 +14,46 @@ import {
 import { Dropdown } from "react-native-element-dropdown";
 
 import { icons } from "@/constants";
+import { BookingModuleProps } from "@/types/type";
 
 import DatePicker from "./DatePicker";
 
-const BookingModule: React.FC = () => {
+const BookingModule = ({ onPressBookVisit }: BookingModuleProps) => {
 	const [selectedDate, setSelectedDate] = useState<string | null>(null);
 	const [selectedSpeciality, setSelectedSpeciality] = useState<string>("Ortho");
-	const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("8-12AM");
+	const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("(8-12) AM");
 	const [isDropdownInFocus, setIsDropdownInFocus] = useState<boolean>(false);
 	const [specialist, setSpecialist] = useState<string>("Male");
 	const [note, setNote] = useState<string>("");
+	const [frontID, setFrontID] = useState<string | null>(null);
+	const [backID, setBackID] = useState<string | null>(null);
+	const [photoWithID, setPhotoWithID] = useState<string | null>(null);
 
 	const specialities = ["Ortho", "General", "Neuro"];
-	const timeSlots = ["8-12AM", "1-6PM", "7-11PM"];
+	const timeSlots = ["(8-12) AM", "(1-6) PM", "(7-11) PM"];
+
+	const isConfirmDisabled =
+		!selectedDate ||
+		!selectedSpeciality ||
+		!selectedTimeSlot ||
+		(specialist === "Female" && (!frontID || !backID || !photoWithID));
+
+	const pickImage = async (setImage: (uri: string | null) => void) => {
+		const result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ["images"],
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		});
+		if (!result.canceled) {
+			setImage(result.assets[0].uri);
+		}
+	};
 
 	return (
 		<ScrollView className="flex-1 bg-white p-4">
 			{/* Address */}
-			<View className="gap-2 mb-6">
+			<View className="gap-2">
 				<View className="flex-row justify-between">
 					<View>
 						<Text className="text-lg font-JakartaSemiBold text-black mb-2">
@@ -52,7 +75,7 @@ const BookingModule: React.FC = () => {
 						resizeMode="contain"
 					/>
 				</View>
-				<View className="border-b border-gray-300 mb-6"></View>
+				<View className="border-b border-gray-300 my-6"></View>
 			</View>
 
 			{/* Select Date */}
@@ -149,6 +172,77 @@ const BookingModule: React.FC = () => {
 						/>
 					</View>
 
+					{/* Conditional Rendering for Female */}
+					{specialist === "Female" && (
+						<View className="mt-4">
+							<Text className="text-base text-black mb-2">
+								Take a photo with the camera or upload your identification
+							</Text>
+							<View className="flex-row justify-between">
+								<View className="flex-1 mr-2">
+									<Text className="text-sm text-gray-600 mb-1">
+										Front Identification
+									</Text>
+									<TouchableOpacity
+										className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center"
+										onPress={() => pickImage(setFrontID)}
+									>
+										{frontID ? (
+											<Image
+												source={{ uri: frontID }}
+												className="w-full h-full rounded-lg"
+											/>
+										) : (
+											<Text className="text-sm text-gray-500">
+												Take or Upload Photo
+											</Text>
+										)}
+									</TouchableOpacity>
+								</View>
+								<View className="flex-1 mr-2">
+									<Text className="text-sm text-gray-600 mb-1">
+										Back Identification
+									</Text>
+									<TouchableOpacity
+										className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center"
+										onPress={() => pickImage(setBackID)}
+									>
+										{backID ? (
+											<Image
+												source={{ uri: backID }}
+												className="w-full h-full rounded-lg"
+											/>
+										) : (
+											<Text className="text-sm text-gray-500">
+												Take or Upload Photo
+											</Text>
+										)}
+									</TouchableOpacity>
+								</View>
+								<View className="flex-1">
+									<Text className="text-sm text-gray-600 mb-1">
+										Photo with ID
+									</Text>
+									<TouchableOpacity
+										className="h-24 bg-gray-100 border border-gray-300 rounded-lg items-center justify-center"
+										onPress={() => pickImage(setPhotoWithID)}
+									>
+										{photoWithID ? (
+											<Image
+												source={{ uri: photoWithID }}
+												className="w-full h-full rounded-lg"
+											/>
+										) : (
+											<Text className="text-sm text-gray-500">
+												Take or Upload Photo
+											</Text>
+										)}
+									</TouchableOpacity>
+								</View>
+							</View>
+						</View>
+					)}
+
 					{/* Note */}
 					<Text className="text-base text-black mb-2 mt-4">Note</Text>
 					<TextInput
@@ -163,12 +257,22 @@ const BookingModule: React.FC = () => {
 			</View>
 
 			{/* Book a Visit Button */}
-			<TouchableOpacity className="bg-primary-400 py-4 rounded-lg flex-row items-center justify-center">
-				<Text className="text-white text-lg font-bold">Book a Visit</Text>
+			<TouchableOpacity
+				onPress={() => onPressBookVisit()}
+				disabled={isConfirmDisabled}
+				className={`py-4 rounded-lg flex-row items-center justify-center shadow-md 
+					${isConfirmDisabled ? "bg-gray-300 shadow-none" : "bg-blue-500 shadow-lg"}
+				`}
+			>
+				<Text
+					className={`text-lg font-bold ${isConfirmDisabled ? "text-gray-500" : "text-white"}`}
+				>
+					Book a Visit
+				</Text>
 				<Ionicons
 					name="arrow-forward"
 					size={20}
-					color="white"
+					color={isConfirmDisabled ? "#A0A0A0" : "white"}
 					className="ml-2"
 				/>
 			</TouchableOpacity>
@@ -179,10 +283,6 @@ const BookingModule: React.FC = () => {
 export default BookingModule;
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor: "white",
-		padding: 16,
-	},
 	dropdown: {
 		height: 50,
 		borderColor: "gray",
@@ -190,30 +290,18 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		paddingHorizontal: 8,
 	},
-	icon: {
-		marginRight: 5,
-	},
-	label: {
-		position: "absolute",
-		backgroundColor: "white",
-		left: 22,
-		top: 8,
-		zIndex: 999,
-		paddingHorizontal: 8,
-		fontSize: 14,
-	},
 	placeholderStyle: {
 		fontSize: 16,
 	},
 	selectedTextStyle: {
 		fontSize: 16,
 	},
-	iconStyle: {
-		width: 20,
-		height: 20,
-	},
 	inputSearchStyle: {
 		height: 40,
 		fontSize: 16,
+	},
+	iconStyle: {
+		width: 20,
+		height: 20,
 	},
 });

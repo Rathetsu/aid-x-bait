@@ -1,25 +1,28 @@
-import { useSignUp, useUser } from "@clerk/clerk-expo";
+import { useAuth, useSignUp, useUser } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 import { useState, useEffect } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { ReactNativeModal } from "react-native-modal";
-import { useDispatch } from "react-redux";
 
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
-// import { fetchAPI } from "@/lib/fetch";
+import { fetchAPI } from "@/lib/fetch";
+import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 
 const SignUp = () => {
 	const { isLoaded, signUp, setActive } = useSignUp();
 	const { user, isLoaded: isUserLoaded } = useUser();
+	const { getToken } = useAuth();
+
 	const [signUpComplete, setSignUpComplete] = useState(false);
 	const [showSuccessModal, setShowSuccessModal] = useState(false);
 
 	const [form, setForm] = useState({
-		name: "",
+		firstName: "",
+		lastName: "",
 		phone: "",
 		email: "",
 		password: "",
@@ -31,14 +34,16 @@ const SignUp = () => {
 		code: "",
 	});
 
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const onSignUpPress = async () => {
 		if (!isLoaded) return;
 		try {
 			await signUp.create({
-				// phoneNumber: "+12015550100", // testing phone number - code: 424242
-				phoneNumber: `+2${form.phone}`, // +2 for Egypt
+				phoneNumber: "+12015550100", // testing phone number - code: 424242
+				// phoneNumber: `+2${form.phone}`, // +2 for Egypt
+				firstName: form.firstName,
+				lastName: form.lastName,
 				emailAddress: form.email.toLowerCase(),
 				password: form.password,
 			});
@@ -62,17 +67,25 @@ const SignUp = () => {
 				code: verification.code,
 			});
 			if (completeSignUp.status === "complete") {
-				// TODO: Add user to database
-				// await fetchAPI("/(api)/user", {
-				// 	method: "POST",
-				// 	body: JSON.stringify({
-				// 		name: form.name,
-				// 		email: form.email.toLowerCase(),
-				// 		clerkId: completeSignUp.createdUserId,
-				// 		password: form.password,
-				// 	}),
-				// });
+				// Activate the user session
 				await setActive({ session: completeSignUp.createdSessionId });
+				// Add the user to the database
+				const token = await getToken();
+				await fetchAPI(`${process.env.EXPO_PUBLIC_BACKEND_URL}/users/create`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify({
+						firstName: form.firstName,
+						lastName: form.lastName,
+						email: form.email.toLowerCase(),
+						clerkId: completeSignUp.createdUserId,
+						phoneNumber: `+2${form.phone}`,
+						userType: "patient",
+					}),
+				});
 				setVerification({
 					...verification,
 					state: "success",
@@ -97,13 +110,13 @@ const SignUp = () => {
 	useEffect(() => {
 		if (signUpComplete && isUserLoaded && user) {
 			const userData = {
-				firstName: user.firstName,
-				lastName: user.lastName,
-				email: user.emailAddresses[0].emailAddress,
-				imageUrl: user.imageUrl,
-				phone: user.primaryPhoneNumber?.phoneNumber,
+				firstName: user.firstName ?? "",
+				lastName: user.lastName ?? "",
+				email: user.emailAddresses[0].emailAddress ?? "",
+				imageUrl: user.imageUrl ?? "",
+				phone: user.primaryPhoneNumber?.phoneNumber!,
 			};
-
+			// Save the user data to the Redux store and the local storage
 			dispatch(setUser(userData));
 			router.replace("/(root)/(tabs)/home");
 		}
@@ -125,13 +138,30 @@ const SignUp = () => {
 						</View>
 					</View>
 					<View className="p-5">
-						<InputField
-							label="Name"
-							placeholder="Enter name"
-							icon={icons.person}
-							value={form.name}
-							onChangeText={(value) => setForm({ ...form, name: value })}
-						/>
+						<View className="flex-row">
+							<View className="flex-1 mr-2">
+								<InputField
+									label="First Name"
+									placeholder="Enter first name"
+									icon={icons.person}
+									value={form.firstName}
+									onChangeText={(value) =>
+										setForm({ ...form, firstName: value })
+									}
+								/>
+							</View>
+							<View className="flex-1 ml-2">
+								<InputField
+									label="Last Name"
+									placeholder="Enter last name"
+									icon={icons.person}
+									value={form.lastName}
+									onChangeText={(value) =>
+										setForm({ ...form, lastName: value })
+									}
+								/>
+							</View>
+						</View>
 						<InputField
 							label="Phone"
 							placeholder="011 2345 6789"

@@ -2,17 +2,18 @@ import { useSignIn, useUser } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
 
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
+import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 
 const SignIn = () => {
 	const { signIn, setActive, isLoaded } = useSignIn();
 	const { user, isLoaded: isUserLoaded } = useUser();
+	const dispatch = useAppDispatch();
 
 	const [form, setForm] = useState({
 		phone: "",
@@ -20,14 +21,14 @@ const SignIn = () => {
 	});
 
 	const [signInComplete, setSignInComplete] = useState(false);
-	const dispatch = useDispatch();
 
 	const onSignInPress = useCallback(async () => {
 		if (!isLoaded) return;
 
 		try {
 			const signInAttempt = await signIn.create({
-				identifier: `+2${form.phone}`,
+				identifier: "+12015550100", // for testing
+				// identifier: `+2${form.phone}`,
 				password: form.password,
 			});
 
@@ -47,11 +48,11 @@ const SignIn = () => {
 	useEffect(() => {
 		if (signInComplete && isUserLoaded && user) {
 			const userData = {
-				firstName: user.firstName,
-				lastName: user.lastName,
-				email: user.emailAddresses[0].emailAddress,
-				imageUrl: user.imageUrl,
-				phone: user.primaryPhoneNumber?.phoneNumber,
+				firstName: user.firstName ?? "",
+				lastName: user.lastName ?? "",
+				email: user.emailAddresses[0].emailAddress ?? "",
+				imageUrl: user.imageUrl ?? "",
+				phone: user.primaryPhoneNumber?.phoneNumber!,
 			};
 
 			dispatch(setUser(userData));

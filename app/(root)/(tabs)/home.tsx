@@ -1,12 +1,39 @@
+import { useAuth } from "@clerk/clerk-expo";
+import { useEffect } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
 
 import ScrollableBanner from "@/components/ScrollableBanner";
 import ServiceStack from "@/components/ServiceStack";
+import { useAppSelector } from "@/store/hooks";
 
 const Home = () => {
-	const user = useSelector((state: any) => state.user.user);
+	const user = useAppSelector((state) => state.user.user);
+	console.log("User", user);
+
+	const { getToken } = useAuth();
+
+	useEffect(() => {
+		const fetchToken = async () => {
+			try {
+				const token = await getToken();
+				console.log("Token: ", token);
+				// const healthRes = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/health/admin-only`, {
+				// 	method: "GET",
+				// 	headers: {
+				// 		Authorization: `Bearer ${token}`,
+				// 	},
+				// });
+				// const health = await healthRes.text();
+				// console.log("Health: ", health);
+			} catch (error) {
+				console.error("Error fetching token:", error);
+			}
+		};
+
+		fetchToken();
+	}, [getToken]);
+
 	return (
 		<SafeAreaView className="flex-1 bg-white">
 			<ScrollView className="px-4">
@@ -21,7 +48,7 @@ const Home = () => {
 					<TouchableOpacity className="relative">
 						<Image
 							source={{
-								uri: "https://randomuser.me/api/portraits/women/44.jpg",
+								uri: user?.imageUrl,
 							}}
 							className="h-10 w-10 rounded-full"
 						/>
