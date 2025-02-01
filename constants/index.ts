@@ -119,6 +119,8 @@ export const icons = {
 	spine,
 };
 
+// export const models = { skeleton };
+
 export const onboarding = [
 	{
 		id: 1,

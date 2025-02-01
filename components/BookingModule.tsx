@@ -18,6 +18,11 @@ import { BookingModuleProps } from "@/types/type";
 
 import DatePicker from "./DatePicker";
 
+interface DropdownItem {
+	label: string;
+	value: string;
+}
+
 const BookingModule = ({ onPressBookVisit }: BookingModuleProps) => {
 	const [selectedDate, setSelectedDate] = useState<string | null>(null);
 	const [selectedSpeciality, setSelectedSpeciality] = useState<string>("Ortho");
@@ -31,6 +36,11 @@ const BookingModule = ({ onPressBookVisit }: BookingModuleProps) => {
 
 	const specialities = ["Ortho", "General", "Neuro"];
 	const timeSlots = ["(8-12) AM", "(1-6) PM", "(7-11) PM"];
+
+	const dropdownData: DropdownItem[] = [
+		{ label: "Male", value: "Male" },
+		{ label: "Female", value: "Female" },
+	];
 
 	const isConfirmDisabled =
 		!selectedDate ||
@@ -154,10 +164,7 @@ const BookingModule = ({ onPressBookVisit }: BookingModuleProps) => {
 							selectedTextStyle={styles.selectedTextStyle}
 							inputSearchStyle={styles.inputSearchStyle}
 							iconStyle={styles.iconStyle}
-							data={[
-								{ label: "Male", value: "Male" },
-								{ label: "Female", value: "Female" },
-							]}
+							data={dropdownData}
 							maxHeight={300}
 							labelField="label"
 							valueField="value"
@@ -165,7 +172,7 @@ const BookingModule = ({ onPressBookVisit }: BookingModuleProps) => {
 							value={specialist}
 							onFocus={() => setIsDropdownInFocus(true)}
 							onBlur={() => setIsDropdownInFocus(false)}
-							onChange={(item) => {
+							onChange={(item: DropdownItem) => {
 								setSpecialist(item.value);
 								setIsDropdownInFocus(false);
 							}}
