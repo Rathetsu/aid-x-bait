@@ -54,7 +54,6 @@
 				}
 			],
 			"expo-localization",
-			"@stream-io/video-react-native-sdk",
 			[
 				"@config-plugins/react-native-webrtc",
 				{

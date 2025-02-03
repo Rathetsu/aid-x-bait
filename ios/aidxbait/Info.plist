@@ -28,7 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>aid-x-bait</string>
-          <string>com.aidxbaitezzat.aidxbait</string>
+          <string>com.aidxbait.aidxbait</string>
         </array>
       </dict>
       <dict>
@@ -66,10 +66,6 @@
     <key>NSUserActivityTypes</key>
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
-    </array>
-    <key>UIBackgroundModes</key>
-    <array>
-      <string>audio</string>
     </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
