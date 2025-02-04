@@ -1,36 +1,41 @@
-import {
-	useCallStateHooks,
-	CallParticipantsList,
-} from "@stream-io/video-react-native-sdk";
-import { Button } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { RTCView } from "react-native-webrtc";
 
-export const MyVideoButton = () => {
-	const { useCameraState } = useCallStateHooks();
-	const { camera, isMute } = useCameraState();
-	return (
-		<Button
-			title={isMute ? "Turn on camera" : "Turn off camera"}
-			onPress={() => camera.toggle()}
-		></Button>
-	);
-};
-
-export const MyMicrophoneButton = () => {
-	const { useMicrophoneState } = useCallStateHooks();
-	const { microphone, isMute } = useMicrophoneState();
-	return (
-		<Button
-			title={isMute ? "Turn on microphone" : "Turn off microphone"}
-			onPress={() => microphone.toggle()}
-		></Button>
-	);
-};
+import { pc, joinRoom } from "../lib/video";
 
 const VideoUI = () => {
-	const { useParticipants } = useCallStateHooks();
-	const participants = useParticipants();
+	const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
 
-	return <CallParticipantsList participants={participants} />;
+	useEffect(() => {
+		joinRoom("room1");
+
+		pc.addEventListener("track", (event) => {
+			const trackEvent = event as unknown as RTCTrackEvent;
+			if (trackEvent.streams && trackEvent.streams[0]) {
+				setRemoteStream(trackEvent.streams[0]);
+			}
+		});
+
+		return () => {
+			pc.close(); // Clean up the peer connection when the component unmounts
+		};
+	}, []);
+
+	return (
+		<SafeAreaView>
+			<Text>Video Call</Text>
+			{remoteStream ? (
+				<RTCView
+					streamURL={remoteStream as unknown as string}
+					style={{ width: "100%", height: "100%" }}
+				/>
+			) : (
+				<Text>Waiting for connection...</Text>
+			)}
+		</SafeAreaView>
+	);
 };
 
 export default VideoUI;
