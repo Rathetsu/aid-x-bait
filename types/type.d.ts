@@ -189,3 +189,46 @@ declare interface CreateUserResponse {
 	createdAt: string;
 	updatedAt: string;
 }
+
+export interface AddressResponseDto {
+	id: number;
+	addressLine1: string;
+	addressLine2?: string;
+	city: string;
+	state: string;
+	zipCode: string;
+  }
+  
+  export interface UpdateAddressRequestDto {
+	token: string; // Authorization token
+	addressLine1: string;
+	addressLine2?: string;
+	city: string;
+	state: string;
+	zipCode: string;
+  }
+  
+  // Patient Address DTOs
+  export interface GetUserAddressesResponseDto {
+	id: number;
+	patientId: number;
+	addressLine1: string;
+	addressLine2?: string;
+	city: string;
+	state: string;
+	zipCode: string;
+  }
+  
+  export interface InsertUserAddressRequestDto {
+	token: string; // Authorization token
+	patientId: number;
+	addressLine1: string;
+	addressLine2?: string;
+	city: string;
+	state: string;
+	zipCode: string;
+  }
+  
+  export interface SoftDeleteUserAddressRequestDto {
+	addressId: number;
+  }
