@@ -1,4 +1,4 @@
-const URL = `${process.env.EXPO_PUBLIC_BACKEND_URL}/users/create`;
+const URL = `${process.env.EXPO_PUBLIC_BACKEND_URL}/patient-address/delete`;
 
 export async function POST(request: Request) {
 	try {
@@ -10,10 +10,9 @@ export async function POST(request: Request) {
 			},
 			body: JSON.stringify(body),
 		});
-		const data = await response.json();
-		return Response.json(data, { status: response.status });
+		return new Response(null, { status: response.status });
 	} catch (error) {
-		console.error("Error creating user:", error);
+		console.error("Error deleting user address:", error);
 		return Response.json({ error: "Internal Server Error" }, { status: 500 });
 	}
 }

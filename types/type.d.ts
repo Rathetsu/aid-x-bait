@@ -168,24 +168,3 @@ declare interface TabsProps {
 	activeTab: string;
 	onChangeTab: (tab: string) => void;
 }
-
-declare interface CreateUserData {
-	phoneNumber: string;
-	email: string;
-	clerkId: string;
-	firstName?: string;
-	lastName?: string;
-	userType: string;
-}
-
-declare interface CreateUserResponse {
-	id: number;
-	phoneNumber: string;
-	email: string;
-	clerkId: string;
-	firstName?: string;
-	lastName?: string;
-	userType: string;
-	createdAt: string;
-	updatedAt: string;
-}
