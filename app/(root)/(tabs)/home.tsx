@@ -18,14 +18,6 @@ const Home = () => {
 			try {
 				const token = await getToken();
 				console.log("Token: ", token);
-				// const healthRes = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/health/admin-only`, {
-				// 	method: "GET",
-				// 	headers: {
-				// 		Authorization: `Bearer ${token}`,
-				// 	},
-				// });
-				// const health = await healthRes.text();
-				// console.log("Health: ", health);
 			} catch (error) {
 				console.error("Error fetching token:", error);
 			}

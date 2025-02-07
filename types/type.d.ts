@@ -62,6 +62,8 @@ declare interface Service {
 }
 
 declare interface User {
+	id: number;
+	patientId: number;
 	firstName: string;
 	lastName: string;
 	email: string;

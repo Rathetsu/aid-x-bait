@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { ReactNativeModal } from "react-native-modal";
 
+import { createUser } from "@/api/user";
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
-import { fetchAPI } from "@/lib/fetch";
+import { tokenCache } from "@/lib/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 
@@ -19,6 +20,8 @@ const SignUp = () => {
 
 	const [signUpComplete, setSignUpComplete] = useState(false);
 	const [showSuccessModal, setShowSuccessModal] = useState(false);
+	const [userId, setUserId] = useState<string | null>(null);
+	const [patientId, setPatientId] = useState<string | null>(null);
 
 	const [form, setForm] = useState({
 		firstName: "",
@@ -69,23 +72,25 @@ const SignUp = () => {
 			if (completeSignUp.status === "complete") {
 				// Activate the user session
 				await setActive({ session: completeSignUp.createdSessionId });
-				// Add the user to the database
 				const token = await getToken();
-				await fetchAPI(`${process.env.EXPO_PUBLIC_BACKEND_URL}/users/create`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${token}`,
-					},
-					body: JSON.stringify({
-						firstName: form.firstName,
-						lastName: form.lastName,
+				tokenCache.saveToken("__clerk_client_jwt", token!);
+
+				// Add the user to the database
+				const userData = {
+					createDto: {
+						first_name: form.firstName,
+						last_name: form.lastName,
 						email: form.email.toLowerCase(),
-						clerkId: completeSignUp.createdUserId,
-						phoneNumber: `+2${form.phone}`,
-						userType: "patient",
-					}),
-				});
+						clerk_id: completeSignUp.createdUserId!,
+						phone_number: `+2${form.phone}`,
+					},
+					user_type: "patient",
+				};
+				const res = await createUser(userData);
+				console.log("res", res); // {"patient_id": 2, "user_id": 6}
+				setUserId(res.user_id);
+				setPatientId(res.patient_id);
+
 				setVerification({
 					...verification,
 					state: "success",
@@ -110,6 +115,8 @@ const SignUp = () => {
 	useEffect(() => {
 		if (signUpComplete && isUserLoaded && user) {
 			const userData = {
+				id: userId!,
+				patientId: patientId!,
 				firstName: user.firstName ?? "",
 				lastName: user.lastName ?? "",
 				email: user.emailAddresses[0].emailAddress ?? "",
@@ -120,7 +127,7 @@ const SignUp = () => {
 			dispatch(setUser(userData));
 			router.replace("/(root)/(tabs)/home");
 		}
-	}, [signUpComplete, isUserLoaded, user, dispatch]);
+	}, [signUpComplete, isUserLoaded, user, userId, patientId, dispatch]);
 
 	return (
 		<>
