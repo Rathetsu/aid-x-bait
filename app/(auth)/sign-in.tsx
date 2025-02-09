@@ -84,8 +84,8 @@ const SignIn = () => {
 
 			if (signInAttempt.status === "complete") {
 				await setActive({ session: signInAttempt.createdSessionId });
-				const token = await getToken();
-				tokenCache.saveToken("__clerk_client_jwt", token!);
+				const newToken = await getToken();
+				tokenCache.saveToken("__clerk_client_jwt", newToken!);
 			} else {
 				console.log(JSON.stringify(signInAttempt, null, 2));
 				setLoading(false);

@@ -20,6 +20,7 @@ const createTokenCache = (): TokenCache => {
 		},
 		saveToken: (key: string, token: string) => {
 			try {
+				console.log(`Saving ${key} 🔐 \n`);
 				return SecureStore.setItemAsync(key, token);
 			} catch (err) {
 				console.error("SecureStore set item error: ", err);
