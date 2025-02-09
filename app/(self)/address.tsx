@@ -13,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import GoogleTextInput from "@/components/GoogleTextInput";
 import Map from "@/components/Map";
 import { icons } from "@/constants";
+import { fetchAPI } from "@/lib/fetch";
 import { useAppSelector } from "@/store/hooks";
 import { selectLocation } from "@/store/slices/locationSlice";
 import { selectUser } from "@/store/slices/userSlice";
@@ -36,7 +37,7 @@ const Address = () => {
 	const [floor, setFloor] = useState("");
 	const [street, setStreet] = useState("");
 	const [additionalDirections, setAdditionalDirections] = useState("");
-	const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber ?? "");
+	const [phoneNumber, setPhoneNumber] = useState(user?.phone ?? "");
 	const [label, setLabel] = useState("");
 	const [selectedTab, setSelectedTab] = useState("Apartment");
 
@@ -60,6 +61,26 @@ const Address = () => {
 		setMarkerLocation({
 			latitude: location.latitude,
 			longitude: location.longitude,
+		});
+	};
+
+	const handleSaveAddress = async () => {
+		const data = {
+			userId: user!.id,
+			area,
+			latitude: markerLocation.latitude,
+			longitude: markerLocation.longitude,
+			buildingName,
+			apartmentNo,
+			floor,
+			street,
+			additionalDirections,
+			phoneNumber,
+			label,
+		};
+		await fetchAPI("/(api)/address/create", {
+			method: "POST",
+			body: JSON.stringify(data),
 		});
 	};
 
@@ -229,7 +250,10 @@ const Address = () => {
 				/>
 
 				{/* Save Address Button */}
-				<TouchableOpacity className="bg-primary-500 rounded-lg p-4 items-center">
+				<TouchableOpacity
+					className="bg-primary-500 rounded-lg p-4 items-center"
+					onPress={handleSaveAddress}
+				>
 					<Text className="text-white font-semibold text-base">
 						Save address
 					</Text>

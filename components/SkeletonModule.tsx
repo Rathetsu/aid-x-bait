@@ -54,7 +54,7 @@ const SkeletonModule: React.FC<SkeletonModuleProps> = ({ onNavigate }) => {
 					y="190"
 					width="30"
 					height="100"
-					fill="khaki"
+					fill="yellow"
 					onPress={() => handlePress("Left Leg")}
 				/>
 				{/* Right Leg */}
