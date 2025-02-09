@@ -1,18 +1,28 @@
-import { useSignIn, useUser } from "@clerk/clerk-expo";
+import { useAuth, useSignIn, useUser } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { Alert, Image, ScrollView, Text, View } from "react-native";
+import {
+	ActivityIndicator,
+	Alert,
+	Image,
+	ScrollView,
+	Text,
+	View,
+} from "react-native";
 
+import { getUser } from "@/api/user";
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
+import { tokenCache } from "@/lib/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 
 const SignIn = () => {
-	const { signIn, setActive, isLoaded } = useSignIn();
+	const { signIn, setActive, isLoaded: isSignInLoaded } = useSignIn();
 	const { user, isLoaded: isUserLoaded } = useUser();
+	const { userId, getToken } = useAuth();
 	const dispatch = useAppDispatch();
 
 	const [form, setForm] = useState({
@@ -21,41 +31,75 @@ const SignIn = () => {
 	});
 
 	const [signInComplete, setSignInComplete] = useState(false);
+	const [loading, setLoading] = useState(false);
+
+	const fetchUser = useCallback(
+		async (retryCount = 0) => {
+			if (!userId) {
+				console.log("User ID not found, retrying...");
+				if (retryCount < 5) {
+					setTimeout(() => fetchUser(retryCount + 1), 500);
+				}
+				return;
+			}
+
+			try {
+				const res = await getUser(userId);
+				const userData = {
+					id: parseInt(res.id!),
+					patientId: parseInt(res.details.id!),
+					firstName: res.first_name!,
+					lastName: res.last_name!,
+					email: res.email!,
+					imageUrl: res.image_url ?? "",
+					phone: res.phone_number!,
+				};
+				dispatch(setUser(userData));
+				setSignInComplete(true);
+			} catch (error) {
+				console.error("Error fetching user:", error);
+			}
+		},
+		[userId, dispatch]
+	);
+
+	useEffect(() => {
+		if (userId) {
+			fetchUser();
+		}
+	}, [userId, fetchUser]);
 
 	const onSignInPress = useCallback(async () => {
-		if (!isLoaded) return;
+		if (!isSignInLoaded) return;
+
+		setLoading(true);
 
 		try {
 			const signInAttempt = await signIn.create({
 				identifier: "+12015550100", // for testing
+				password: "test", // for testing
 				// identifier: `+2${form.phone}`,
-				password: form.password,
+				// password: form.password,
 			});
 
 			if (signInAttempt.status === "complete") {
 				await setActive({ session: signInAttempt.createdSessionId });
-				setSignInComplete(true);
+				const token = await getToken();
+				tokenCache.saveToken("__clerk_client_jwt", token!);
 			} else {
 				console.log(JSON.stringify(signInAttempt, null, 2));
+				setLoading(false);
 				Alert.alert("Error", "Log in failed. Please try again.");
 			}
 		} catch (err: any) {
 			console.log(JSON.stringify(err, null, 2));
+			setLoading(false);
 			Alert.alert("Error", err.errors[0].longMessage);
 		}
-	}, [isLoaded, signIn, form.phone, form.password, setActive]);
+	}, [isSignInLoaded, signIn, form.phone, form.password, setActive, getToken]);
 
 	useEffect(() => {
 		if (signInComplete && isUserLoaded && user) {
-			const userData = {
-				firstName: user.firstName ?? "",
-				lastName: user.lastName ?? "",
-				email: user.emailAddresses[0].emailAddress ?? "",
-				imageUrl: user.imageUrl ?? "",
-				phone: user.primaryPhoneNumber?.phoneNumber!,
-			};
-
-			dispatch(setUser(userData));
 			router.replace("/(root)/(tabs)/home");
 		}
 	}, [signInComplete, isUserLoaded, user, dispatch]);
@@ -97,8 +141,11 @@ const SignIn = () => {
 					<CustomButton
 						title="Sign In"
 						onPress={onSignInPress}
+						loading={loading}
 						className="mt-6"
-					/>
+					>
+						{loading && <ActivityIndicator size="small" color="#fff" />}
+					</CustomButton>
 
 					<OAuth />
 

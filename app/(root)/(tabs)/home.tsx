@@ -9,7 +9,6 @@ import { useAppSelector } from "@/store/hooks";
 
 const Home = () => {
 	const user = useAppSelector((state) => state.user.user);
-	console.log("User", user);
 
 	const { getToken } = useAuth();
 

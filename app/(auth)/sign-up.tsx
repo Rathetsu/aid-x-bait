@@ -82,12 +82,12 @@ const SignUp = () => {
 						last_name: form.lastName,
 						email: form.email.toLowerCase(),
 						clerk_id: completeSignUp.createdUserId!,
+						image_url: user?.imageUrl ?? "",
 						phone_number: `+2${form.phone}`,
 					},
 					user_type: "patient",
 				};
 				const res = await createUser(userData);
-				console.log("res", res); // {"patient_id": 2, "user_id": 6}
 				setUserId(res.user_id);
 				setPatientId(res.patient_id);
 
@@ -115,8 +115,8 @@ const SignUp = () => {
 	useEffect(() => {
 		if (signUpComplete && isUserLoaded && user) {
 			const userData = {
-				id: userId!,
-				patientId: patientId!,
+				id: parseInt(userId!),
+				patientId: parseInt(patientId!),
 				firstName: user.firstName ?? "",
 				lastName: user.lastName ?? "",
 				email: user.emailAddresses[0].emailAddress ?? "",

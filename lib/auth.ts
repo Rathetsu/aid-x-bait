@@ -19,7 +19,12 @@ const createTokenCache = (): TokenCache => {
 			}
 		},
 		saveToken: (key: string, token: string) => {
-			return SecureStore.setItemAsync(key, token);
+			try {
+				return SecureStore.setItemAsync(key, token);
+			} catch (err) {
+				console.error("SecureStore set item error: ", err);
+				return Promise.reject(err);
+			}
 		},
 	};
 };

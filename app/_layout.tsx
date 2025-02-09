@@ -63,6 +63,7 @@ export default function RootLayout() {
 						<Stack.Screen name="(root)" options={{ headerShown: false }} />
 						<Stack.Screen name="(self)" options={{ headerShown: false }} />
 						<Stack.Screen name="(store)" options={{ headerShown: false }} />
+						<Stack.Screen name="(programs)" options={{ headerShown: false }} />
 						<Stack.Screen
 							name="(consultations)"
 							options={{ headerShown: false }}
