@@ -15,7 +15,6 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
-import { tokenCache } from "@/lib/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 
@@ -33,35 +32,30 @@ const SignIn = () => {
 	const [signInComplete, setSignInComplete] = useState(false);
 	const [loading, setLoading] = useState(false);
 
-	const fetchUser = useCallback(
-		async (retryCount = 0) => {
-			if (!userId) {
-				console.log("User ID not found, retrying...");
-				if (retryCount < 5) {
-					setTimeout(() => fetchUser(retryCount + 1), 500);
-				}
-				return;
-			}
+	const fetchUser = useCallback(async () => {
+		if (!userId) {
+			console.log("User ID not found!");
+			return;
+		}
 
-			try {
-				const res = await getUser(userId);
-				const userData = {
-					id: parseInt(res.id!),
-					patientId: parseInt(res.details.id!),
-					firstName: res.first_name!,
-					lastName: res.last_name!,
-					email: res.email!,
-					imageUrl: res.image_url ?? "",
-					phone: res.phone_number!,
-				};
-				dispatch(setUser(userData));
-				setSignInComplete(true);
-			} catch (error) {
-				console.error("Error fetching user:", error);
-			}
-		},
-		[userId, dispatch]
-	);
+		try {
+			const clerkToken = await getToken();
+			const res = await getUser(userId, clerkToken!);
+			const userData = {
+				id: parseInt(res.id!),
+				patientId: parseInt(res.details.id!),
+				firstName: res.first_name!,
+				lastName: res.last_name!,
+				email: res.email!,
+				imageUrl: res.image_url ?? "",
+				phone: res.phone_number!,
+			};
+			dispatch(setUser(userData));
+			setSignInComplete(true);
+		} catch (error) {
+			console.error("Error fetching user:", error);
+		}
+	}, [userId, getToken, dispatch]);
 
 	useEffect(() => {
 		if (userId) {
@@ -84,8 +78,8 @@ const SignIn = () => {
 
 			if (signInAttempt.status === "complete") {
 				await setActive({ session: signInAttempt.createdSessionId });
-				const newToken = await getToken();
-				tokenCache.saveToken("__clerk_client_jwt", newToken!);
+				setLoading(false);
+				setSignInComplete(true);
 			} else {
 				console.log(JSON.stringify(signInAttempt, null, 2));
 				setLoading(false);
@@ -96,7 +90,7 @@ const SignIn = () => {
 			setLoading(false);
 			Alert.alert("Error", err.errors[0].longMessage);
 		}
-	}, [isSignInLoaded, signIn, form.phone, form.password, setActive, getToken]);
+	}, [isSignInLoaded, signIn, form.phone, form.password, setActive]);
 
 	useEffect(() => {
 		if (signInComplete && isUserLoaded && user) {

@@ -1,6 +1,6 @@
 import { useAuth, useSignUp, useUser } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import { ReactNativeModal } from "react-native-modal";
 
@@ -9,19 +9,17 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
-import { tokenCache } from "@/lib/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 
 const SignUp = () => {
-	const { isLoaded, signUp, setActive } = useSignUp();
+	const { isLoaded: isSignUpLoaded, signUp, setActive } = useSignUp();
 	const { user, isLoaded: isUserLoaded } = useUser();
 	const { getToken } = useAuth();
+	const isCreateUserRequestSent = useRef(false);
 
 	const [signUpComplete, setSignUpComplete] = useState(false);
 	const [showSuccessModal, setShowSuccessModal] = useState(false);
-	const [userId, setUserId] = useState<string | null>(null);
-	const [patientId, setPatientId] = useState<string | null>(null);
 
 	const [form, setForm] = useState({
 		firstName: "",
@@ -40,7 +38,7 @@ const SignUp = () => {
 	const dispatch = useAppDispatch();
 
 	const onSignUpPress = async () => {
-		if (!isLoaded) return;
+		if (!isSignUpLoaded) return;
 		try {
 			await signUp.create({
 				phoneNumber: "+12015550100", // testing phone number - code: 424242
@@ -64,32 +62,13 @@ const SignUp = () => {
 	};
 
 	const onPressVerify = async () => {
-		if (!isLoaded) return;
+		if (!isSignUpLoaded) return;
 		try {
 			const completeSignUp = await signUp.attemptPhoneNumberVerification({
 				code: verification.code,
 			});
 			if (completeSignUp.status === "complete") {
-				// Activate the user session
 				await setActive({ session: completeSignUp.createdSessionId });
-				const token = await getToken();
-				tokenCache.saveToken("__clerk_client_jwt", token!);
-
-				// Add the user to the database
-				const userData = {
-					createDto: {
-						first_name: form.firstName,
-						last_name: form.lastName,
-						email: form.email.toLowerCase(),
-						clerk_id: completeSignUp.createdUserId!,
-						image_url: user?.imageUrl ?? "",
-						phone_number: `+2${form.phone}`,
-					},
-					user_type: "patient",
-				};
-				const res = await createUser(userData);
-				setUserId(res.user_id);
-				setPatientId(res.patient_id);
 
 				setVerification({
 					...verification,
@@ -113,21 +92,59 @@ const SignUp = () => {
 	};
 
 	useEffect(() => {
-		if (signUpComplete && isUserLoaded && user) {
-			const userData = {
-				id: parseInt(userId!),
-				patientId: parseInt(patientId!),
-				firstName: user.firstName ?? "",
-				lastName: user.lastName ?? "",
-				email: user.emailAddresses[0].emailAddress ?? "",
-				imageUrl: user.imageUrl ?? "",
-				phone: user.primaryPhoneNumber?.phoneNumber!,
-			};
-			// Save the user data to the Redux store and the local storage
-			dispatch(setUser(userData));
-			router.replace("/(root)/(tabs)/home");
-		}
-	}, [signUpComplete, isUserLoaded, user, userId, patientId, dispatch]);
+		let isMounted = true;
+
+		const addUserToDB = async () => {
+			if (
+				signUpComplete &&
+				isUserLoaded &&
+				user &&
+				!isCreateUserRequestSent.current
+			) {
+				isCreateUserRequestSent.current = true;
+				try {
+					const token = await getToken();
+					const userData = {
+						createDto: {
+							first_name: form.firstName,
+							last_name: form.lastName,
+							email: form.email.toLowerCase(),
+							clerk_id: user.id,
+							image_url: user.imageUrl ?? "",
+							phone_number: `+2${form.phone}`,
+						},
+						user_type: "patient",
+					};
+
+					const res = await createUser(userData, token!);
+
+					if (!isMounted) return;
+
+					const updatedUserData = {
+						id: parseInt(res.user_id),
+						patientId: parseInt(res.patient_id),
+						firstName: user.firstName ?? "",
+						lastName: user.lastName ?? "",
+						email: user.emailAddresses[0].emailAddress ?? "",
+						imageUrl: user.imageUrl ?? "",
+						phone: user.primaryPhoneNumber?.phoneNumber!,
+					};
+					dispatch(setUser(updatedUserData));
+
+					router.replace("/(root)/(tabs)/home");
+				} catch (error) {
+					console.error("Error adding user to database:", error);
+					isCreateUserRequestSent.current = false;
+				}
+			}
+		};
+
+		addUserToDB();
+
+		return () => {
+			isMounted = false;
+		};
+	}, [signUpComplete, isUserLoaded, user, getToken, dispatch, form]);
 
 	return (
 		<>

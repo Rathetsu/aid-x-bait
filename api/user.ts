@@ -1,4 +1,3 @@
-import { tokenCache } from "@/lib/auth";
 const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 interface CreateUserDto {
@@ -13,10 +12,9 @@ interface CreateUserDto {
 	user_type: string;
 }
 
-export async function getUser(identifier: number | string) {
+export async function getUser(identifier: number | string, token: string) {
 	const URL = `${BACKEND_URL}/users/get-user-details`;
 	try {
-		const token = await tokenCache.getToken("__clerk_client_jwt");
 		const response = await fetch(URL, {
 			method: "POST",
 			headers: {
@@ -39,10 +37,9 @@ export async function getUser(identifier: number | string) {
 	}
 }
 
-export async function createUser(userData: CreateUserDto) {
+export async function createUser(userData: CreateUserDto, token: string) {
 	const URL = `${BACKEND_URL}/users/create`;
 	try {
-		const token = await tokenCache.getToken("__clerk_client_jwt");
 		const response = await fetch(URL, {
 			method: "POST",
 			headers: {
