@@ -1,22 +1,10 @@
-import { useState } from "react";
-import {
-	View,
-	Text,
-	FlatList,
-	Image,
-	TouchableOpacity,
-	Modal,
-} from "react-native";
+import { router } from "expo-router";
+import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import VideoPlayer from "@/components/VideoPlayer";
 import { VideoPlayerProps } from "@/types/type";
 
 const VideoGallery = () => {
-	const [selectedVideo, setSelectedVideo] = useState<VideoPlayerProps | null>(
-		null
-	);
-
 	const videos = [
 		{
 			id: 1,
@@ -47,9 +35,8 @@ const VideoGallery = () => {
 			isBestSeller: false,
 		},
 	];
-
 	const handleVideoPress = (video: VideoPlayerProps) => {
-		setSelectedVideo(video);
+		router.push({ pathname: "/(programs)/watch-video", params: { ...video } });
 	};
 
 	const renderItem = ({ item }: { item: any }) => (
@@ -97,7 +84,7 @@ const VideoGallery = () => {
 				numColumns={2}
 			/>
 
-			{selectedVideo && (
+			{/* {selectedVideo && (
 				<Modal
 					visible={!!selectedVideo}
 					transparent={false}
@@ -114,7 +101,7 @@ const VideoGallery = () => {
 						duration={selectedVideo.duration}
 					/>
 				</Modal>
-			)}
+			)} */}
 		</SafeAreaView>
 	);
 };
