@@ -18,7 +18,11 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 			{/* Video Player */}
 			<Video
 				source={{ uri: video }}
-				className="w-full h-52 mb-4"
+				style={{ width: "100%", height: 250, marginBottom: 16 }}
+				ignoreSilentSwitch="ignore"
+				playInBackground={false}
+				playWhenInactive={false}
+				poster="https://via.placeholder.com/150"
 				controls
 				resizeMode="contain"
 			/>

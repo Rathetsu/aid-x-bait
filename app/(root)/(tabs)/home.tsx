@@ -7,7 +7,6 @@ import { useAppSelector } from "@/store/hooks";
 
 const Home = () => {
 	const user = useAppSelector((state) => state.user.user);
-	console.log("User: ", user);
 
 	return (
 		<SafeAreaView className="flex-1 bg-white">
