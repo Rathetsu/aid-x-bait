@@ -19,11 +19,8 @@ const WatchVideo = () => {
 		<VideoPlayer
 			video={selectedVideo.video as string}
 			title={selectedVideo.title as string}
-			price={selectedVideo.price as string}
+			poster={selectedVideo.poster as string}
 			description={selectedVideo.description as string}
-			rating={parseFloat(selectedVideo.rating as string)}
-			reviews={parseInt(selectedVideo.reviews as string)}
-			duration={selectedVideo.duration as string}
 		/>
 	);
 };

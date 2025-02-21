@@ -1,41 +1,64 @@
-import { Text } from "react-native";
+import { router } from "expo-router";
+import { Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Video from "react-native-video";
+import VideoPlayer from "react-native-video-player";
 
 import { VideoPlayerProps } from "@/types/type";
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({
+const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({
 	video,
 	title,
-	price,
+	poster,
 	description,
-	rating,
-	reviews,
-	duration,
 }) => {
 	return (
 		<SafeAreaView className="flex-1 bg-white">
+			{/* Video Title */}
+			<Text className="text-lg font-bold text-center my-2">{title}</Text>
 			{/* Video Player */}
-			<Video
+			<VideoPlayer
 				source={{ uri: video }}
+				poster={poster}
+				posterResizeMode="cover"
 				style={{ width: "100%", height: 250, marginBottom: 16 }}
-				ignoreSilentSwitch="ignore"
+				autoplay={true}
+				showDuration={true}
+				controls={true}
+				// onBack={() => router.back()}
+				fullScreenOnLongPress={true}
 				playInBackground={false}
 				playWhenInactive={false}
-				poster="https://via.placeholder.com/150"
-				controls
+				ignoreSilentSwitch={"ignore"}
+				endWithThumbnail={true}
+				hideControlsOnStart={true}
+				controlsTimeout={3000}
+				pauseOnPress={true}
+				repeat={true}
 				resizeMode="contain"
+				fullscreenOrientation="portrait"
+				fullscreenAutorotate={true}
+				customStyles={{
+					wrapper: styles.wrapper,
+					playControl: styles.playControl,
+					seekBarKnob: styles.seekBarKnob,
+				}}
 			/>
-			{/* Details */}
-			<Text className="text-xl font-bold my-2">{title}</Text>
-			<Text className="text-lg text-pink-500 mb-2">{price}</Text>
-			<Text className="text-sm text-gray-600 mb-2">{description}</Text>
-			<Text className="text-base mb-2">
-				{rating} ({reviews} reviews)
-			</Text>
-			<Text className="text-sm text-gray-600">{duration}</Text>
+			{/* Video Description */}
+			<Text className="text-base mx-4">{description}</Text>
 		</SafeAreaView>
 	);
 };
 
-export default VideoPlayer;
+export default CustomVideoPlayer;
+
+const styles = StyleSheet.create({
+	wrapper: {
+		// ...
+	},
+	playControl: {
+		// ...
+	},
+	seekBarKnob: {
+		color: "#2E71A8",
+	},
+});

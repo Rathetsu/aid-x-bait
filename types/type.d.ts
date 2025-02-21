@@ -26,14 +26,20 @@ declare interface InputFieldProps extends TextInputProps {
 	className?: string;
 	lowercase?: boolean;
 }
+
+declare interface VideoPageProps {
+	video: string;
+	title: string;
+	poster: string;
+	price: string;
+	description: string;
+	duration: string;
+}
 declare interface VideoPlayerProps {
 	video: string;
 	title: string;
-	price: string;
+	poster: string;
 	description: string;
-	rating: number;
-	reviews: number;
-	duration: string;
 }
 
 declare interface GoogleInputProps {

@@ -9,6 +9,7 @@ const VideoGallery = () => {
 		{
 			id: 1,
 			title: "Common Bone Problems",
+			poster: "https://via.placeholder.com/150",
 			doctor: "Dr. Ahmed Azzam",
 			price: "200 E.L",
 			rating: 4.9,
@@ -23,6 +24,7 @@ const VideoGallery = () => {
 		{
 			id: 2,
 			title: "First Aid Basics",
+			poster: "https://via.placeholder.com/150",
 			doctor: "Dr. John Doe",
 			price: "150 E.L",
 			rating: 4.7,
@@ -35,6 +37,7 @@ const VideoGallery = () => {
 			isBestSeller: false,
 		},
 	];
+
 	const handleVideoPress = (video: VideoPlayerProps) => {
 		router.push({ pathname: "/(programs)/watch-video", params: { ...video } });
 	};
@@ -83,25 +86,6 @@ const VideoGallery = () => {
 				keyExtractor={(item) => item.id.toString()}
 				numColumns={2}
 			/>
-
-			{/* {selectedVideo && (
-				<Modal
-					visible={!!selectedVideo}
-					transparent={false}
-					animationType="slide"
-					onRequestClose={() => setSelectedVideo(null)}
-				>
-					<VideoPlayer
-						video={selectedVideo.video}
-						title={selectedVideo.title}
-						price={selectedVideo.price}
-						description={selectedVideo.description}
-						rating={selectedVideo.rating}
-						reviews={selectedVideo.reviews}
-						duration={selectedVideo.duration}
-					/>
-				</Modal>
-			)} */}
 		</SafeAreaView>
 	);
 };
