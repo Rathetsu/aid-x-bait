@@ -151,7 +151,7 @@ const ProductPreview = ({
 					)}
 				/>
 				<TouchableOpacity
-					className="absolute top-6 left-4 bg-white p-2 rounded-full"
+					className="absolute top-10 left-4 bg-white p-2 rounded-full"
 					onPress={() => router.back()}
 				>
 					<MaterialIcons name="arrow-back-ios" size={20} color="#4A4A4A" />

@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { FlatList, View } from "react-native";
 
 import HorizontalProductList from "@/components/HorizontalProductList";
 import InjurySelector from "@/components/InjurySelector";
@@ -89,20 +89,36 @@ const productArray = [
 	},
 ];
 
+const sections = [
+	{ id: "banner", component: <ScrollableBanner /> },
+	{ id: "injurySelector", component: <InjurySelector /> },
+	{
+		id: "newArrivals",
+		component: <ProductGrid title="New Arrivals" products={productArray} />,
+	},
+	{
+		id: "forRent",
+		component: (
+			<HorizontalProductList title="For Rent" products={productArray} />
+		),
+	},
+	{
+		id: "bestSellers",
+		component: <ProductGrid title="Best Sellers" products={productArray} />,
+	},
+];
+
 const AidxbaitStore = () => {
 	return (
-		<ScrollView
-			className="flex-1"
-			contentContainerStyle={{ paddingBottom: 20 }}
-		>
-			<ScrollableBanner />
-
-			<InjurySelector />
-
-			<ProductGrid title="New Arrivals" products={productArray} />
-			<HorizontalProductList title="For Rent" products={productArray} />
-			<ProductGrid title="Best Sellers" products={productArray} />
-		</ScrollView>
+		<View className="flex-1 pb-10">
+			<FlatList
+				data={sections}
+				keyExtractor={(item) => item.id}
+				renderItem={({ item }) => item.component}
+				contentContainerStyle={{ paddingBottom: 20 }}
+				showsVerticalScrollIndicator={false}
+			/>
+		</View>
 	);
 };
 
