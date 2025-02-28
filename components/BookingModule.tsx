@@ -73,7 +73,9 @@ const BookingModule = ({ onPressBookVisit }: BookingModuleProps) => {
 							<Text className="text-gray-600">
 								El-Abour Bldgs 11 6th Floor.
 							</Text>
-							<TouchableOpacity onPress={() => router.push("/(self)/address")}>
+							<TouchableOpacity
+								onPress={() => router.push("/(self)/my-addresses")}
+							>
 								<Text className="text-blue-500 ml-3">Change</Text>
 							</TouchableOpacity>
 						</View>

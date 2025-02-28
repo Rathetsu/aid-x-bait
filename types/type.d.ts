@@ -91,6 +91,21 @@ declare interface UserState {
 	isLoggedIn: boolean;
 }
 
+declare interface Address {
+	id: number;
+	address_type: string;
+	address_label: string;
+	governorate: string;
+	city: string;
+	street: string;
+	building_name?: string;
+	floor?: string;
+	apartment?: string;
+	additional_directions?: string;
+	phone?: string;
+	is_primary?: boolean;
+}
+
 declare interface Product {
 	id: number;
 	name: string;
