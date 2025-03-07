@@ -1,3 +1,4 @@
+import { useAuth } from "@clerk/clerk-expo";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -10,11 +11,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { createAddress, updateAddress } from "@/api/address";
+import { createAddress } from "@/api/address";
 import GoogleTextInput from "@/components/GoogleTextInput";
 import Map from "@/components/Map";
 import { icons } from "@/constants";
-import { fetchAPI } from "@/lib/fetch";
 import { useAppSelector } from "@/store/hooks";
 import { selectLocation } from "@/store/slices/locationSlice";
 import { selectUser } from "@/store/slices/userSlice";
@@ -22,6 +22,7 @@ import { selectUser } from "@/store/slices/userSlice";
 const Address = () => {
 	const { userAddress } = useAppSelector(selectLocation);
 	const { user } = useAppSelector(selectUser);
+	const { getToken } = useAuth();
 
 	console.log("userAddress", userAddress);
 	console.log("user", user);
@@ -66,23 +67,26 @@ const Address = () => {
 	};
 
 	const handleSaveAddress = async () => {
+		console.log("area: ", location);
+		return;
+		const token = await getToken();
 		const data = {
-			userId: user!.id,
-			area,
+			patient_id: user!.patientId,
+			address_type: selectedTab,
+			address_label: label,
 			latitude: markerLocation.latitude,
 			longitude: markerLocation.longitude,
+			governorate: area,
+			city: area,
+			street: street,
 			buildingName,
 			apartmentNo,
 			floor,
-			street,
 			additionalDirections,
 			phoneNumber,
 			label,
 		};
-		await fetchAPI("/(api)/address/create", {
-			method: "POST",
-			body: JSON.stringify(data),
-		});
+		await createAddress(data, token!);
 	};
 
 	return (

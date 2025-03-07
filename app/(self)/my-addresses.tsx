@@ -128,7 +128,9 @@ const MyAddresses = () => {
 									{item.address_label}
 								</Text>
 							</View>
-							<TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => router.push(`/(self)/edit-address/${item.id}`)}
+							>
 								<View className="flex-row items-center">
 									<FontAwesome5 name="edit" size={16} color="#007bff" />
 									<Text className="text-blue-500 font-medium ml-1">Edit</Text>
