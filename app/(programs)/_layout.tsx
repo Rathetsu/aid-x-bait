@@ -4,7 +4,7 @@ const Layout = () => {
 	return (
 		<Stack>
 			<Stack.Screen name="video-gallery" options={{ headerShown: false }} />
-			<Stack.Screen name="watch-video" options={{ headerShown: false }} />
+			<Stack.Screen name="program-videos" options={{ headerShown: false }} />
 		</Stack>
 	);
 };

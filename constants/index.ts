@@ -2,6 +2,7 @@ import appointments from "@/assets/icons/appointments.png";
 import arrowDown from "@/assets/icons/arrow-down.png";
 import arrowUp from "@/assets/icons/arrow-up.png";
 import backArrow from "@/assets/icons/back-arrow.png";
+import blueOverlay from "@/assets/icons/blue-overlay.png";
 import chat from "@/assets/icons/chat.png";
 import checkmark from "@/assets/icons/check.png";
 import close from "@/assets/icons/close.png";
@@ -41,6 +42,7 @@ import to from "@/assets/icons/to.png";
 import videos from "@/assets/icons/videos.png";
 import xpin from "@/assets/icons/xpin.png";
 import check from "@/assets/images/check.png";
+import femaleJogging from "@/assets/images/female-jogging.png";
 import getStarted from "@/assets/images/get-started.png";
 import kneebrace from "@/assets/images/knee-brace.png";
 import lumbarbelt from "@/assets/images/lumbar-belt.png";
@@ -51,6 +53,7 @@ import onboarding2 from "@/assets/images/onboarding2.png";
 import onboarding3 from "@/assets/images/onboarding3.png";
 import shoulderbrace from "@/assets/images/shoulder-brace.png";
 import signupHero from "@/assets/images/signup-hero.png";
+import skeleton from "@/assets/images/skeleton.svg";
 import texturedCardBlue from "@/assets/images/textured-card-blue.png";
 import texturedCardGreen from "@/assets/images/textured-card-green.png";
 import texturedBackground from "@/assets/images/textured_background.png";
@@ -65,6 +68,8 @@ export const images = {
 	texturedCardGreen,
 	getStarted,
 	signupHero,
+	skeleton,
+	femaleJogging,
 	check,
 	noResult,
 	message,
@@ -78,6 +83,7 @@ export const icons = {
 	arrowDown,
 	arrowUp,
 	backArrow,
+	blueOverlay,
 	chat,
 	checkmark,
 	close,
@@ -118,8 +124,6 @@ export const icons = {
 	elbow,
 	spine,
 };
-
-// export const models = { skeleton };
 
 export const onboarding = [
 	{
