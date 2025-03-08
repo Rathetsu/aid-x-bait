@@ -53,7 +53,6 @@ import onboarding2 from "@/assets/images/onboarding2.png";
 import onboarding3 from "@/assets/images/onboarding3.png";
 import shoulderbrace from "@/assets/images/shoulder-brace.png";
 import signupHero from "@/assets/images/signup-hero.png";
-import skeleton from "@/assets/images/skeleton.svg";
 import texturedCardBlue from "@/assets/images/textured-card-blue.png";
 import texturedCardGreen from "@/assets/images/textured-card-green.png";
 import texturedBackground from "@/assets/images/textured_background.png";
@@ -68,7 +67,6 @@ export const images = {
 	texturedCardGreen,
 	getStarted,
 	signupHero,
-	skeleton,
 	femaleJogging,
 	check,
 	noResult,
