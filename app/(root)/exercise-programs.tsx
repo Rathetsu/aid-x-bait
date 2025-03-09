@@ -9,7 +9,7 @@ const ExercisePrograms = () => {
 		<SafeAreaView className="flex-1">
 			<Text>ExercisePrograms</Text>
 			<Button
-				onPress={() => router.replace("/(programs)/video-gallery")}
+				onPress={() => router.replace("/(programs)/program-gallery")}
 				title="Gallery"
 			/>
 			<SkeletonModule onNavigate={(boneName) => console.log(boneName)} />

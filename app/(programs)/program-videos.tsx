@@ -1,32 +1,15 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import VideoPlayer from "@/components/VideoPlayer";
-interface Lesson {
-	title: string;
-	duration: string;
-	locked: boolean;
-}
-
-interface Program {
-	title: string;
-	courseTitle: string;
-	price: string;
-	rating: number;
-	reviews: number;
-	duration: string;
-	description: string;
-	video: string;
-	poster: string;
-	lessons?: Lesson[];
-}
+import { ExerciseProgram, ExerciseVideo } from "@/types/type";
 
 const ProgramVideos = () => {
-	const selectedVideo = useLocalSearchParams() as unknown as Program;
+	const selectedProgram = useLocalSearchParams() as unknown as ExerciseProgram;
 
-	if (!selectedVideo) {
+	if (!selectedProgram) {
 		return (
 			<SafeAreaView className="flex-1 items-center justify-center">
 				<Text>Video not found</Text>
@@ -38,7 +21,11 @@ const ProgramVideos = () => {
 		<SafeAreaView className="flex-1 bg-white">
 			{/* Header */}
 			<View className="flex-row items-center p-4">
-				<TouchableOpacity>
+				<TouchableOpacity
+					onPress={() => {
+						router.back();
+					}}
+				>
 					<Ionicons name="arrow-back" size={24} color="black" />
 				</TouchableOpacity>
 				<Text className="ml-4 text-lg font-bold flex-1">
@@ -59,9 +46,7 @@ const ProgramVideos = () => {
 
 			{/* Course Details */}
 			<ScrollView className="px-4">
-				<Text className="text-xl font-bold mt-2">
-					{selectedVideo.courseTitle}
-				</Text>
+				<Text className="text-xl font-bold mt-2">{selectedVideo.title}</Text>
 				<Text className="text-blue-500 font-semibold">
 					{selectedVideo.price} E.L
 				</Text>

@@ -27,6 +27,28 @@ declare interface InputFieldProps extends TextInputProps {
 	lowercase?: boolean;
 }
 
+declare interface ExerciseVideo {
+	id: number;
+	title: string;
+	duration: string;
+	isFree: boolean;
+	description: string;
+	thumbnail: string;
+	video: string;
+}
+
+declare interface ExerciseProgram {
+	id: number;
+	title: string;
+	price: string;
+	rating: number;
+	reviews: number;
+	duration: string;
+	description: string;
+	image: string;
+	videos: ExerciseVideo[];
+}
+
 declare interface VideoPageProps {
 	video: string;
 	title: string;
