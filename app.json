@@ -65,6 +65,12 @@
 					"cameraPermission": "$(PRODUCT_NAME) requires camera access in order to capture and transmit video",
 					"microphonePermission": "$(PRODUCT_NAME) requires microphone access in order to capture and transmit audio"
 				}
+			],
+			[
+				"expo-av",
+				{
+					"microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+				}
 			]
 		],
 		"experiments": {

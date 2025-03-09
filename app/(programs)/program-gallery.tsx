@@ -20,6 +20,7 @@ const programs: ExerciseProgram[] = [
 				title: "Common Bone Problems",
 				duration: "1h 15m",
 				description: "An overview of common bone issues and treatments.",
+				isFree: true,
 				thumbnail: "https://via.placeholder.com/150",
 				video: "https://www.w3schools.com/html/mov_bbb.mp4",
 			},
@@ -28,6 +29,7 @@ const programs: ExerciseProgram[] = [
 				title: "Fracture Management",
 				duration: "1h 30m",
 				description: "Learn how fractures are diagnosed and treated.",
+				isFree: false,
 				thumbnail: "https://via.placeholder.com/150",
 				video: "https://www.w3schools.com/html/movie.mp4",
 			},
@@ -49,6 +51,7 @@ const programs: ExerciseProgram[] = [
 				duration: "45m",
 				description:
 					"Learn the basics of first aid in this comprehensive guide.",
+				isFree: true,
 				thumbnail: "https://via.placeholder.com/150",
 				video: "https://www.w3schools.com/html/movie.mp4",
 			},
@@ -58,6 +61,7 @@ const programs: ExerciseProgram[] = [
 				duration: "1h 15m",
 				description:
 					"A detailed breakdown of CPR techniques and when to use them.",
+				isFree: false,
 				thumbnail: "https://via.placeholder.com/150",
 				video: "https://www.w3schools.com/html/mov_bbb.mp4",
 			},
@@ -68,7 +72,10 @@ const programs: ExerciseProgram[] = [
 const handleProgramPress = (program: ExerciseProgram) => {
 	router.push({
 		pathname: "/(programs)/program-videos",
-		params: { ...program },
+		params: {
+			...program,
+			videos: JSON.stringify(program.videos),
+		},
 	});
 };
 
