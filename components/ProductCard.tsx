@@ -8,7 +8,7 @@ const ProductCard = ({ product, isForRent, isWide }: ProductCardProps) => {
 	const router = useRouter();
 
 	const onProductCardClick = () => {
-		router.replace({
+		router.push({
 			pathname: "/(store)/product-preview",
 			params: {
 				product: JSON.stringify(product),

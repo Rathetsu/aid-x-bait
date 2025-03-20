@@ -166,7 +166,6 @@ const ProductPreview = ({
 				{/* Product Title, Rating and Quantity selector */}
 				<View className="flex-row">
 					<View className="flex-1">
-						{" "}
 						<Text className="text-lg font-JakartaBold text-gray-900">
 							{name} {forRent ? "For Rent" : ""}
 						</Text>
@@ -176,7 +175,7 @@ const ProductPreview = ({
 								name="star"
 								size={16}
 								color="#FFD700"
-								className="ml-1"
+								style={{ marginLeft: 4 }}
 							/>
 							<Text className="text-sm ml-2 font-JakartaMedium">
 								{rating.value}
@@ -277,7 +276,7 @@ const ProductPreview = ({
 				{/* Cart Icon */}
 				<TouchableOpacity
 					className="w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center shadow"
-					onPress={() => router.replace("/(store)/cart")}
+					onPress={() => router.push("/(store)/cart")}
 				>
 					<MaterialIcons name="shopping-cart" size={20} color="#4A4A4A" />
 					{cartCount > 0 && (
