@@ -1,4 +1,4 @@
-package com.aidxbaitezzat.aidxbait
+package com.aidxbait.aidxbait
 
 import android.app.Application
 import android.content.res.Configuration
