@@ -86,12 +86,6 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-<<<<<<< HEAD
-
-
-   
-=======
->>>>>>> e4051209f168b047f12b340e2dff693fbcd57897
     namespace 'com.aidxbait.aidxbait'
     defaultConfig {
         applicationId 'com.aidxbait.aidxbait'
