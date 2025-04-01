@@ -124,9 +124,6 @@ android {
     androidResources {
         ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
     }
-    composeOptions {
-    kotlinCompilerExtensionVersion '1.5.12'
-}
 }
 
 // Apply static values from `gradle.properties` to the `android.packagingOptions`
