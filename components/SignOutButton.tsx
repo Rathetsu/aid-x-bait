@@ -1,6 +1,6 @@
 import { useClerk } from "@clerk/clerk-react";
 import { router } from "expo-router";
-import { Button } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
 
 const SignOutButton = () => {
 	const { signOut } = useClerk();
@@ -17,7 +17,14 @@ const SignOutButton = () => {
 		}
 	};
 
-	return <Button title="Sign out" onPress={handleSignOut} />;
+	return (
+		<TouchableOpacity
+			onPress={handleSignOut}
+			className="flex items-center justify-cente bg-slate-800 py-3 px-6 rounded-lg my-10"
+		>
+			<Text className="text-white font-bold text-base">Sign Out</Text>
+		</TouchableOpacity>
+	);
 };
 
 export default SignOutButton;

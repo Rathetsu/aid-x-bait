@@ -9,7 +9,7 @@ const More = () => {
 
 	return (
 		<SafeAreaView>
-			<Text>More</Text>
+			<Text className="py-5 text-2xl font-JakartaBold text-center">More</Text>
 			<SignOutButton />
 			{/* render user json */}
 			<Text className="mt-10">{JSON.stringify(user)}</Text>

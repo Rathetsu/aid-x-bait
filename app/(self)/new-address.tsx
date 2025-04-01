@@ -68,7 +68,7 @@ const Address = () => {
 
 	const handleSaveAddress = async () => {
 		console.log("area: ", location);
-		return;
+		// return;
 		const token = await getToken();
 		const data = {
 			patient_id: user!.patientId,
